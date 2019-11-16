@@ -1,6 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.emergency.controller;
 
-import kr.ac.skuniv.medicalhelper.domain.emergency.dto.EmergencyDto;
+import kr.ac.skuniv.medicalhelper.domain.emergency.dto.EmergencyRequest;
 import kr.ac.skuniv.medicalhelper.domain.emergency.service.EmergencyService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +19,14 @@ public class EmergencyController {
     }
 
     @GetMapping("/realtime/{stage1}/{stage2}")
-    public List<EmergencyDto> usefulRealTime(@PathVariable String stage1, @PathVariable String stage2) throws UnsupportedEncodingException {
-        return emergencyService.usefulRealTime(stage1, stage2);
+    //stage1 = 도/시, stage2 = 시/군/구
+    public List<EmergencyRequest> selectRealTime(@PathVariable String stage1, @PathVariable String stage2) throws UnsupportedEncodingException {
+        return emergencyService.selectRealTime(stage1, stage2);
     }
 
     @GetMapping("/location/{lon}/{lat}")
     //lon = 경도, lat = 위도
-    public List<EmergencyDto> searchLocation(@PathVariable String lon, @PathVariable String lat) throws UnsupportedEncodingException {
+    public List<EmergencyRequest> searchLocation(@PathVariable String lon, @PathVariable String lat) throws UnsupportedEncodingException {
         return emergencyService.searchLocation(lon, lat);
     }
 

@@ -1,6 +1,6 @@
 package kr.ac.skuniv.medicalhelper.global.common;
 
-import kr.ac.skuniv.medicalhelper.domain.emergency.dto.EmergencyDto;
+import kr.ac.skuniv.medicalhelper.domain.emergency.dto.EmergencyRequest;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -23,8 +23,8 @@ public class XmlParser {
     Document doc = null;
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-    public List<EmergencyDto> stringToXml(String result){
-        List<EmergencyDto> emergency = new ArrayList<>();
+    public List<EmergencyRequest> stringToXml(String result){
+        List<EmergencyRequest> emergency = new ArrayList<>();
         try{
             InputSource is = new InputSource(new StringReader(result));
             builder = factory.newDocumentBuilder();
@@ -37,7 +37,7 @@ public class XmlParser {
                 NodeList child = nodeList.item(i).getChildNodes();
                 for(int j=0;j<child.getLength();j++){
                     Node node = child.item(j);
-                    EmergencyDto dto = new EmergencyDto();
+                    EmergencyRequest dto = new EmergencyRequest();
                     dto.setItem(node.getNodeName());
                     dto.setValue(node.getTextContent());
                     emergency.add(dto);

@@ -5,11 +5,11 @@ import lombok.*;
 @Builder
 @Getter @Setter
 @NoArgsConstructor
-public class EmergencyDto {
+public class EmergencyRequest {
     private String item;
     private String value;
 
-    public EmergencyDto(String item, String value) {
+    public EmergencyRequest(String item, String value) {
         this.item = item;
         this.value = value;
     }
