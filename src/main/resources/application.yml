@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/medical_helper?verifyServerCertificate=false&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: medicalhelper
+    password : 1q2w3e
+
+
+  jpa:
+    hibernate:
+      ddl-auto : update
+    generate-ddl : true
+    show-sql : true
+    database : mysql
+    database-platform : org.hibernate.dialect.MySQL5InnoDBDialect
+
