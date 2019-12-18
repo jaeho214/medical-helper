@@ -17,17 +17,31 @@ public class Hospital {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long hospitalNo;
 
-    private String location;
-    private String time;
+    private String name;
+    private String tel;
+    private String address;
+    private String hospitalCode;
+    private String hospitalCodeName;
+    private int doctorCount;
+    private String openDate;
+    private int generalDoctorCount;
+    private String hospitalUrl;
+    private int internCount;
+    private String postNo;
+    private int residentCount;
+    private int specialDoctorCount;
+    private String stateCode; // 시군구코드
+    private String cityCode; // 시도 코드
+    private String cityCodeName;
+    private String xPos;
+    private String yPos;
 
     @OneToMany
     @JoinColumn(name = "hcNo")
     private List<HospitalComment> hospitalComment = new ArrayList<>();
 
 
-    public Hospital(String location, String time, List<HospitalComment> hospitalComment) {
-        this.location = location;
-        this.time = time;
+    public Hospital(List<HospitalComment> hospitalComment) {
         this.hospitalComment = hospitalComment;
     }
 }
