@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/medicalHelper")
+@RequestMapping(value = "/medicalHelper/emergency")
 public class EmergencyController {
 
     private final EmergencyRealTimeService emergencyRealTimeService;

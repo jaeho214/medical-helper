@@ -1,6 +1,7 @@
 package kr.ac.skuniv.medicalhelper.domain.hospital.entity;
 
 import kr.ac.skuniv.medicalhelper.domain.evaluation.hospital.entity.HospitalComment;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Hospital {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +41,4 @@ public class Hospital {
     @JoinColumn(name = "hcNo")
     private List<HospitalComment> hospitalComment = new ArrayList<>();
 
-
-    public Hospital(List<HospitalComment> hospitalComment) {
-        this.hospitalComment = hospitalComment;
-    }
 }

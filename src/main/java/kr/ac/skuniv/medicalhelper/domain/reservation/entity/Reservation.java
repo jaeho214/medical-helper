@@ -1,16 +1,13 @@
 package kr.ac.skuniv.medicalhelper.domain.reservation.entity;
 
 import kr.ac.skuniv.medicalhelper.domain.hospital.entity.Hospital;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Reservation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rno;
