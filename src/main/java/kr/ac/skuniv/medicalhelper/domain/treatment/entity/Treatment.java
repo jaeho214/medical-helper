@@ -1,29 +1,28 @@
 package kr.ac.skuniv.medicalhelper.domain.treatment.entity;
 
 import kr.ac.skuniv.medicalhelper.domain.hospital.entity.Hospital;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Treatment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tno;
 
+    private String name; // 진단명
     private String solution; // 받은 처방 기록
     private String doctor; // 의사명
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hospital_no")
     private Hospital hospital;
 
-    public Treatment(String solution, String doctor, Hospital hospital) {
-        this.solution = solution;
-        this.doctor = doctor;
-        this.hospital = hospital;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 }
