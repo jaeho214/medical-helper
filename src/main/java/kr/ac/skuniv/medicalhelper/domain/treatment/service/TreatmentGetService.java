@@ -5,9 +5,8 @@ import kr.ac.skuniv.medicalhelper.domain.member.exception.MemberNotFoundExceptio
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
 import kr.ac.skuniv.medicalhelper.domain.treatment.dto.TreatmentGetResponse;
 import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
-import kr.ac.skuniv.medicalhelper.domain.treatment.exception.NoTreatmentException;
+import kr.ac.skuniv.medicalhelper.domain.treatment.exception.TreatmentNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.treatment.repository.TreatmentRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class TreatmentGetService {
         List<Treatment> treatments = treatmentRepository.findAllByMember(member);
 
         if(treatments == null)
-            throw new NoTreatmentException();
+            throw new TreatmentNotFoundException();
 
         List<TreatmentGetResponse> treatmentGetResponseList = new ArrayList<>();
 
@@ -45,10 +44,12 @@ public class TreatmentGetService {
 
     private TreatmentGetResponse entity2dto(Treatment treatment){
         return TreatmentGetResponse.builder()
-                .name(treatment.getName())
+                .tno(treatment.getTno())
+                .title(treatment.getTitle())
                 .solution(treatment.getSolution())
                 .doctorName(treatment.getDoctor())
                 .hospital(treatment.getHospital())
+                .treatedDate(treatment.getTreatedDate())
                 .build();
     }
 }
