@@ -17,15 +17,15 @@ class TreatmentGetServiceTest {
     TreatmentGetService treatmentGetService;
 
     @Test
-    void getTreatmentByMember() {
+    void getAllTreatments() {
         //given
         String userId = "jaeho214";
 
         //when
-        List<TreatmentGetResponse> treatments = treatmentGetService.getTreatmentByMember(userId);
+        List<TreatmentGetResponse> treatments = treatmentGetService.getAllTreatments(userId);
 
         //then
-        assertThat(treatments.get(0).getTitle()).isEqualTo("감기");
-        assertThat(treatments.get(0).getDoctorName()).isEqualTo("이국종");
+        assertThat(treatments.get(0).getTitle()).isEqualTo("비만");
+        assertThat(treatments.get(0).getDoctorName()).isEqualTo("박의사");
     }
 }

@@ -27,8 +27,15 @@ public class TreatmentCreateService {
 
             Optional.ofNullable(treatmentCreateRequest).orElseThrow(TreatmentRequestInvalidException::new);
 
-            Treatment treatment = Treatment.of(treatmentCreateRequest);
-            treatment.setMember(member);
+            Treatment treatment = Treatment.builder()
+                    .doctor(treatmentCreateRequest.getDoctorName())
+                    .hospital(treatmentCreateRequest.getHospital())
+                    .solution(treatmentCreateRequest.getSolution())
+                    .title(treatmentCreateRequest.getTitle())
+                    .treatedDate(treatmentCreateRequest.getTreatedDate())
+                    .member(member)
+                    .build();
+
             treatmentRepository.save(treatment);
             return;
         }

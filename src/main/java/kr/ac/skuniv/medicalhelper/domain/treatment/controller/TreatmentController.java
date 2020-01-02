@@ -25,8 +25,13 @@ public class TreatmentController {
     //내 처방 기록 보기
     //TODO : Security 처리 필요
     @GetMapping
-    public List<TreatmentGetResponse> getTreatmentByMember(String userId){
-        return treatmentGetService.getTreatmentByMember(userId);
+    public List<TreatmentGetResponse> getAllTreatments(String userId){
+        return treatmentGetService.getAllTreatments(userId);
+    }
+
+    @GetMapping(value = "/{tno}")
+    public TreatmentGetResponse getTreatment(@PathVariable Long tno, String userId){
+        return treatmentGetService.getTreatment(tno, userId);
     }
 
     //처방 기록 작성하기

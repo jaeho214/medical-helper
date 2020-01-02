@@ -39,16 +39,6 @@ public class Treatment {
         this.member = member;
     }
 
-    public static Treatment of(TreatmentCreateRequest treatmentCreateRequest){
-        return Treatment.builder()
-                .title(treatmentCreateRequest.getTitle())
-                .solution(treatmentCreateRequest.getSolution())
-                .doctor(treatmentCreateRequest.getDoctorName())
-                .treatedDate(treatmentCreateRequest.getTreatedDate())
-                .hospital(treatmentCreateRequest.getHospital())
-                .build();
-    }
-
     public void updateTreatment(TreatmentUpdateRequest treatmentUpdateRequest){
         this.title = treatmentUpdateRequest.getTitle();
         this.solution = treatmentUpdateRequest.getSolution();

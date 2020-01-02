@@ -29,7 +29,7 @@ public class TreatmentGetResponse {
         this.treatedDate = treatedDate;
     }
 
-    public static TreatmentGetResponse of(Treatment treatment){
+    public static TreatmentGetResponse entity2dto(Treatment treatment){
         return TreatmentGetResponse.builder()
                 .tno(treatment.getTno())
                 .title(treatment.getTitle())
