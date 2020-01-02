@@ -20,7 +20,12 @@ public enum ErrorCodeType {
 
     //treatment
     TREATMENT_NOT_FOUND(400, "T001", "처방 기록이 없습니다."),
-    TREATMENT_REQUEST_INVALID(400, "T002", "입력 데이터가 올바르지 않습니다.");
+    TREATMENT_REQUEST_INVALID(400, "T002", "처방 입력 데이터가 올바르지 않습니다."),
+
+    //reservation
+    RESERVATION_NOT_FOUND(400,"R001", "예약 기록을 찾을 수 없습니다."),
+    RESERVATION_CANNOT(400, "R002", "이 시간/날짜에 예약을 할 수 없습니다."),
+    RESERVATION_REQUEST_INVALID(400,"R004", "예약 입력 데이터가 올바르지 않습니다");
 
     private int status;
     private String code;
