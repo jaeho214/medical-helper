@@ -19,21 +19,20 @@ public class TreatmentUpdateService {
     }
 
     public void updateTreatment(TreatmentUpdateRequest treatmentUpdateRequest, String userId){
-        Optional<TreatmentUpdateRequest> updateRequest = Optional.ofNullable(treatmentUpdateRequest);
-        updateRequest.orElseThrow(TreatmentRequestInvalidException::new);
+        Optional.ofNullable(treatmentUpdateRequest).orElseThrow(TreatmentRequestInvalidException::new);
 
         Optional<Treatment> treatment = treatmentRepository.findById(treatmentUpdateRequest.getTno());
         treatment.orElseThrow(TreatmentNotFoundException::new);
 
-        checkValidMember(treatment.get().getMember().getUserId(), userId);
+        checkValidMember(treatment.get(), userId);
 
         treatment.get().updateTreatment(treatmentUpdateRequest);
 
         treatmentRepository.save(treatment.get());
     }
 
-    private void checkValidMember(String treatmentOwner, String updateTreatmentUser) {
-        if(treatmentOwner.equals(updateTreatmentUser))
+    private void checkValidMember(Treatment treatment, String updateTreatmentUser) {
+        if(treatment.getMember().getUserId().equals(updateTreatmentUser))
             return;
         throw new UnauthorizedUserException();
     }

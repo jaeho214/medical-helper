@@ -23,33 +23,22 @@ public class TreatmentGetService {
     }
 
     public List<TreatmentGetResponse> getTreatmentByMember(String userId) {
-        Member member = memberRepository.findByUserId(userId);
+        if(memberRepository.existsById(userId)) {
+            Member member = memberRepository.findByUserId(userId);
 
-        if(member == null)
-            throw new MemberNotFoundException();
+            List<Treatment> treatments = treatmentRepository.findAllByMember(member);
 
-        List<Treatment> treatments = treatmentRepository.findAllByMember(member);
+            if (treatments == null)
+                throw new TreatmentNotFoundException();
 
-        if(treatments == null)
-            throw new TreatmentNotFoundException();
+            List<TreatmentGetResponse> treatmentGetResponseList = new ArrayList<>();
 
-        List<TreatmentGetResponse> treatmentGetResponseList = new ArrayList<>();
+            for (Treatment treatment : treatments) {
+                treatmentGetResponseList.add(TreatmentGetResponse.of(treatment));
+            }
 
-        for (Treatment treatment : treatments) {
-            treatmentGetResponseList.add(entity2dto(treatment));
+            return treatmentGetResponseList;
         }
-
-        return treatmentGetResponseList;
-    }
-
-    private TreatmentGetResponse entity2dto(Treatment treatment){
-        return TreatmentGetResponse.builder()
-                .tno(treatment.getTno())
-                .title(treatment.getTitle())
-                .solution(treatment.getSolution())
-                .doctorName(treatment.getDoctor())
-                .hospital(treatment.getHospital())
-                .treatedDate(treatment.getTreatedDate())
-                .build();
+        throw new MemberNotFoundException();
     }
 }

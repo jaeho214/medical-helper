@@ -18,4 +18,14 @@ public class TreatmentUpdateRequest {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate treatedDate;
+
+    @Builder
+    public TreatmentUpdateRequest(Long tno, String title, String solution, String doctorName, Hospital hospital, LocalDate treatedDate) {
+        this.tno = tno;
+        this.title = title;
+        this.solution = solution;
+        this.doctorName = doctorName;
+        this.hospital = hospital;
+        this.treatedDate = treatedDate;
+    }
 }

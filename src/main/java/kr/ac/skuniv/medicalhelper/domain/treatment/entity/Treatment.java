@@ -2,7 +2,7 @@ package kr.ac.skuniv.medicalhelper.domain.treatment.entity;
 
 import kr.ac.skuniv.medicalhelper.domain.hospital.entity.Hospital;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
-import kr.ac.skuniv.medicalhelper.domain.treatment.dto.TreatmentPostRequest;
+import kr.ac.skuniv.medicalhelper.domain.treatment.dto.TreatmentCreateRequest;
 import kr.ac.skuniv.medicalhelper.domain.treatment.dto.TreatmentUpdateRequest;
 import lombok.*;
 
@@ -11,7 +11,6 @@ import java.time.LocalDate;
 
 @Entity
 @Getter @Setter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Treatment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +29,23 @@ public class Treatment {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public static Treatment of(TreatmentPostRequest treatmentPostRequest){
+    @Builder
+    public Treatment(String title, String solution, String doctor, LocalDate treatedDate, Hospital hospital, Member member) {
+        this.title = title;
+        this.solution = solution;
+        this.doctor = doctor;
+        this.treatedDate = treatedDate;
+        this.hospital = hospital;
+        this.member = member;
+    }
+
+    public static Treatment of(TreatmentCreateRequest treatmentCreateRequest){
         return Treatment.builder()
-                .title(treatmentPostRequest.getTitle())
-                .solution(treatmentPostRequest.getSolution())
-                .doctor(treatmentPostRequest.getDoctorName())
-                .treatedDate(treatmentPostRequest.getTreatedDate())
-                .hospital(treatmentPostRequest.getHospital())
+                .title(treatmentCreateRequest.getTitle())
+                .solution(treatmentCreateRequest.getSolution())
+                .doctor(treatmentCreateRequest.getDoctorName())
+                .treatedDate(treatmentCreateRequest.getTreatedDate())
+                .hospital(treatmentCreateRequest.getHospital())
                 .build();
     }
 

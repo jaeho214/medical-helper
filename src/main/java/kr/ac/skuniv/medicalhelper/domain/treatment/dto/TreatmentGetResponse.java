@@ -2,6 +2,7 @@ package kr.ac.skuniv.medicalhelper.domain.treatment.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import kr.ac.skuniv.medicalhelper.domain.hospital.entity.Hospital;
+import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -27,4 +28,16 @@ public class TreatmentGetResponse {
         this.hospital = hospital;
         this.treatedDate = treatedDate;
     }
+
+    public static TreatmentGetResponse of(Treatment treatment){
+        return TreatmentGetResponse.builder()
+                .tno(treatment.getTno())
+                .title(treatment.getTitle())
+                .solution(treatment.getSolution())
+                .doctorName(treatment.getDoctor())
+                .hospital(treatment.getHospital())
+                .treatedDate(treatment.getTreatedDate())
+                .build();
+    }
+
 }
