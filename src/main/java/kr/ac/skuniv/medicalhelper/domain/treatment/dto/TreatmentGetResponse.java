@@ -1,11 +1,8 @@
 package kr.ac.skuniv.medicalhelper.domain.treatment.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import kr.ac.skuniv.medicalhelper.domain.hospital.entity.Hospital;
+import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
 import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,19 +11,15 @@ public class TreatmentGetResponse {
     private String title;
     private String solution;
     private String doctorName;
-    private Hospital hospital;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDate treatedDate;
+    private Reservation reservation;
 
     @Builder
-    public TreatmentGetResponse(Long tno,String title, String solution, String doctorName, Hospital hospital, LocalDate treatedDate) {
+    public TreatmentGetResponse(Long tno, String title, String solution, String doctorName, Reservation reservation) {
         this.tno = tno;
         this.title = title;
         this.solution = solution;
         this.doctorName = doctorName;
-        this.hospital = hospital;
-        this.treatedDate = treatedDate;
+        this.reservation = reservation;
     }
 
     public static TreatmentGetResponse entity2dto(Treatment treatment){
@@ -35,8 +28,7 @@ public class TreatmentGetResponse {
                 .title(treatment.getTitle())
                 .solution(treatment.getSolution())
                 .doctorName(treatment.getDoctor())
-                .hospital(treatment.getHospital())
-                .treatedDate(treatment.getTreatedDate())
+                .reservation(treatment.getReservation())
                 .build();
     }
 

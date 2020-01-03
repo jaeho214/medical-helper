@@ -14,3 +14,13 @@ spring:
     database : mysql
     database-platform : org.hibernate.dialect.MySQL5InnoDBDialect
 
+    servlet:
+      multipart:
+        enabled: true
+        max-file-size: 1MB
+        max-request-size: 1MB
+
+
+resources:
+  image-locations: C:\artSharing\
+  image-url: 127.0.0.1:8080

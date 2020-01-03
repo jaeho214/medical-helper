@@ -1,10 +1,8 @@
 package kr.ac.skuniv.medicalhelper.domain.treatment.dto;
 
-import kr.ac.skuniv.medicalhelper.domain.hospital.entity.Hospital;
+import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
+import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Drug;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
 
 @ToString
 @Getter @Setter
@@ -14,18 +12,16 @@ public class TreatmentUpdateRequest {
     private String title;
     private String solution;
     private String doctorName;
-    private Hospital hospital;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate treatedDate;
+    private Reservation reservation;
+    private Drug drug;
 
     @Builder
-    public TreatmentUpdateRequest(Long tno, String title, String solution, String doctorName, Hospital hospital, LocalDate treatedDate) {
+    public TreatmentUpdateRequest(Long tno, String title, String solution, String doctorName, Reservation reservation, Drug drug) {
         this.tno = tno;
         this.title = title;
         this.solution = solution;
         this.doctorName = doctorName;
-        this.hospital = hospital;
-        this.treatedDate = treatedDate;
+        this.reservation = reservation;
+        this.drug = drug;
     }
 }
