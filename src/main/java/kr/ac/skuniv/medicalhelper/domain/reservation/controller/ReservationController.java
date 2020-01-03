@@ -41,4 +41,9 @@ public class ReservationController {
     public void updateReservation(ReservationUpdateRequest reservationUpdateRequest, String userId){
         reservationUpdateService.updateReservation(reservationUpdateRequest, userId);
     }
+
+    @DeleteMapping(value = "/{rno}")
+    public void deleteReservation(@PathVariable Long rno, String userId){
+        reservationDeleteService.deleteReservation(rno, userId);
+    }
 }
