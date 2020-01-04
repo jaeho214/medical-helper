@@ -1,6 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.drugstore.entity;
 
-import kr.ac.skuniv.medicalhelper.domain.evaluation.drugstore.entity.DrugstoreComment;
+import kr.ac.skuniv.medicalhelper.domain.comment.drugstoreComment.entity.DrugstoreComment;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +33,7 @@ public class Drugstore {
     private String xPos;
     private String yPos;
 
-    @OneToMany
+    @OneToMany(mappedBy = "drugstore")
     @JoinColumn(name = "dcNo")
     private List<DrugstoreComment> drugstoreComment = new ArrayList<>();
 
