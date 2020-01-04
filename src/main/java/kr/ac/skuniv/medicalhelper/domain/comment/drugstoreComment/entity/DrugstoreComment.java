@@ -1,6 +1,8 @@
-package kr.ac.skuniv.medicalhelper.domain.evaluation.drugstore.entity;
+package kr.ac.skuniv.medicalhelper.domain.comment.drugstoreComment.entity;
 
+import kr.ac.skuniv.medicalhelper.domain.drugstore.entity.Drugstore;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,9 +23,16 @@ public class DrugstoreComment {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public DrugstoreComment(Float score, String comment, Member member) {
+    @ManyToOne
+    @JoinColumn(name = "drugstoreNo")
+    private Drugstore drugstore;
+
+    @Builder
+    public DrugstoreComment(Float score, String comment, Member member, Drugstore drugstore) {
         this.score = score;
         this.comment = comment;
         this.member = member;
+        this.drugstore = drugstore;
     }
+
 }
