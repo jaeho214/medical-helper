@@ -18,6 +18,12 @@ public enum ErrorCodeType {
     //hospital
     HOSPITAL_NOT_FOUND(400, "H001", "해당 병원을 찾을 수 없습니다."),
 
+    //drugstore
+    DRUGSTORE_NOT_FOUND(400,"D001", "해당 약국을 찾을 수 없습니다."),
+
+    //drugstoreComment
+    DRUGSTORE_COMMENT_NOT_FOUND(400, "DC001", "약국에 대한 해당 평가를 찾을 수 없습니다."),
+
     //treatment
     TREATMENT_NOT_FOUND(400, "T001", "처방 기록이 없습니다."),
     TREATMENT_REQUEST_INVALID(400, "T002", "처방 입력 데이터가 올바르지 않습니다."),
