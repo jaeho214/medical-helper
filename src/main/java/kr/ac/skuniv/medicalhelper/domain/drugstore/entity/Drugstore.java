@@ -33,8 +33,7 @@ public class Drugstore {
     private String xPos;
     private String yPos;
 
-    @OneToMany(mappedBy = "drugstore")
-    @JoinColumn(name = "dcNo")
+    @OneToMany(mappedBy = "drugstore", cascade = CascadeType.ALL)
     private List<DrugstoreComment> drugstoreComment = new ArrayList<>();
 
 }

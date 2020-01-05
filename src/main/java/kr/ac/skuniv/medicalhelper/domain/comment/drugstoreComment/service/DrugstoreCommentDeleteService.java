@@ -6,25 +6,25 @@ import kr.ac.skuniv.medicalhelper.domain.comment.drugstoreComment.repository.Dru
 import kr.ac.skuniv.medicalhelper.domain.member.exception.UnauthorizedUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class DrugstoreCommentDeleteService {
 
     @Autowired
     private DrugstoreCommentRepository drugstoreCommentRepository;
 
     public ResponseEntity deleteDrugstoreComment(Long dcNo, String userId) {
-        if(drugstoreCommentRepository.existsById(dcNo)){
-            Optional<DrugstoreComment> drugstoreComment = drugstoreCommentRepository.findById(dcNo);
+        Optional<DrugstoreComment> drugstoreComment = drugstoreCommentRepository.findById(dcNo);
+        drugstoreComment.orElseThrow(DrugstoreCommentNotFoundException::new);
 
-            checkValidMember(drugstoreComment.get(), userId);
+        checkValidMember(drugstoreComment.get(), userId);
 
-            drugstoreCommentRepository.delete(drugstoreComment.get());
+        drugstoreCommentRepository.delete(drugstoreComment.get());
 
-            return ResponseEntity.ok(drugstoreComment);
-        }
-        throw new DrugstoreCommentNotFoundException();
+        return ResponseEntity.ok(drugstoreComment);
     }
 
     private void checkValidMember(DrugstoreComment drugstoreComment, String userId) {
