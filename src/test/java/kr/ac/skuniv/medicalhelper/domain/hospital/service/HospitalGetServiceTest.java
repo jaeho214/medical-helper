@@ -1,25 +1,61 @@
 package kr.ac.skuniv.medicalhelper.domain.hospital.service;
 
-import kr.ac.skuniv.medicalhelper.domain.hospital.entity.Hospital;
-import kr.ac.skuniv.medicalhelper.domain.hospital.repository.HospitalRepository;
+import kr.ac.skuniv.medicalhelper.domain.hospital.dto.HospitalGetResponse;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class HospitalGetServiceTest {
 
     @Autowired
-    private HospitalRepository hospitalRepository;
+    HospitalGetService hospitalGetService;
 
     @Test
-    public void 반경계산하기(){
-        String xPos = "127.09854004628151";
-        String yPos = "37.6132113197367";
+    void getHospitalByName() {
+        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalByName("신천연합");
 
-        List<Hospital> byXPosAndYPos = hospitalRepository.findByXPosAndYPos(xPos, yPos,1);
-        System.out.println(byXPosAndYPos.get(0));
-
+        assertThat(hospitalList).isNotNull();
     }
 
+    @Test
+    void getHospitalDetail() {
+        HospitalGetResponse hospitalDetail = hospitalGetService.getHospitalDetail(113L);
+
+        assertThat(hospitalDetail).isNotNull();
+        assertThat(hospitalDetail.getName().contains("대림")).isTrue();
+    }
+
+    @Test
+    void getHospitalByGps() {
+        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalByGps("126.811484", "37.368523", 1);
+
+        assertThat(hospitalList.size()).isEqualTo(10);
+        assertThat(hospitalList).isNotNull();
+        System.out.println(hospitalList.get(0).getName());
+    }
+
+    @Test
+    void getHospitalByHospitalCode() {
+        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalByHospitalCode("126.811484", "37.368523", "안과", 1);
+
+        assertThat(hospitalList.size()).isEqualTo(10);
+        assertThat(hospitalList).isNotNull();
+        System.out.println(hospitalList.get(0).getName());
+    }
+
+    @Test
+    void getHospitalByCityCode() {
+    }
+
+    @Test
+    void getHospitalByCityCodeAndHospitalCode() {
+    }
 }

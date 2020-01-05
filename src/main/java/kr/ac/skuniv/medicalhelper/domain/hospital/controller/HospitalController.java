@@ -40,15 +40,15 @@ public class HospitalController {
     }
 
     @GetMapping("/{pageNum}/{cityCode}")
-    public List<HospitalGetResponse> getHospitalByCityCode(@PathVariable int pageNum,
-                                                           @PathVariable String cityCode){
+    public List<HospitalGetResponse> getHospitalByCityCode(@PathVariable String cityCode,
+                                                           @PathVariable int pageNum){
         return hospitalGetService.getHospitalByCityCode(cityCode, pageNum);
     }
 
     @GetMapping("/{pageNum}/{cityCode}/{hospitalCode}")
-    public List<HospitalGetResponse> getHospitalByCityCodeAndHospitalCode(@PathVariable int pageNum,
-                                                           @PathVariable String cityCode,
-                                                           @PathVariable String hospitalCode){
+    public List<HospitalGetResponse> getHospitalByCityCodeAndHospitalCode(@PathVariable String cityCode,
+                                                                          @PathVariable String hospitalCode,
+                                                                          @PathVariable int pageNum){
         return hospitalGetService.getHospitalByCityCodeAndHospitalCode(cityCode, hospitalCode, pageNum);
     }
 

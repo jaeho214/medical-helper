@@ -1,6 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.hospital.entity;
 
-import kr.ac.skuniv.medicalhelper.domain.evaluation.hospital.entity.HospitalComment;
+import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.entity.HospitalComment;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,8 +37,7 @@ public class Hospital {
     private String xPos;
     private String yPos;
 
-    @OneToMany
-    @JoinColumn(name = "hcNo")
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
     private List<HospitalComment> hospitalComment = new ArrayList<>();
 
 }

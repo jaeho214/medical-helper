@@ -7,18 +7,19 @@ import kr.ac.skuniv.medicalhelper.domain.hospital.repository.HospitalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class HospitalGetService {
 
     private final HospitalRepository hospitalRepository;
-    private final int LIMTT = 10;
+    private final int LIMIT = 10;
 
     public List<HospitalGetResponse> getHospitalByName(String name) {
         List<Hospital> hospitals = hospitalRepository.findByNameContaining(name);
@@ -26,64 +27,65 @@ public class HospitalGetService {
         if(hospitals == null)
             throw new HospitalNotFoundException();
 
-        return entity2dto(hospitals);
+        return hospitals.stream()
+                .map(HospitalGetResponse::entity2dto)
+                .collect(Collectors.toList());
     }
 
     public HospitalGetResponse getHospitalDetail(Long hospital_no){
         Hospital hospital =  hospitalRepository.findById(hospital_no).orElseThrow(() -> new HospitalNotFoundException());
-        return HospitalGetResponse.of(hospital);
+        return HospitalGetResponse.entity2dto(hospital);
     }
 
     public List<HospitalGetResponse> getHospitalByGps(String xPos, String yPos, int pageNum) {
-        List<Hospital> hospitals = hospitalRepository.findByXPosAndYPos(xPos,yPos, --pageNum * LIMTT);
+        List<Hospital> hospitals = hospitalRepository.findByXPosAndYPos(xPos,yPos, --pageNum * LIMIT);
 
         if(hospitals == null)
             throw new HospitalNotFoundException();
 
-        return entity2dto(hospitals);
+        return hospitals.stream()
+                .map(HospitalGetResponse::entity2dto)
+                .collect(Collectors.toList());
     }
 
     public List<HospitalGetResponse> getHospitalByHospitalCode(String xPos, String yPos, String hospitalCode, int pageNum) {
-        List<Hospital> hospitals = hospitalRepository.findByHospitalCode(xPos,yPos, hospitalCode, --pageNum * LIMTT);
+        List<Hospital> hospitals = hospitalRepository.findByHospitalCode(xPos,yPos, hospitalCode, --pageNum * LIMIT);
 
         if(hospitals == null)
             throw new HospitalNotFoundException();
 
-        return entity2dto(hospitals);
-    }
-
-
-    //Entity 인스턴스를 Dto 로 바꿔서 response해주기 위해 변환하는 메소드
-    private List<HospitalGetResponse> entity2dto(List<Hospital> hospitals){
-        List<HospitalGetResponse> hospitalGetResponses = new ArrayList<>();
-        hospitals.forEach(hospital -> hospitalGetResponses.add(
-                HospitalGetResponse.of(hospital)
-        ));
-
-        return hospitalGetResponses;
+        return hospitals.stream()
+                .map(HospitalGetResponse::entity2dto)
+                .collect(Collectors.toList());
     }
 
     public List<HospitalGetResponse> getHospitalByCityCode(String cityCode, int pageNum) {
-        Pageable pageable = (Pageable) PageRequest.of(--pageNum * LIMTT, 10);
+        Pageable pageable = (Pageable) PageRequest.of(--pageNum * LIMIT, 10);
         Page<Hospital> hospitals = hospitalRepository.findByCityCode(cityCode, pageable);
 
-        List<HospitalGetResponse> hospitalGetResponses = new ArrayList<>();
-        hospitals.forEach(hospital -> hospitalGetResponses.add(
-                HospitalGetResponse.of(hospital)
-        ));
-
-        return hospitalGetResponses;
+        return hospitals.stream()
+                .map(HospitalGetResponse::entity2dto)
+                .collect(Collectors.toList());
     }
 
     public List<HospitalGetResponse> getHospitalByCityCodeAndHospitalCode(String cityCode, String hospitalCode, int pageNum) {
-        Pageable pageable = (Pageable) PageRequest.of(--pageNum * LIMTT, 10);
+        Pageable pageable = (Pageable) PageRequest.of(--pageNum * LIMIT, 10);
         Page<Hospital> hospitals = hospitalRepository.findByCityCodeAndNameContaining(cityCode,hospitalCode, pageable);
 
-        List<HospitalGetResponse> hospitalGetResponses = new ArrayList<>();
-        hospitals.forEach(hospital -> hospitalGetResponses.add(
-                HospitalGetResponse.of(hospital)
-        ));
-
-        return hospitalGetResponses;
+        return hospitals.stream()
+                .map(HospitalGetResponse::entity2dto)
+                .collect(Collectors.toList());
     }
+
+
+//    //Entity 인스턴스를 Dto 로 바꿔서 response해주기 위해 변환하는 메소드
+//    private List<HospitalGetResponse> entity2dto(List<Hospital> hospitals){
+//        List<HospitalGetResponse> hospitalGetResponses = new ArrayList<>();
+//        hospitals.forEach(hospital -> hospitalGetResponses.add(
+//                HospitalGetResponse.of(hospital)
+//        ));
+//
+//        return hospitalGetResponses;
+//    }
+
 }
