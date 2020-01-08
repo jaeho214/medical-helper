@@ -4,6 +4,7 @@ import kr.ac.skuniv.medicalhelper.domain.member.exception.UnauthorizedUserExcept
 import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
 import kr.ac.skuniv.medicalhelper.domain.treatment.exception.TreatmentNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.treatment.repository.TreatmentRepository;
+import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,14 +12,17 @@ import java.util.Optional;
 @Service
 public class TreatmentDeleteService {
     private TreatmentRepository treatmentRepository;
+    private JwtService jwtService;
 
-    public TreatmentDeleteService(TreatmentRepository treatmentRepository) {
+    public TreatmentDeleteService(TreatmentRepository treatmentRepository, JwtService jwtService) {
         this.treatmentRepository = treatmentRepository;
+        this.jwtService = jwtService;
     }
 
-    public void deleteTreatment(Long tno, String userId){
-        Optional<Treatment> deleteTreatment = treatmentRepository.findById(tno);
-        deleteTreatment.orElseThrow(TreatmentNotFoundException::new);
+    public void deleteTreatment(Long tno, String token){
+        String userId = jwtService.findUserIdByJwt(token);
+
+        Optional<Treatment> deleteTreatment = Optional.ofNullable(treatmentRepository.findById(tno).orElseThrow(TreatmentNotFoundException::new));
 
         checkValidMember(deleteTreatment.get(), userId);
 

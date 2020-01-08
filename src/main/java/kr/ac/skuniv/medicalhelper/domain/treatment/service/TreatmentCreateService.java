@@ -9,6 +9,7 @@ import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
 import kr.ac.skuniv.medicalhelper.domain.treatment.exception.TreatmentRequestInvalidException;
 import kr.ac.skuniv.medicalhelper.domain.treatment.repository.DrugImageRepository;
 import kr.ac.skuniv.medicalhelper.domain.treatment.repository.TreatmentRepository;
+import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,40 +30,41 @@ public class TreatmentCreateService {
     private TreatmentRepository treatmentRepository;
     private DrugImageRepository drugImageRepository;
     private MemberRepository memberRepository;
+    private JwtService jwtService;
     private Environment environment;
 
-    public TreatmentCreateService(TreatmentRepository treatmentRepository, DrugImageRepository drugImageRepository, MemberRepository memberRepository, Environment environment) {
+    public TreatmentCreateService(TreatmentRepository treatmentRepository, DrugImageRepository drugImageRepository, MemberRepository memberRepository, JwtService jwtService, Environment environment) {
         this.treatmentRepository = treatmentRepository;
         this.drugImageRepository = drugImageRepository;
         this.memberRepository = memberRepository;
+        this.jwtService = jwtService;
         this.environment = environment;
     }
 
+    public void createTreatment(TreatmentCreateRequest treatmentCreateRequest, MultipartFile imageFile, String token) throws IOException {
+        String userId = jwtService.findUserIdByJwt(token);
 
-    //이미지 포함 저장
-    public void createTreatment(TreatmentCreateRequest treatmentCreateRequest, MultipartFile imageFile, String userId) throws IOException {
-        if(memberRepository.existsById(userId)){
-            Member member = memberRepository.findByUserId(userId);
-            Optional.ofNullable(treatmentCreateRequest).orElseThrow(TreatmentRequestInvalidException::new);
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new));
 
-            Treatment treatment = Treatment.builder()
-                    .doctor(treatmentCreateRequest.getDoctorName())
-                    .reservation(treatmentCreateRequest.getReservation())
-                    .solution(treatmentCreateRequest.getSolution())
-                    .title(treatmentCreateRequest.getTitle())
-                    .drug(treatmentCreateRequest.getDrug())
-                    .member(member)
-                    .build();
+        Optional.ofNullable(treatmentCreateRequest).orElseThrow(TreatmentRequestInvalidException::new);
 
-            treatmentRepository.save(treatment);
+        Treatment treatment = Treatment.builder()
+                .doctor(treatmentCreateRequest.getDoctorName())
+                .reservation(treatmentCreateRequest.getReservation())
+                .solution(treatmentCreateRequest.getSolution())
+                .title(treatmentCreateRequest.getTitle())
+                .drug(treatmentCreateRequest.getDrug())
+                .member(member.get())
+                .build();
 
-            if(!imageFile.isEmpty()) {
-                DrugImage drugImage = saveImage(imageFile, treatment);
-                drugImageRepository.save(drugImage);
-            }
-            return;
+        treatmentRepository.save(treatment);
+
+        if (!imageFile.isEmpty()) {
+            DrugImage drugImage = saveImage(imageFile, treatment);
+            drugImageRepository.save(drugImage);
         }
-        throw new MemberNotFoundException();
+        return;
+
     }
 
     public DrugImage saveImage(MultipartFile imageFile, Treatment treatment) throws IOException {

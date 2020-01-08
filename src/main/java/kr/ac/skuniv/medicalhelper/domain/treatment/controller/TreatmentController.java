@@ -30,40 +30,39 @@ public class TreatmentController {
     //내 처방 기록 보기
     //TODO : Security 처리 필요
     @GetMapping
-    public List<TreatmentGetResponse> getAllTreatments(String userId){
-        return treatmentGetService.getAllTreatments(userId);
+    public List<TreatmentGetResponse> getAllTreatments(@RequestHeader("token") String token){
+        return treatmentGetService.getAllTreatments(token);
     }
 
     @GetMapping(value = "/{tno}")
-    public TreatmentGetResponse getTreatment(@PathVariable Long tno, String userId){
-        return treatmentGetService.getTreatment(tno, userId);
+    public TreatmentGetResponse getTreatment(@PathVariable Long tno,
+                                             @RequestHeader("token") String token){
+        return treatmentGetService.getTreatment(tno, token);
     }
 
     //처방 기록 작성하기
-    //TODO : Security 처리 필요
     @PostMapping
     public void createTreatmentAndImage(@RequestPart(required = false)MultipartFile imageFile,
                                         @RequestParam String json,
-                                        String userId) throws Exception {
+                                        @RequestHeader("token") String token) throws Exception {
         TreatmentCreateRequest treatmentCreateRequest = objectMapper.readValue(json, TreatmentCreateRequest.class);
-        treatmentCreateService.createTreatment(treatmentCreateRequest, imageFile, userId);
+        treatmentCreateService.createTreatment(treatmentCreateRequest, imageFile, token);
     }
 
     //처방 기록 수정하기
-    //TODO : Security 처리 필요
     @PutMapping
     public void updateTreatmentAndImage(@RequestPart(required = false)MultipartFile imageFile,
                                         @RequestParam String json,
-                                        String userId) throws Exception {
+                                        @RequestHeader("token") String token) throws Exception {
         TreatmentUpdateRequest treatmentUpdateRequest = objectMapper.readValue(json, TreatmentUpdateRequest.class);
-        treatmentUpdateService.updateTreatment(imageFile, treatmentUpdateRequest, userId);
+        treatmentUpdateService.updateTreatment(imageFile, treatmentUpdateRequest, token);
     }
 
     //처방 기록 삭제하기
-    //TODO : Security 처리 필요
     @DeleteMapping(value = "/{tno}")
-    public void deleteTreatment(@PathVariable Long tno, String userId){
-        treatmentDeleteService.deleteTreatment(tno, userId);
+    public void deleteTreatment(@PathVariable Long tno,
+                                @RequestHeader("token") String token){
+        treatmentDeleteService.deleteTreatment(tno, token);
     }
 
     @GetMapping(value = "/image/{tno}", produces = MediaType.IMAGE_JPEG_VALUE)

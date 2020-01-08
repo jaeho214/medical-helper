@@ -9,6 +9,7 @@ import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
 import kr.ac.skuniv.medicalhelper.domain.treatment.exception.TreatmentNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.treatment.repository.DrugImageRepository;
 import kr.ac.skuniv.medicalhelper.domain.treatment.repository.TreatmentRepository;
+import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 
@@ -19,49 +20,47 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TreatmentGetService {
     private TreatmentRepository treatmentRepository;
     private MemberRepository memberRepository;
     private DrugImageRepository drugImageRepository;
+    private JwtService jwtService;
 
-    public TreatmentGetService(TreatmentRepository treatmentRepository, MemberRepository memberRepository, DrugImageRepository drugImageRepository) {
+    public TreatmentGetService(TreatmentRepository treatmentRepository, MemberRepository memberRepository, DrugImageRepository drugImageRepository, JwtService jwtService) {
         this.treatmentRepository = treatmentRepository;
         this.memberRepository = memberRepository;
         this.drugImageRepository = drugImageRepository;
+        this.jwtService = jwtService;
     }
 
-    public List<TreatmentGetResponse> getAllTreatments(String userId) {
-        if(memberRepository.existsById(userId)) {
-            Member member = memberRepository.findByUserId(userId);
+    public List<TreatmentGetResponse> getAllTreatments(String token) {
+        String userId = jwtService.findUserIdByJwt(token);
 
-            List<Treatment> treatments = treatmentRepository.findAllByMember(member);
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new));
 
-            if (treatments == null)
-                throw new TreatmentNotFoundException();
+        List<Treatment> treatments = treatmentRepository.findAllByMember(member.get());
 
-            List<TreatmentGetResponse> treatmentGetResponseList = new ArrayList<>();
+        if (treatments.isEmpty())
+            throw new TreatmentNotFoundException();
 
-            for (Treatment treatment : treatments) {
-                treatmentGetResponseList.add(TreatmentGetResponse.entity2dto(treatment));
-            }
+        return treatments.stream()
+                .map(TreatmentGetResponse::entity2dto)
+                .collect(Collectors.toList());
 
-            return treatmentGetResponseList;
-        }
-        throw new MemberNotFoundException();
     }
 
-    public TreatmentGetResponse getTreatment(Long tno, String userId) {
+    public TreatmentGetResponse getTreatment(Long tno, String token) {
+        String userId = jwtService.findUserIdByJwt(token);
+
         if(memberRepository.existsById(userId)){
-            Optional<Treatment> treatment = treatmentRepository.findById(tno);
-            treatment.orElseThrow(TreatmentNotFoundException::new);
+            Optional<Treatment> treatment = Optional.ofNullable(treatmentRepository.findById(tno).orElseThrow(TreatmentNotFoundException::new));
 
             checkMember(treatment.get(), userId);
 
-            TreatmentGetResponse treatmentGetResponse = TreatmentGetResponse.entity2dto(treatment.get());
-
-            return treatmentGetResponse;
+            return TreatmentGetResponse.entity2dto(treatment.get());
         }
         throw new MemberNotFoundException();
     }
