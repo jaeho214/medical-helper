@@ -1,10 +1,9 @@
 package kr.ac.skuniv.medicalhelper.domain.member.entity;
 
-import kr.ac.skuniv.medicalhelper.domain.evaluation.drugstore.entity.DrugstoreComment;
-import kr.ac.skuniv.medicalhelper.domain.evaluation.hospital.entity.HospitalComment;
+import kr.ac.skuniv.medicalhelper.domain.comment.drugstoreComment.entity.DrugstoreComment;
+import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.entity.HospitalComment;
 import kr.ac.skuniv.medicalhelper.domain.member.dto.MemberCreateRequest;
 import kr.ac.skuniv.medicalhelper.domain.member.dto.MemberUpdateRequest;
-import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
 import lombok.*;
 
 import javax.persistence.*;

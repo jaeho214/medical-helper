@@ -4,29 +4,37 @@ import kr.ac.skuniv.medicalhelper.domain.member.dto.MemberGetResponse;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.domain.member.exception.MemberNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
+import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class MemberGetService {
 
     private final MemberRepository memberRepository;
+    private final JwtService jwtService;
 
-    public MemberGetService(MemberRepository memberRepository) {
+    public MemberGetService(MemberRepository memberRepository, JwtService jwtService) {
         this.memberRepository = memberRepository;
+        this.jwtService = jwtService;
     }
 
-    public MemberGetResponse selectMember(String userId){
-        if(memberRepository.existsById(userId)){
-            Member member = memberRepository.findByUserId(userId);
-            return MemberGetResponse.builder()
-                    .userId(member.getUserId())
-                    .name(member.getName())
-                    .phone(member.getPhone())
-                    .birth(member.getBirth())
-                    .sex(member.getSex())
-                    .address(member.getAddress())
-                    .build();
-        }
-        throw new MemberNotFoundException();
+    public MemberGetResponse selectMember(String token) {
+
+        String userId = jwtService.findUserIdByJwt(token);
+
+        Optional<Member> member = memberRepository.findByUserId(userId);
+        member.orElseThrow(MemberNotFoundException::new);
+
+        return MemberGetResponse.builder()
+                .userId(member.get().getUserId())
+                .name(member.get().getName())
+                .phone(member.get().getPhone())
+                .birth(member.get().getBirth())
+                .sex(member.get().getSex())
+                .address(member.get().getAddress())
+                .build();
+
     }
 }

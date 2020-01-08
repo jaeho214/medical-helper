@@ -4,26 +4,28 @@ import kr.ac.skuniv.medicalhelper.domain.member.dto.MemberUpdateRequest;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.domain.member.exception.MemberNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
+import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class MemberUpdateService {
 
     private final MemberRepository memberRepository;
+    private final JwtService jwtService;
 
-    public MemberUpdateService(MemberRepository memberRepository) {
+    public MemberUpdateService(MemberRepository memberRepository, JwtService jwtService) {
         this.memberRepository = memberRepository;
+        this.jwtService = jwtService;
     }
 
-    public void updateMember(MemberUpdateRequest memberUpdateRequest){
+    public void updateMember(MemberUpdateRequest memberUpdateRequest, String token) {
+        String userId = jwtService.findUserIdByJwt(token);
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new));
 
-        if(memberRepository.existsById(memberUpdateRequest.getUserId())){
-            Member member = memberRepository.findByUserId(memberUpdateRequest.getUserId());
-            member.updateMember(memberUpdateRequest);
-            memberRepository.save(member);
-            return;
-        }
-        throw new MemberNotFoundException();
+        member.get().updateMember(memberUpdateRequest);
 
+        memberRepository.save(member.get());
     }
 }

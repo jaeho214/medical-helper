@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberSignInResponse {
-    //private String token;
+    private String token;
     private String userId;
     private String name;
 
     @Builder
-    public MemberSignInResponse(String userId, String name) {
+    public MemberSignInResponse(String token, String userId, String name) {
+        this.token = token;
         this.userId = userId;
         this.name = name;
     }

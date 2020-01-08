@@ -6,36 +6,38 @@ import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.domain.member.exception.InvalidPasswordException;
 import kr.ac.skuniv.medicalhelper.domain.member.exception.MemberNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
+import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class MemberSignInService {
     private final MemberRepository memberRepository;
+    private final JwtService jwtService;
 
-    public MemberSignInService(MemberRepository memberRepository) {
+    public MemberSignInService(MemberRepository memberRepository, JwtService jwtService) {
         this.memberRepository = memberRepository;
+        this.jwtService = jwtService;
     }
 
-    //TODO: 로그인 처리 필요(후에 JWT 토큰 적용할 예정)
-    public MemberSignInResponse signInMember(MemberSignInRequest memberSignInRequest){
+    public MemberSignInResponse signInMember(MemberSignInRequest memberSignInRequest) {
 
-        if(memberRepository.existsById(memberSignInRequest.getUserId())) {
-            Member member = memberRepository.findByUserId(memberSignInRequest.getUserId());
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(memberSignInRequest.getUserId()).orElseThrow(MemberNotFoundException::new));
 
-            if (isEqualPw(member.getPassword(), memberSignInRequest.getPassword())) {
-                return MemberSignInResponse.builder()
-                        .userId(member.getUserId())
-                        .name(member.getName())
-                        .build();
+        isEqualPw(member.get().getPassword(), memberSignInRequest.getPassword());
 
-            }else{
-                throw new InvalidPasswordException();
-            }
-        }
-        throw new MemberNotFoundException();
+        String token = jwtService.createJwt(member.get().getUserId());
+        return MemberSignInResponse.builder()
+                .token(token)
+                .userId(member.get().getUserId())
+                .name(member.get().getName())
+                .build();
     }
 
-    private boolean isEqualPw(String pw, String signInPw){
-        return pw.equals(signInPw);
+    private void isEqualPw(String pw, String signInPw){
+        if(pw.equals(signInPw))
+            return;
+        throw new InvalidPasswordException();
     }
 }

@@ -28,21 +28,20 @@ public class MemberController {
         return memberSignInService.signInMember(memberSignInRequest);
     }
 
-    //TODO: 시큐리티 적용
     @GetMapping
-    public MemberGetResponse selectMember(@RequestParam("userId") String userId){
-        return memberGetService.selectMember(userId);
+    public MemberGetResponse selectMember(@RequestHeader("token") String token){
+        return memberGetService.selectMember(token);
     }
 
-    //TODO: MemberUpdateRequest에서 userId 빼고 시큐리티로 적용시키기
     @PutMapping
-    public void updateMember(@RequestBody MemberUpdateRequest memberUpdateRequest){
-        memberUpdateService.updateMember(memberUpdateRequest);
+    public void updateMember(@RequestBody MemberUpdateRequest memberUpdateRequest,
+                             @RequestHeader("token") String token){
+        memberUpdateService.updateMember(memberUpdateRequest, token);
     }
 
     @DeleteMapping
-    public void deleteMember(@RequestParam("userId") String userId){
-        memberDeleteService.deleteMember(userId);
+    public void deleteMember(@RequestHeader("token") String token){
+        memberDeleteService.deleteMember(token);
     }
 
     @GetMapping("/checkId")
