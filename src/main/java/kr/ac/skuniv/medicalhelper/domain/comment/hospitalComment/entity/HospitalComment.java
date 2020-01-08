@@ -1,16 +1,16 @@
-package kr.ac.skuniv.medicalhelper.domain.evaluation.hospital.entity;
+package kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.entity;
 
+import kr.ac.skuniv.medicalhelper.domain.hospital.entity.Hospital;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HospitalComment {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long hcNo;
 
@@ -21,9 +21,15 @@ public class HospitalComment {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public HospitalComment(Float score, String comment, Member member) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hospitalNo")
+    private Hospital hospital;
+
+    @Builder
+    public HospitalComment(Float score, String comment, Member member, Hospital hospital) {
         this.score = score;
         this.comment = comment;
         this.member = member;
+        this.hospital = hospital;
     }
 }
