@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "medicalHelper/reservation")
 @AllArgsConstructor
-//TODO: 시큐리티 적용
 public class ReservationController {
     private ReservationGetService reservationGetService;
     private ReservationCreateService reservationCreateService;
@@ -23,27 +22,31 @@ public class ReservationController {
     private ReservationDeleteService reservationDeleteService;
 
     @GetMapping
-    public List<ReservationGetResponse> getAllReservations(String userId){
-        return reservationGetService.getAllReservations(userId);
+    public List<ReservationGetResponse> getAllReservations(@RequestHeader("token")String token){
+        return reservationGetService.getAllReservations(token);
     }
 
     @GetMapping(value = "/{rno}")
-    public ReservationGetResponse getReservation(@PathVariable Long rno, String userId){
-        return reservationGetService.getReservation(rno, userId);
+    public ReservationGetResponse getReservation(@PathVariable Long rno,
+                                                 @RequestHeader("token") String token){
+        return reservationGetService.getReservation(rno, token);
     }
 
     @PostMapping
-    public void createReservation(ReservationCreateRequest reservationCreateRequest, String userId){
-        reservationCreateService.createReservation(reservationCreateRequest, userId);
+    public void createReservation(@RequestBody ReservationCreateRequest reservationCreateRequest,
+                                  @RequestHeader("token") String token){
+        reservationCreateService.createReservation(reservationCreateRequest, token);
     }
 
     @PutMapping
-    public void updateReservation(ReservationUpdateRequest reservationUpdateRequest, String userId){
-        reservationUpdateService.updateReservation(reservationUpdateRequest, userId);
+    public void updateReservation(@RequestBody ReservationUpdateRequest reservationUpdateRequest,
+                                  @RequestHeader("token") String token){
+        reservationUpdateService.updateReservation(reservationUpdateRequest, token);
     }
 
     @DeleteMapping(value = "/{rno}")
-    public void deleteReservation(@PathVariable Long rno, String userId){
-        reservationDeleteService.deleteReservation(rno, userId);
+    public void deleteReservation(@PathVariable Long rno,
+                                  @RequestHeader("token") String token){
+        reservationDeleteService.deleteReservation(rno, token);
     }
 }

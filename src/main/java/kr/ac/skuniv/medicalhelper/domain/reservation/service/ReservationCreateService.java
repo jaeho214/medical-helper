@@ -8,6 +8,7 @@ import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
 import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationCannotException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationRequestInvalidException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.repository.ReservationRepository;
+import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,32 +19,34 @@ public class ReservationCreateService {
 
     private ReservationRepository reservationRepository;
     private MemberRepository memberRepository;
+    private JwtService jwtService;
 
-    public ReservationCreateService(ReservationRepository reservationRepository, MemberRepository memberRepository) {
+    public ReservationCreateService(ReservationRepository reservationRepository, MemberRepository memberRepository, JwtService jwtService) {
         this.reservationRepository = reservationRepository;
         this.memberRepository = memberRepository;
+        this.jwtService = jwtService;
     }
 
-    public void createReservation(ReservationCreateRequest reservationCreateRequest, String userId) {
-        if(memberRepository.existsById(userId)){
-            Member member = memberRepository.findByUserId(userId);
+    public void createReservation(ReservationCreateRequest reservationCreateRequest, String token) {
 
-            Optional.ofNullable(reservationCreateRequest).orElseThrow(ReservationRequestInvalidException::new);
+        String userId = jwtService.findUserIdByJwt(token);
 
-            checkDuplicatedReservation(reservationCreateRequest);
-            Reservation reservation =
-                    Reservation.builder()
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new));
+
+        Optional.ofNullable(reservationCreateRequest).orElseThrow(ReservationRequestInvalidException::new);
+
+        checkDuplicatedReservation(reservationCreateRequest);
+
+        Reservation reservation =
+                Reservation.builder()
                         .reserveDate(reservationCreateRequest.getReserveDate())
                         .symptom(reservationCreateRequest.getSymptom())
                         .hospital(reservationCreateRequest.getHospital())
-                        .member(member)
+                        .member(member.get())
                         .build();
 
-            reservationRepository.save(reservation);
+        reservationRepository.save(reservation);
 
-            return;
-        }
-        throw new MemberNotFoundException();
     }
 
     //TODO: 수정필요

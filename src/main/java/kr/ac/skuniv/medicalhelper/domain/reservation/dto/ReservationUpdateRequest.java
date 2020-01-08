@@ -6,12 +6,12 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReservationUpdateRequest {
-    private Long tno;
+    private Long rno;
     private String symptom;
 
     @Builder
-    public ReservationUpdateRequest(Long tno, String symptom) {
-        this.tno = tno;
+    public ReservationUpdateRequest(Long rno, String symptom) {
+        this.rno = rno;
         this.symptom = symptom;
     }
 }

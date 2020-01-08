@@ -5,7 +5,9 @@ import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
 import kr.ac.skuniv.medicalhelper.domain.reservation.dto.ReservationUpdateRequest;
 import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
 import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationNotFoundException;
+import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationRequestInvalidException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.repository.ReservationRepository;
+import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,14 +16,19 @@ import java.util.Optional;
 public class ReservationUpdateService {
 
     private ReservationRepository reservationRepository;
+    private JwtService jwtService;
 
-    public ReservationUpdateService(ReservationRepository reservationRepository) {
+    public ReservationUpdateService(ReservationRepository reservationRepository, JwtService jwtService) {
         this.reservationRepository = reservationRepository;
+        this.jwtService = jwtService;
     }
 
-    public void updateReservation(ReservationUpdateRequest reservationUpdateRequest, String userId) {
-        Optional<Reservation> reservation = reservationRepository.findById(reservationUpdateRequest.getTno());
-        reservation.orElseThrow(ReservationNotFoundException::new);
+    public void updateReservation(ReservationUpdateRequest reservationUpdateRequest, String token) {
+        String userId = jwtService.findUserIdByJwt(token);
+
+        Optional.ofNullable(reservationUpdateRequest).orElseThrow(ReservationRequestInvalidException::new);
+
+        Optional<Reservation> reservation = Optional.ofNullable(reservationRepository.findById(reservationUpdateRequest.getRno()).orElseThrow(ReservationNotFoundException::new));
 
         checkValidMember(reservation.get(), userId);
 

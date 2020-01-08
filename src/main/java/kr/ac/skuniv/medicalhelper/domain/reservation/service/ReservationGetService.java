@@ -7,52 +7,52 @@ import kr.ac.skuniv.medicalhelper.domain.reservation.dto.ReservationGetResponse;
 import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
 import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.repository.ReservationRepository;
+import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationGetService {
     private ReservationRepository reservationRepository;
     private MemberRepository memberRepository;
+    private JwtService jwtService;
 
-    public ReservationGetService(ReservationRepository reservationRepository, MemberRepository memberRepository) {
+    public ReservationGetService(ReservationRepository reservationRepository, MemberRepository memberRepository, JwtService jwtService) {
         this.reservationRepository = reservationRepository;
         this.memberRepository = memberRepository;
+        this.jwtService = jwtService;
     }
 
-    public List<ReservationGetResponse> getAllReservations(String userId) {
-        if(memberRepository.existsById(userId)) {
-            Member member = memberRepository.findByUserId(userId);
+    public List<ReservationGetResponse> getAllReservations(String token) {
 
-            List<Reservation> reservationList = reservationRepository.findAllByMember(member);
+        String userId = jwtService.findUserIdByJwt(token);
 
-            if(reservationList == null)
-                throw new ReservationNotFoundException();
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new));
 
-            List<ReservationGetResponse> reservationGetResponses = new ArrayList<>();
-            for (Reservation reservation : reservationList) {
-                reservationGetResponses.add(ReservationGetResponse.entity2dto(reservation));
-            }
+        List<Reservation> reservationList = reservationRepository.findAllByMember(member.get());
 
-            return reservationGetResponses;
-        }
-        throw new MemberNotFoundException();
+        if (reservationList.isEmpty())
+            throw new ReservationNotFoundException();
+
+        return reservationList.stream()
+                .map(ReservationGetResponse::entity2dto)
+                .collect(Collectors.toList());
     }
 
 
-    public ReservationGetResponse getReservation(Long rno, String userId) {
+    public ReservationGetResponse getReservation(Long rno, String token) {
+        String userId = jwtService.findUserIdByJwt(token);
+
         if(memberRepository.existsById(userId)){
-            Optional<Reservation> reservation = reservationRepository.findById(rno);
-            reservation.orElseThrow(ReservationNotFoundException::new);
+            Optional<Reservation> reservation = Optional.ofNullable(reservationRepository.findById(rno).orElseThrow(ReservationNotFoundException::new));
 
             checkMember(reservation.get(), userId);
 
-            ReservationGetResponse reservationGetResponse = ReservationGetResponse.entity2dto(reservation.get());
-
-            return reservationGetResponse;
+            return ReservationGetResponse.entity2dto(reservation.get());
         }
         throw new MemberNotFoundException();
 
