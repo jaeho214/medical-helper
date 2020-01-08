@@ -2,16 +2,13 @@ package kr.ac.skuniv.medicalhelper.domain.comment.drugstoreComment.entity;
 
 import kr.ac.skuniv.medicalhelper.domain.drugstore.entity.Drugstore;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DrugstoreComment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long dcNo;

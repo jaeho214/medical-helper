@@ -42,23 +42,21 @@ public class DrugstoreGetService {
 
     public DrugstoreGetResponse getDrugstore(Long drugstoreNo) {
 
-        if(drugstoreRepository.existsById(drugstoreNo)){
-            Optional<Drugstore> drugstore = drugstoreRepository.findById(drugstoreNo);
+        Optional<Drugstore> drugstore = drugstoreRepository.findById(drugstoreNo);
+        drugstore.orElseThrow(DrugstoreNotFoundException::new);
 
-            DrugstoreGetResponse drugstoreGetResponse =
-                    DrugstoreGetResponse.builder()
-                    .address(drugstore.get().getAddress())
-                    .localName(drugstore.get().getLocalName())
-                    .name(drugstore.get().getName())
-                    .openDate(drugstore.get().getOpenDate())
-                    .postNo(drugstore.get().getPostNo())
-                    .tel(drugstore.get().getTel())
-                    .drugstoreComment(drugstore.get().getDrugstoreComment())
-                    .build();
+        DrugstoreGetResponse drugstoreGetResponse =
+                DrugstoreGetResponse.builder()
+                        .address(drugstore.get().getAddress())
+                        .localName(drugstore.get().getLocalName())
+                        .name(drugstore.get().getName())
+                        .openDate(drugstore.get().getOpenDate())
+                        .postNo(drugstore.get().getPostNo())
+                        .tel(drugstore.get().getTel())
+                        .drugstoreComment(drugstore.get().getDrugstoreComment())
+                        .build();
 
-            return drugstoreGetResponse;
-        }
-        throw new DrugstoreNotFoundException();
+        return drugstoreGetResponse;
     }
 
     private List<DrugstoreGetResponse> entity2dto(List<Drugstore> drugstores) {

@@ -1,5 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.comment.drugstoreComment.service;
 
+import kr.ac.skuniv.medicalhelper.domain.comment.drugstoreComment.exception.DrugstoreCommentRequestInvalidException;
 import kr.ac.skuniv.medicalhelper.domain.drugstore.entity.Drugstore;
 import kr.ac.skuniv.medicalhelper.domain.drugstore.exception.DrugstoreNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.drugstore.repository.DrugstoreRepository;
@@ -28,28 +29,28 @@ public class DrugstoreCommentCreateService {
     }
 
     public ResponseEntity createDrugstoreComment(DrugstoreCommentCreateRequest drugstoreCommentCreateRequest, String userId) {
-        if(drugstoreRepository.existsById(drugstoreCommentCreateRequest.getDrugstoreNo())){
-            Optional<Drugstore> drugstore = drugstoreRepository.findById(drugstoreCommentCreateRequest.getDrugstoreNo());
-            drugstore.orElseThrow(DrugstoreNotFoundException::new);
 
-            if(!memberRepository.existsById(userId))
-                throw new MemberNotFoundException();
+        if (drugstoreCommentCreateRequest == null)
+            throw new DrugstoreCommentRequestInvalidException();
 
-            Member member = memberRepository.findByUserId(userId);
+        Optional<Drugstore> drugstore = drugstoreRepository.findById(drugstoreCommentCreateRequest.getDrugstoreNo());
+        drugstore.orElseThrow(DrugstoreNotFoundException::new);
 
-            //입력한 약국에 대한 별점을 entity로 바꿔서
-            DrugstoreComment drugstoreComment =
-                    DrugstoreComment.builder()
-                    .comment(drugstoreCommentCreateRequest.getComment())
-                    .score(drugstoreCommentCreateRequest.getScore())
-                    .drugstore(drugstore.get())
-                    .member(member)
-                    .build();
+        Optional<Member> member = memberRepository.findByUserId(userId);
+        member.orElseThrow(MemberNotFoundException::new);
 
-            drugstoreCommentRepository.save(drugstoreComment);
+        //입력한 약국에 대한 별점을 entity로 바꿔서
+        DrugstoreComment drugstoreComment =
+                DrugstoreComment.builder()
+                        .comment(drugstoreCommentCreateRequest.getComment())
+                        .score(drugstoreCommentCreateRequest.getScore())
+                        .drugstore(drugstore.get())
+                        .member(member.get())
+                        .build();
 
-            return ResponseEntity.ok(drugstoreComment);
-        }
-        throw new DrugstoreNotFoundException();
+        drugstoreCommentRepository.save(drugstoreComment);
+
+        return ResponseEntity.ok(drugstoreComment);
+
     }
 }
