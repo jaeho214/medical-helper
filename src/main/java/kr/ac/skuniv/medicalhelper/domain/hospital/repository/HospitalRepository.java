@@ -11,14 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
-
-
     List<Hospital> findByNameContaining(String name);
-    Page<Hospital> findByCityCode(String cityCode, Pageable pageable);
-    Page<Hospital> findByCityCodeAndNameContaining(String cityCode, String hospitalCode, Pageable pageable);
-
-    @Query("select h from Hospital h join fetch h.hospitalComment where h.hospitalNo=:hospitalNo")
-    Optional<Hospital> findById(Long hospitalNo);
+    Page<Hospital> findByCityCodeName(String cityCode, Pageable pageable);
+    Page<Hospital> findByCityCodeNameAndNameContaining(String cityCode, String hospitalCode, Pageable pageable);
 
     @Query(nativeQuery = true, value = "select *, (6371*acos(cos(radians(:yPos))*cos(radians(h.y_pos))*cos(radians(h.x_pos)-radians(:xPos)) \n" +
             "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from Hospital h having distance < 7 order by distance asc limit :pageNum, 10;")

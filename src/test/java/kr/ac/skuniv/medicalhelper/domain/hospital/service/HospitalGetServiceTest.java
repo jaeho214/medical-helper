@@ -21,14 +21,12 @@ class HospitalGetServiceTest {
     @Test
     void getHospitalByName() {
         List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalByName("신천연합");
-
         assertThat(hospitalList).isNotNull();
     }
 
     @Test
     void getHospitalDetail() {
         HospitalGetResponse hospitalDetail = hospitalGetService.getHospitalDetail(113L);
-
         assertThat(hospitalDetail).isNotNull();
         assertThat(hospitalDetail.getName().contains("대림")).isTrue();
     }
@@ -45,7 +43,6 @@ class HospitalGetServiceTest {
     @Test
     void getHospitalByHospitalCode() {
         List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalByHospitalCode("126.811484", "37.368523", "안과", 1);
-
         assertThat(hospitalList.size()).isEqualTo(10);
         assertThat(hospitalList).isNotNull();
         System.out.println(hospitalList.get(0).getName());
@@ -53,9 +50,16 @@ class HospitalGetServiceTest {
 
     @Test
     void getHospitalByCityCode() {
+        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalByCityCode("경기", 1);
+
+        assertThat(hospitalList.size()).isEqualTo(10);
     }
+
 
     @Test
     void getHospitalByCityCodeAndHospitalCode() {
+        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalByCityCodeAndHospitalCode("경기", "안과", 1);
+
+        assertThat(hospitalList.size()).isEqualTo(10);
     }
 }

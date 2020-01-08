@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,14 +34,15 @@ public class HospitalGetService {
     }
 
     public HospitalGetResponse getHospitalDetail(Long hospital_no){
-        Hospital hospital =  hospitalRepository.findById(hospital_no).orElseThrow(() -> new HospitalNotFoundException());
-        return HospitalGetResponse.entity2dto(hospital);
+        Optional<Hospital> hospital =  hospitalRepository.findById(hospital_no);
+        hospital.orElseThrow(() -> new HospitalNotFoundException());
+        return HospitalGetResponse.entity2dto(hospital.get());
     }
 
     public List<HospitalGetResponse> getHospitalByGps(String xPos, String yPos, int pageNum) {
         List<Hospital> hospitals = hospitalRepository.findByXPosAndYPos(xPos,yPos, --pageNum * LIMIT);
 
-        if(hospitals == null)
+        if(hospitals.isEmpty())
             throw new HospitalNotFoundException();
 
         return hospitals.stream()
@@ -51,7 +53,7 @@ public class HospitalGetService {
     public List<HospitalGetResponse> getHospitalByHospitalCode(String xPos, String yPos, String hospitalCode, int pageNum) {
         List<Hospital> hospitals = hospitalRepository.findByHospitalCode(xPos,yPos, hospitalCode, --pageNum * LIMIT);
 
-        if(hospitals == null)
+        if(hospitals.isEmpty())
             throw new HospitalNotFoundException();
 
         return hospitals.stream()
@@ -61,7 +63,10 @@ public class HospitalGetService {
 
     public List<HospitalGetResponse> getHospitalByCityCode(String cityCode, int pageNum) {
         Pageable pageable = (Pageable) PageRequest.of(--pageNum * LIMIT, 10);
-        Page<Hospital> hospitals = hospitalRepository.findByCityCode(cityCode, pageable);
+        Page<Hospital> hospitals = hospitalRepository.findByCityCodeName(cityCode, pageable);
+
+        if(hospitals.isEmpty())
+            throw new HospitalNotFoundException();
 
         return hospitals.stream()
                 .map(HospitalGetResponse::entity2dto)
@@ -70,7 +75,7 @@ public class HospitalGetService {
 
     public List<HospitalGetResponse> getHospitalByCityCodeAndHospitalCode(String cityCode, String hospitalCode, int pageNum) {
         Pageable pageable = (Pageable) PageRequest.of(--pageNum * LIMIT, 10);
-        Page<Hospital> hospitals = hospitalRepository.findByCityCodeAndNameContaining(cityCode,hospitalCode, pageable);
+        Page<Hospital> hospitals = hospitalRepository.findByCityCodeNameAndNameContaining(cityCode, hospitalCode, pageable);
 
         return hospitals.stream()
                 .map(HospitalGetResponse::entity2dto)
