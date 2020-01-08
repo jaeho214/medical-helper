@@ -1,5 +1,6 @@
 package kr.ac.skuniv.medicalhelper.global.config;
 
+import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
