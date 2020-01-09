@@ -25,6 +25,8 @@ public class Member {
     private String sex;
     private String address;
 
+    private String fcmToken;
+
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<DrugstoreComment> drugstoreComment = new ArrayList<>();
 
@@ -32,7 +34,7 @@ public class Member {
     private List<HospitalComment> hospitalComments = new ArrayList<>();
 
     @Builder
-    public Member(String userId, String password, String name, String phone, String birth, String sex, String address) {
+    public Member(String userId, String password, String name, String phone, String birth, String sex, String address, String fcmToken) {
         this.userId = userId;
         this.password = password;
         this.name = name;
@@ -40,6 +42,7 @@ public class Member {
         this.birth = birth;
         this.sex = sex;
         this.address = address;
+        this.fcmToken = fcmToken;
     }
 
     public static Member of(MemberCreateRequest memberCreateRequest){
@@ -51,6 +54,7 @@ public class Member {
                 .birth(memberCreateRequest.getBirth())
                 .sex(memberCreateRequest.getSex())
                 .address(memberCreateRequest.getAddress())
+                .fcmToken(memberCreateRequest.getFcmToken())
                 .build();
     }
 

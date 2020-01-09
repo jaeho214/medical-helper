@@ -12,9 +12,10 @@ public class MemberCreateRequest {
     private String birth;
     private String sex;
     private String address;
+    private String fcmToken;
 
     @Builder
-    public MemberCreateRequest(String userId, String password, String name, String phone, String birth, String sex, String address) {
+    public MemberCreateRequest(String userId, String password, String name, String phone, String birth, String sex, String address, String fcmToken) {
         this.userId = userId;
         this.password = password;
         this.name = name;
@@ -22,5 +23,6 @@ public class MemberCreateRequest {
         this.birth = birth;
         this.sex = sex;
         this.address = address;
+        this.fcmToken = fcmToken;
     }
 }
