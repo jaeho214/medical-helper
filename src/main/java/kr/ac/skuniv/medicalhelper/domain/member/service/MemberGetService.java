@@ -24,15 +24,15 @@ public class MemberGetService {
 
         String email = jwtService.findEmailByJwt(token);
 
-        Optional<Member> member = Optional.ofNullable(memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new));
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
         return MemberGetResponse.builder()
-                .email(member.get().getEmail())
-                .name(member.get().getName())
-                .phone(member.get().getPhone())
-                .birth(member.get().getBirth())
-                .sex(member.get().getSex())
-                .address(member.get().getAddress())
+                .email(member.getEmail())
+                .name(member.getName())
+                .phone(member.getPhone())
+                .birth(member.getBirth())
+                .sex(member.getSex())
+                .address(member.getAddress())
                 .build();
 
     }

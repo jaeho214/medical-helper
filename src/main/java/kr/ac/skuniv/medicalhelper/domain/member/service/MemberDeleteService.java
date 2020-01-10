@@ -1,5 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.member.service;
 
+import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.domain.member.exception.MemberNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
 import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
@@ -19,10 +20,9 @@ public class MemberDeleteService {
     public void deleteMember(String token){
         String email = jwtService.findEmailByJwt(token);
 
-        if(memberRepository.existsByEmail(email)){
-            memberRepository.deleteByEmail(email);
-            return;
-        }
-        throw new MemberNotFoundException();
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        member.delete();
+        memberRepository.delete(member);
+
     }
 }

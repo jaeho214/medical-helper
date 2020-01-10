@@ -23,15 +23,15 @@ public class MemberSignInService {
 
     public MemberSignInResponse signInMember(MemberSignInRequest memberSignInRequest) {
 
-        Optional<Member> member = Optional.ofNullable(memberRepository.findByEmail(memberSignInRequest.getEmail()).orElseThrow(MemberNotFoundException::new));
+        Member member = memberRepository.findByEmail(memberSignInRequest.getEmail()).orElseThrow(MemberNotFoundException::new);
 
-        isEqualPw(member.get().getPassword(), memberSignInRequest.getPassword());
+        isEqualPw(member.getPassword(), memberSignInRequest.getPassword());
 
-        String token = jwtService.createJwt(member.get().getEmail());
+        String token = jwtService.createJwt(member.getEmail());
         return MemberSignInResponse.builder()
                 .token(token)
-                .email(member.get().getEmail())
-                .name(member.get().getName())
+                .email(member.getEmail())
+                .name(member.getName())
                 .build();
     }
 

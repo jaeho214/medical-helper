@@ -22,10 +22,10 @@ public class MemberUpdateService {
 
     public void updateMember(MemberUpdateRequest memberUpdateRequest, String token) {
         String email = jwtService.findEmailByJwt(token);
-        Optional<Member> member = Optional.ofNullable(memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new));
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
-        member.get().updateMember(memberUpdateRequest);
+        member.updateMember(memberUpdateRequest);
 
-        memberRepository.save(member.get());
+        memberRepository.save(member);
     }
 }
