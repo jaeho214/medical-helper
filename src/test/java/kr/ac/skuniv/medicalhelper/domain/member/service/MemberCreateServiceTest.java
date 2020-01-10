@@ -1,45 +1,67 @@
 package kr.ac.skuniv.medicalhelper.domain.member.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.ac.skuniv.medicalhelper.domain.member.dto.MemberCreateRequest;
+import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
+import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureMockMvc
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+
+@ExtendWith(MockitoExtension.class)
 public class MemberCreateServiceTest {
 
-    @Autowired
-    MockMvc mockMvc;
+    @Mock
+    private MemberRepository memberRepository;
 
-    @Autowired
-    ObjectMapper objectMapper;
+    @InjectMocks
+    private MemberCreateService memberCreateService;
 
-    @Autowired
-    MemberCreateService memberCreateService;
+    @Before
+    public void init(){
+        MockitoAnnotations.initMocks(this);
+    }
+
+    private Member member = Member.builder()
+            .email("jaeho214@naver.com")
+            .password("1q2w3e")
+            .phone("000-1111-2222")
+            .name("현재호")
+            .birth("1996-02-14")
+            .address("경기도 시흥시")
+            .sex("male")
+            .build();
+
+    private MemberCreateRequest memberCreateRequest =
+            MemberCreateRequest.builder()
+                    .email("jaeho214@naver.com")
+                    .password("1q2w3e")
+                    .phone("000-1111-2222")
+                    .name("현재호")
+                    .birth("1996-02-14")
+                    .address("경기도 시흥시")
+                    .sex("male")
+                    .build();
 
     @Test
-    public void createMember() throws Exception {
-        MemberCreateRequest memberCreateRequest = MemberCreateRequest.builder()
-                .userId("jaeho214")
-                .password("1")
-                .address("경기도 시흥시")
-                .birth("1996-02-14")
-                .name("현재호")
-                .phone("010-5311-8729")
-                .sex("male")
-                .build();
+    public void create(){
+        //given
+        given(memberRepository.save(member)).willReturn(member);
 
+        //when
+        Member member = memberCreateService.createMember(memberCreateRequest);
 
-        memberCreateService.createMember(memberCreateRequest);
-
+        //then
+        assertThat(member.getEmail()).isEqualTo(memberCreateRequest.getEmail());
+        assertThat(member.getName()).isEqualTo(memberCreateRequest.getName());
     }
+
+
 
 }

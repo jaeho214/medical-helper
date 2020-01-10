@@ -1,6 +1,7 @@
 package kr.ac.skuniv.medicalhelper.domain.member.controller;
 
 import kr.ac.skuniv.medicalhelper.domain.member.dto.*;
+import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.domain.member.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ public class MemberController {
 
 
     @PostMapping("/signUp")
-    public void createMember(@RequestBody MemberCreateRequest memberCreateRequest){
-        memberCreateService.createMember(memberCreateRequest);
+    public Member createMember(@RequestBody MemberCreateRequest memberCreateRequest){
+        return memberCreateService.createMember(memberCreateRequest);
     }
 
     @PostMapping("/signIn")
@@ -30,7 +31,7 @@ public class MemberController {
 
     @GetMapping
     public MemberGetResponse selectMember(@RequestHeader("token") String token){
-        return memberGetService.selectMember(token);
+        return memberGetService.getMember(token);
     }
 
     @PutMapping

@@ -17,12 +17,12 @@ public class MemberDeleteService {
         this.jwtService = jwtService;
     }
 
-    public void deleteMember(String token){
+    public Member deleteMember(String token){
         String email = jwtService.findEmailByJwt(token);
 
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        member.delete();
+        //member.delete();
         memberRepository.delete(member);
-
+        return member;
     }
 }

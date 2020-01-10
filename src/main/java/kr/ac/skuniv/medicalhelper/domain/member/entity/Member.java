@@ -15,7 +15,7 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member")
-@AttributeOverride(name = "id", column = @Column(name="id"))
+@AttributeOverride(name = "id", column = @Column(name="member_id"))
 public class Member extends JpaBasePersistable {
 
     @Column(name = "email", unique = true)

@@ -13,8 +13,8 @@ import java.util.Optional;
 
 @Service
 public class MemberSignInService {
-    private final MemberRepository memberRepository;
-    private final JwtService jwtService;
+    private MemberRepository memberRepository;
+    private JwtService jwtService;
 
     public MemberSignInService(MemberRepository memberRepository, JwtService jwtService) {
         this.memberRepository = memberRepository;
@@ -28,6 +28,7 @@ public class MemberSignInService {
         isEqualPw(member.getPassword(), memberSignInRequest.getPassword());
 
         String token = jwtService.createJwt(member.getEmail());
+
         return MemberSignInResponse.builder()
                 .token(token)
                 .email(member.getEmail())

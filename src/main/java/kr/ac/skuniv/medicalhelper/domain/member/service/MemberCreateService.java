@@ -15,10 +15,10 @@ public class MemberCreateService {
         this.memberRepository = memberRepository;
     }
 
-    public void createMember(MemberCreateRequest memberCreateRequest){
+    public Member createMember(MemberCreateRequest memberCreateRequest){
         if(!memberRepository.existsByEmail(memberCreateRequest.getEmail())){
             memberRepository.save(Member.of(memberCreateRequest));
-            return;
+            return Member.of(memberCreateRequest);
         }
         throw new UserDuplicationException();
     }

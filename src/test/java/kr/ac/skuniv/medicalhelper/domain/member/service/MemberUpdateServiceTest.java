@@ -20,14 +20,14 @@ class MemberUpdateServiceTest {
     void updateMember() {
         MemberUpdateRequest memberUpdateRequest
                 = MemberUpdateRequest.builder()
-                .userId("jaeho214")
                 .address("서울시 성북구")
                 .name("김수현")
                 .password("1")
-                .phone("010-5311-8729")
+                .phone("010-3333-4444")
                 .sex("male")
                 .build();
 
-        memberUpdateService.updateMember(memberUpdateRequest);
+        String token = "";
+        memberUpdateService.updateMember(memberUpdateRequest, token);
     }
 }

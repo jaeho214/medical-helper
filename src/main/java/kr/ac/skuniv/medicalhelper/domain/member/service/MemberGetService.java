@@ -20,7 +20,7 @@ public class MemberGetService {
         this.jwtService = jwtService;
     }
 
-    public MemberGetResponse selectMember(String token) {
+    public MemberGetResponse getMember(String token) {
 
         String email = jwtService.findEmailByJwt(token);
 

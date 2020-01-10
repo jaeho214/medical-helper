@@ -16,7 +16,7 @@ class CheckDuplicatedIdServiceTest {
 
     @Test
     void checkId() {
-        String userId = "jaeho214";
+        String userId = "jaeho214@naver.com";
         boolean isExist = checkDuplicatedIdService.checkId(userId);
 
         assertThat(isExist).isFalse();

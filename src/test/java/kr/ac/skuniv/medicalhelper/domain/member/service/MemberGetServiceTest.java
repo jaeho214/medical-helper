@@ -21,10 +21,10 @@ class MemberGetServiceTest {
 
     @Test
     void selectMember() {
-        MemberGetResponse memberGetResponse = memberGetService.selectMember("jaeho214");
+        MemberGetResponse memberGetResponse = memberGetService.getMember("");
 
         assertThat(memberGetResponse.getName()).isEqualTo("현재호");
-        assertThat(memberGetResponse.getPhone()).isEqualTo("010-5311-8729");
+        assertThat(memberGetResponse.getPhone()).isEqualTo("010-1111-2222");
         assertThat(memberGetResponse.getSex()).isEqualTo("male");
 
     }
