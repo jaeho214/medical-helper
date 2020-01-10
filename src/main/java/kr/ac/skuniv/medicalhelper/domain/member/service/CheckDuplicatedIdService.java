@@ -15,9 +15,9 @@ public class CheckDuplicatedIdService {
     }
 
     //true 면 중복된 아이디가 없음, 아이디 생성 가능
-    public boolean checkId(String userId){
+    public boolean checkId(String email){
 
-        if(memberRepository.existsById(userId)){
+        if(memberRepository.existsByEmail(email)){
             throw new UserDuplicationException();
         }
 

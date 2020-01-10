@@ -23,14 +23,14 @@ public class MemberSignInService {
 
     public MemberSignInResponse signInMember(MemberSignInRequest memberSignInRequest) {
 
-        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(memberSignInRequest.getUserId()).orElseThrow(MemberNotFoundException::new));
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByEmail(memberSignInRequest.getEmail()).orElseThrow(MemberNotFoundException::new));
 
         isEqualPw(member.get().getPassword(), memberSignInRequest.getPassword());
 
-        String token = jwtService.createJwt(member.get().getUserId());
+        String token = jwtService.createJwt(member.get().getEmail());
         return MemberSignInResponse.builder()
                 .token(token)
-                .userId(member.get().getUserId())
+                .email(member.get().getEmail())
                 .name(member.get().getName())
                 .build();
     }

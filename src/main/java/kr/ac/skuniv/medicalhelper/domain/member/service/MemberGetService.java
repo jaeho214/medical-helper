@@ -22,13 +22,12 @@ public class MemberGetService {
 
     public MemberGetResponse selectMember(String token) {
 
-        String userId = jwtService.findUserIdByJwt(token);
+        String email = jwtService.findEmailByJwt(token);
 
-        Optional<Member> member = memberRepository.findByUserId(userId);
-        member.orElseThrow(MemberNotFoundException::new);
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new));
 
         return MemberGetResponse.builder()
-                .userId(member.get().getUserId())
+                .email(member.get().getEmail())
                 .name(member.get().getName())
                 .phone(member.get().getPhone())
                 .birth(member.get().getBirth())

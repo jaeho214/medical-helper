@@ -21,8 +21,8 @@ public class MemberUpdateService {
     }
 
     public void updateMember(MemberUpdateRequest memberUpdateRequest, String token) {
-        String userId = jwtService.findUserIdByJwt(token);
-        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new));
+        String email = jwtService.findEmailByJwt(token);
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new));
 
         member.get().updateMember(memberUpdateRequest);
 

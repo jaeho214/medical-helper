@@ -17,10 +17,10 @@ public class MemberDeleteService {
     }
 
     public void deleteMember(String token){
-        String userId = jwtService.findUserIdByJwt(token);
+        String email = jwtService.findEmailByJwt(token);
 
-        if(memberRepository.existsById(userId)){
-            memberRepository.deleteById(userId);
+        if(memberRepository.existsByEmail(email)){
+            memberRepository.deleteByEmail(email);
             return;
         }
         throw new MemberNotFoundException();

@@ -5,7 +5,7 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberCreateRequest {
-    private String userId;
+    private String email;
     private String password;
     private String name;
     private String phone;
@@ -15,8 +15,8 @@ public class MemberCreateRequest {
     private String fcmToken;
 
     @Builder
-    public MemberCreateRequest(String userId, String password, String name, String phone, String birth, String sex, String address, String fcmToken) {
-        this.userId = userId;
+    public MemberCreateRequest(String email, String password, String name, String phone, String birth, String sex, String address, String fcmToken) {
+        this.email = email;
         this.password = password;
         this.name = name;
         this.phone = phone;

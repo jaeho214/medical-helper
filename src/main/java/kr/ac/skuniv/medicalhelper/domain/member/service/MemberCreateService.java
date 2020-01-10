@@ -16,7 +16,7 @@ public class MemberCreateService {
     }
 
     public void createMember(MemberCreateRequest memberCreateRequest){
-        if(!memberRepository.existsById(memberCreateRequest.getUserId())){
+        if(!memberRepository.existsByEmail(memberCreateRequest.getEmail())){
             memberRepository.save(Member.of(memberCreateRequest));
             return;
         }

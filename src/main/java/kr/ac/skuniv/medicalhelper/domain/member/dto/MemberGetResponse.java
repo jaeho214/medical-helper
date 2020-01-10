@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class MemberGetResponse {
-    private String userId;
+    private String email;
     private String name;
     private String phone;
     private String birth;
@@ -16,8 +16,8 @@ public class MemberGetResponse {
     //진료 횟수
 
     @Builder
-    public MemberGetResponse(String userId, String name, String phone, String birth, String sex, String address) {
-        this.userId = userId;
+    public MemberGetResponse(String email, String name, String phone, String birth, String sex, String address) {
+        this.email = email;
         this.name = name;
         this.phone = phone;
         this.birth = birth;
