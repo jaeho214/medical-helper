@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReservationGetResponse {
-    private Long rno;
+    private Long id;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING, timezone="asia/Seoul")
     private LocalDateTime reserveDate;
@@ -21,8 +21,8 @@ public class ReservationGetResponse {
     private Hospital hospital;
 
     @Builder
-    public ReservationGetResponse(Long rno, LocalDateTime reserveDate, String reserveTime, String symptom, Hospital hospital) {
-        this.rno = rno;
+    public ReservationGetResponse(Long id, LocalDateTime reserveDate, String reserveTime, String symptom, Hospital hospital) {
+        this.id = id;
         this.reserveDate = reserveDate;
         this.reserveTime = reserveTime;
         this.symptom = symptom;
@@ -31,7 +31,7 @@ public class ReservationGetResponse {
 
     public static ReservationGetResponse entity2dto(Reservation reservation){
         return ReservationGetResponse.builder()
-                .rno(reservation.getRno())
+                .id(reservation.getId())
                 .reserveDate(reservation.getReserveDate())
                 .symptom(reservation.getSymptom())
                 .hospital(reservation.getHospital())

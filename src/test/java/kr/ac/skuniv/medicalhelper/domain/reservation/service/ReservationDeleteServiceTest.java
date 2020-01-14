@@ -1,7 +1,5 @@
 package kr.ac.skuniv.medicalhelper.domain.reservation.service;
 
-import kr.ac.skuniv.medicalhelper.domain.reservation.dto.ReservationUpdateRequest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,27 +10,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class ReservationUpdateServiceTest {
+class ReservationDeleteServiceTest {
 
     @Autowired
-    ReservationUpdateService reservationUpdateService;
-
-    ReservationUpdateRequest reservationUpdateRequest;
+    ReservationDeleteService reservationDeleteService;
 
     private String token = "eyJ0eXAiOiJKV1QiLCJpc3N1ZURhdGUiOjE1NzkwMjAwNTYzMjQsImFsZyI6IkhTMjU2In0.eyJFTUFJTCI6ImphZWhvMjE0QG5hdmVyLmNvbSIsImV4cCI6MTU3OTM4MDA1Nn0.M2VzUoO_jrKhBGQPIpwHRiyEmVGjeIsRrAVxu7ECTHU";
 
-    @BeforeEach
-    void setUp(){
-        reservationUpdateRequest =
-                ReservationUpdateRequest.builder()
-                        .id(2L)
-                        .symptom("편두통")
-                        .build();
-    }
-
     @Test
-    void updateReservation() {
-        reservationUpdateService.updateReservation(reservationUpdateRequest, token);
-
+    void deleteReservation() {
+        Long id = 2L;
+        reservationDeleteService.deleteReservation(id, token);
     }
+
+//    @Test
+//    void deleteReservation_NotFoundException() {
+//        Long id = 10L;
+//        reservationDeleteService.deleteReservation(id, token);
+//    }
+//
+//    @Test
+//    void deleteReservation_UnauthorizedException() {
+//        Long id = 2L;
+//        String token = "wrongToken";
+//        reservationDeleteService.deleteReservation(id, token);
+//    }
 }

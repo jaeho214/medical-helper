@@ -31,34 +31,31 @@ class ReservationCreateServiceTest {
     private ReservationCreateService reservationCreateService;
 
     @Autowired
-    private ReservationRepository reservationRepository;
-
-    @Autowired
     HospitalRepository hospitalRepository;
 
     private ReservationCreateRequest reservationCreateRequest;
-    private String userId = "jaeho214";
+    private String token = "eyJ0eXAiOiJKV1QiLCJpc3N1ZURhdGUiOjE1NzkwMjAwNTYzMjQsImFsZyI6IkhTMjU2In0.eyJFTUFJTCI6ImphZWhvMjE0QG5hdmVyLmNvbSIsImV4cCI6MTU3OTM4MDA1Nn0.M2VzUoO_jrKhBGQPIpwHRiyEmVGjeIsRrAVxu7ECTHU";
     @BeforeEach
     void setUp(){
         Optional<Hospital> hospital = hospitalRepository.findById(11L);
 
         reservationCreateRequest = ReservationCreateRequest.builder()
-                                    .symptom("두통")
-                                    .reserveDate(LocalDateTime.of(2020,1,2,15,00))
+                                    .symptom("생리통")
+                                    .reserveDate(LocalDateTime.of(2020,1,14,13,00))
                                     .hospital(hospital.get())
                                     .build();
     }
 
     @Test
     void createReservation() {
-        reservationCreateService.createReservation(reservationCreateRequest, userId);
+        reservationCreateService.createReservation(reservationCreateRequest, token);
 
     }
-    @Test
-    void createReservation_duplicateException(){
-        reservationCreateRequest.setSymptom("생리통");
-        reservationCreateService.createReservation(reservationCreateRequest, userId);
-    }
+//    @Test
+//    void createReservation_duplicateException(){
+//        reservationCreateRequest.setSymptom("치통");
+//        reservationCreateService.createReservation(reservationCreateRequest, token);
+//    }
 
 
 }

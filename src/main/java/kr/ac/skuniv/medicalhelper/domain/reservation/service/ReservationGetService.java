@@ -29,11 +29,11 @@ public class ReservationGetService {
 
     public List<ReservationGetResponse> getAllReservations(String token) {
 
-        String userId = jwtService.findUserIdByJwt(token);
+        String email = jwtService.findEmailByJwt(token);
 
-        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new));
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
-        List<Reservation> reservationList = reservationRepository.findAllByMember(member.get());
+        List<Reservation> reservationList = reservationRepository.findAllByMember(member);
 
         if (reservationList.isEmpty())
             throw new ReservationNotFoundException();
@@ -44,22 +44,22 @@ public class ReservationGetService {
     }
 
 
-    public ReservationGetResponse getReservation(Long rno, String token) {
-        String userId = jwtService.findUserIdByJwt(token);
+    public ReservationGetResponse getReservation(Long id, String token) {
+        String email = jwtService.findEmailByJwt(token);
 
-        if(memberRepository.existsById(userId)){
-            Optional<Reservation> reservation = Optional.ofNullable(reservationRepository.findById(rno).orElseThrow(ReservationNotFoundException::new));
+        if(memberRepository.existsByEmail(email)){
+            Reservation reservation = reservationRepository.findById(id).orElseThrow(ReservationNotFoundException::new);
 
-            checkMember(reservation.get(), userId);
+            checkMember(reservation, email);
 
-            return ReservationGetResponse.entity2dto(reservation.get());
+            return ReservationGetResponse.entity2dto(reservation);
         }
         throw new MemberNotFoundException();
 
     }
 
     private void checkMember(Reservation reservation, String requestUser) {
-        if(reservation.getMember().getUserId().equals(requestUser))
+        if(reservation.getMember().getEmail().equals(requestUser))
             return;
         throw new ReservationNotFoundException();
 

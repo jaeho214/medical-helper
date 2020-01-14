@@ -6,12 +6,12 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReservationUpdateRequest {
-    private Long rno;
+    private Long id;
     private String symptom;
 
     @Builder
-    public ReservationUpdateRequest(Long rno, String symptom) {
-        this.rno = rno;
+    public ReservationUpdateRequest(Long id, String symptom) {
+        this.id = id;
         this.symptom = symptom;
     }
 }

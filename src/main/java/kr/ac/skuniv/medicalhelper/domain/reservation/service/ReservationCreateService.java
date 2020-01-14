@@ -29,9 +29,9 @@ public class ReservationCreateService {
 
     public void createReservation(ReservationCreateRequest reservationCreateRequest, String token) {
 
-        String userId = jwtService.findUserIdByJwt(token);
+        String email = jwtService.findEmailByJwt(token);
 
-        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new));
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
         Optional.ofNullable(reservationCreateRequest).orElseThrow(ReservationRequestInvalidException::new);
 
@@ -42,18 +42,16 @@ public class ReservationCreateService {
                         .reserveDate(reservationCreateRequest.getReserveDate())
                         .symptom(reservationCreateRequest.getSymptom())
                         .hospital(reservationCreateRequest.getHospital())
-                        .member(member.get())
+                        .member(member)
                         .build();
 
         reservationRepository.save(reservation);
 
     }
 
-    //TODO: 수정필요
     private void checkDuplicatedReservation(ReservationCreateRequest reservationCreateRequest) {
 
-        Optional<Reservation> reservation = reservationRepository.findByHospitalAndReserveDate(reservationCreateRequest.getHospital(), reservationCreateRequest.getReserveDate());
-        if(reservation.isPresent())
+        if(reservationRepository.findByHospitalAndReserveDate(reservationCreateRequest.getHospital(), reservationCreateRequest.getReserveDate()).isPresent())
             throw new ReservationCannotException();
 
         return;

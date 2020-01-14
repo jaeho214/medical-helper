@@ -26,10 +26,10 @@ public class ReservationController {
         return reservationGetService.getAllReservations(token);
     }
 
-    @GetMapping(value = "/{rno}")
-    public ReservationGetResponse getReservation(@PathVariable Long rno,
+    @GetMapping(value = "/{id}")
+    public ReservationGetResponse getReservation(@PathVariable Long id,
                                                  @RequestHeader("token") String token){
-        return reservationGetService.getReservation(rno, token);
+        return reservationGetService.getReservation(id, token);
     }
 
     @PostMapping
@@ -44,9 +44,9 @@ public class ReservationController {
         reservationUpdateService.updateReservation(reservationUpdateRequest, token);
     }
 
-    @DeleteMapping(value = "/{rno}")
-    public void deleteReservation(@PathVariable Long rno,
+    @DeleteMapping(value = "/{id}")
+    public void deleteReservation(@PathVariable Long id,
                                   @RequestHeader("token") String token){
-        reservationDeleteService.deleteReservation(rno, token);
+        reservationDeleteService.deleteReservation(id, token);
     }
 }

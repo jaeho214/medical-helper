@@ -24,21 +24,21 @@ public class ReservationUpdateService {
     }
 
     public void updateReservation(ReservationUpdateRequest reservationUpdateRequest, String token) {
-        String userId = jwtService.findUserIdByJwt(token);
+        String email = jwtService.findEmailByJwt(token);
 
         Optional.ofNullable(reservationUpdateRequest).orElseThrow(ReservationRequestInvalidException::new);
 
-        Optional<Reservation> reservation = Optional.ofNullable(reservationRepository.findById(reservationUpdateRequest.getRno()).orElseThrow(ReservationNotFoundException::new));
+        Reservation reservation = reservationRepository.findById(reservationUpdateRequest.getId()).orElseThrow(ReservationNotFoundException::new);
 
-        checkValidMember(reservation.get(), userId);
+        checkValidMember(reservation, email);
 
-        reservation.get().updateSymptom(reservationUpdateRequest.getSymptom());
+        reservation.updateSymptom(reservationUpdateRequest.getSymptom());
 
-        reservationRepository.save(reservation.get());
+        reservationRepository.save(reservation);
     }
 
-    private void checkValidMember(Reservation reservation, String userId) {
-        if(reservation.getMember().getUserId().equals(userId))
+    private void checkValidMember(Reservation reservation, String email) {
+        if(reservation.getMember().getEmail().equals(email))
             return;
         throw new UnauthorizedUserException();
     }

@@ -19,20 +19,20 @@ public class ReservationDeleteService {
         this.jwtService = jwtService;
     }
 
-    public void deleteReservation(Long rno, String token) {
+    public void deleteReservation(Long id, String token) {
 
-        String userId = jwtService.findUserIdByJwt(token);
+        String email = jwtService.findEmailByJwt(token);
 
-        Optional<Reservation> reservation = Optional.ofNullable(reservationRepository.findById(rno).orElseThrow(ReservationNotFoundException::new));
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(ReservationNotFoundException::new);
 
-        checkValidMember(reservation.get(), userId);
-
-        reservationRepository.delete(reservation.get());
+        checkValidMember(reservation, email);
+        //reservation.delete();
+        reservationRepository.delete(reservation);
 
     }
 
-    private void checkValidMember(Reservation reservation, String userId) {
-        if(reservation.getMember().getUserId().equals(userId)){
+    private void checkValidMember(Reservation reservation, String email) {
+        if(reservation.getMember().getEmail().equals(email)){
             return;
         }
         throw new UnauthorizedUserException();

@@ -17,25 +17,26 @@ class ReservationGetServiceTest {
     @Autowired
     ReservationGetService reservationGetService;
 
+    private String token = "eyJ0eXAiOiJKV1QiLCJpc3N1ZURhdGUiOjE1NzkwMjAwNTYzMjQsImFsZyI6IkhTMjU2In0.eyJFTUFJTCI6ImphZWhvMjE0QG5hdmVyLmNvbSIsImV4cCI6MTU3OTM4MDA1Nn0.M2VzUoO_jrKhBGQPIpwHRiyEmVGjeIsRrAVxu7ECTHU";
+
     @Test
     void getAllReservations() {
-        String userId = "jaeho214";
 
-        List<ReservationGetResponse> reservations = reservationGetService.getAllReservations(userId);
+        List<ReservationGetResponse> reservations = reservationGetService.getAllReservations(token);
 
         assertThat(reservations).isNotNull();
-        assertThat(reservations.get(0).getSymptom()).isEqualTo("복통");
+        assertThat(reservations.get(0).getSymptom()).isEqualTo("두통");
         assertThat(reservations.size()).isEqualTo(2);
     }
 
     @Test
     void getReservation(){
-        String userId = "jaeho214";
-        Long rno = 1L;
 
-        ReservationGetResponse reservation = reservationGetService.getReservation(rno, userId);
+        Long id = 1L;
 
-        assertThat(reservation.getSymptom()).isEqualTo("복통");
+        ReservationGetResponse reservation = reservationGetService.getReservation(id, token);
+
+        assertThat(reservation.getSymptom()).isEqualTo("두통");
     }
 
     @Test

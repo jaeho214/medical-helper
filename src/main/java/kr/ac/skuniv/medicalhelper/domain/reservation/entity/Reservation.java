@@ -2,6 +2,7 @@ package kr.ac.skuniv.medicalhelper.domain.reservation.entity;
 
 import kr.ac.skuniv.medicalhelper.domain.hospital.entity.Hospital;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
+import kr.ac.skuniv.medicalhelper.global.common.JpaBasePersistable;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,9 +12,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Reservation {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rno;
+@Table(name = "reservation")
+@AttributeOverride(name = "id", column = @Column(name="reservation_id"))
+public class Reservation extends JpaBasePersistable {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime reserveDate;
