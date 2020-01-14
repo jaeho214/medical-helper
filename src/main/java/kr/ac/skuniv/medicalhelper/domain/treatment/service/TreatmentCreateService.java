@@ -4,10 +4,10 @@ import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.domain.member.exception.MemberNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
 import kr.ac.skuniv.medicalhelper.domain.treatment.dto.TreatmentCreateRequest;
-import kr.ac.skuniv.medicalhelper.domain.treatment.entity.DrugImage;
+import kr.ac.skuniv.medicalhelper.domain.drugImage.entity.DrugImage;
 import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
 import kr.ac.skuniv.medicalhelper.domain.treatment.exception.TreatmentRequestInvalidException;
-import kr.ac.skuniv.medicalhelper.domain.treatment.repository.DrugImageRepository;
+import kr.ac.skuniv.medicalhelper.domain.drugImage.repository.DrugImageRepository;
 import kr.ac.skuniv.medicalhelper.domain.treatment.repository.TreatmentRepository;
 import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.core.env.Environment;
@@ -42,9 +42,9 @@ public class TreatmentCreateService {
     }
 
     public void createTreatment(TreatmentCreateRequest treatmentCreateRequest, MultipartFile imageFile, String token) throws IOException {
-        String userId = jwtService.findUserIdByJwt(token);
+        String email = jwtService.findEmailByJwt(token);
 
-        Optional<Member> member = Optional.ofNullable(memberRepository.findByUserId(userId).orElseThrow(MemberNotFoundException::new));
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
         Optional.ofNullable(treatmentCreateRequest).orElseThrow(TreatmentRequestInvalidException::new);
 
@@ -54,12 +54,12 @@ public class TreatmentCreateService {
                 .solution(treatmentCreateRequest.getSolution())
                 .title(treatmentCreateRequest.getTitle())
                 .drug(treatmentCreateRequest.getDrug())
-                .member(member.get())
+                .member(member)
                 .build();
 
         treatmentRepository.save(treatment);
 
-        if (!imageFile.isEmpty()) {
+        if (imageFile != null) {
             DrugImage drugImage = saveImage(imageFile, treatment);
             drugImageRepository.save(drugImage);
         }
@@ -77,7 +77,7 @@ public class TreatmentCreateService {
         imageFile.transferTo(destinationFile);
 
         String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/medicalHelper/drug/image/" + treatment.getTno())
+                .path("/medicalHelper/drug/image/" + treatment.getId())
                 .toUriString();
 
         return DrugImage.builder()

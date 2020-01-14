@@ -1,7 +1,7 @@
 package kr.ac.skuniv.medicalhelper.domain.treatment.dto;
 
 import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
-import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Drug;
+import kr.ac.skuniv.medicalhelper.domain.drug.entity.Drug;
 import lombok.*;
 
 @Getter @Setter

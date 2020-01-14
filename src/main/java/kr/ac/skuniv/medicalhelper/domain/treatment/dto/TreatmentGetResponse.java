@@ -1,5 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.treatment.dto;
 
+import kr.ac.skuniv.medicalhelper.domain.drug.entity.Drug;
 import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
 import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
 import lombok.*;
@@ -7,28 +8,31 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TreatmentGetResponse {
-    private Long tno;
+    private Long id;
     private String title;
     private String solution;
     private String doctorName;
     private Reservation reservation;
+    private Drug drug;
 
     @Builder
-    public TreatmentGetResponse(Long tno, String title, String solution, String doctorName, Reservation reservation) {
-        this.tno = tno;
+    public TreatmentGetResponse(Long id, String title, String solution, String doctorName, Reservation reservation, Drug drug) {
+        this.id = id;
         this.title = title;
         this.solution = solution;
         this.doctorName = doctorName;
         this.reservation = reservation;
+        this.drug = drug;
     }
 
     public static TreatmentGetResponse entity2dto(Treatment treatment){
         return TreatmentGetResponse.builder()
-                .tno(treatment.getTno())
+                .id(treatment.getId())
                 .title(treatment.getTitle())
                 .solution(treatment.getSolution())
                 .doctorName(treatment.getDoctor())
                 .reservation(treatment.getReservation())
+                .drug(treatment.getDrug())
                 .build();
     }
 

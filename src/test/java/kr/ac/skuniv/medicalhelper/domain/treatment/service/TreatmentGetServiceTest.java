@@ -16,16 +16,25 @@ class TreatmentGetServiceTest {
     @Autowired
     TreatmentGetService treatmentGetService;
 
+    private String token = "eyJ0eXAiOiJKV1QiLCJpc3N1ZURhdGUiOjE1NzkwMjAwNTYzMjQsImFsZyI6IkhTMjU2In0.eyJFTUFJTCI6ImphZWhvMjE0QG5hdmVyLmNvbSIsImV4cCI6MTU3OTM4MDA1Nn0.M2VzUoO_jrKhBGQPIpwHRiyEmVGjeIsRrAVxu7ECTHU";
+
     @Test
     void getAllTreatments() {
-        //given
-        String userId = "jaeho214";
+
 
         //when
-        List<TreatmentGetResponse> treatments = treatmentGetService.getAllTreatments(userId);
+        List<TreatmentGetResponse> treatments = treatmentGetService.getAllTreatments(token);
 
         //then
-        assertThat(treatments.get(0).getTitle()).isEqualTo("비만");
-        assertThat(treatments.get(0).getDoctorName()).isEqualTo("박의사");
+        assertThat(treatments.get(0).getTitle()).isEqualTo("감기");
+        assertThat(treatments.get(0).getDoctorName()).isEqualTo("이국종");
+        assertThat(treatments.size()).isEqualTo(1);
+    }
+
+    @Test
+    void getTreatment(){
+        TreatmentGetResponse treatment = treatmentGetService.getTreatment(4L, token);
+
+        assertThat(treatment.getDoctorName()).isEqualTo("이국종");
     }
 }

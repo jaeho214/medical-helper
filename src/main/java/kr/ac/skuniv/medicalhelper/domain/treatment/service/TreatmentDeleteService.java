@@ -19,18 +19,17 @@ public class TreatmentDeleteService {
         this.jwtService = jwtService;
     }
 
-    public void deleteTreatment(Long tno, String token){
-        String userId = jwtService.findUserIdByJwt(token);
+    public void deleteTreatment(Long id, String token){
+        String email = jwtService.findEmailByJwt(token);
 
-        Optional<Treatment> deleteTreatment = Optional.ofNullable(treatmentRepository.findById(tno).orElseThrow(TreatmentNotFoundException::new));
+        Treatment treatment = treatmentRepository.findById(id).orElseThrow(TreatmentNotFoundException::new);
 
-        checkValidMember(deleteTreatment.get(), userId);
-
-        treatmentRepository.delete(deleteTreatment.get());
+        checkValidMember(treatment, email);
+        treatmentRepository.delete(treatment);
     }
 
-    private void checkValidMember(Treatment treatment, String deleteTreatmentUser) {
-        if(treatment.getMember().getUserId().equals(deleteTreatmentUser))
+    private void checkValidMember(Treatment treatment, String email) {
+        if(treatment.getMember().getEmail().equals(email))
             return;
         throw new UnauthorizedUserException();
     }

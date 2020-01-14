@@ -1,8 +1,10 @@
 package kr.ac.skuniv.medicalhelper.domain.treatment.entity;
 
+import kr.ac.skuniv.medicalhelper.domain.drug.entity.Drug;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
 import kr.ac.skuniv.medicalhelper.domain.treatment.dto.TreatmentUpdateRequest;
+import kr.ac.skuniv.medicalhelper.global.common.JpaBasePersistable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,9 +12,9 @@ import javax.persistence.*;
 @Entity
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Treatment {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tno;
+@Table(name = "treatment")
+@AttributeOverride(name = "id", column = @Column(name="treatment_id"))
+public class Treatment extends JpaBasePersistable {
 
     private String title; // 진단명
     private String solution; // 받은 처방 기록
@@ -26,8 +28,8 @@ public class Treatment {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "drug_no")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "drug_id")
     private Drug drug;
 
     @Builder

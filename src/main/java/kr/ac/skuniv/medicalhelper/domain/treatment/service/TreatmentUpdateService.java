@@ -2,11 +2,11 @@ package kr.ac.skuniv.medicalhelper.domain.treatment.service;
 
 import kr.ac.skuniv.medicalhelper.domain.member.exception.UnauthorizedUserException;
 import kr.ac.skuniv.medicalhelper.domain.treatment.dto.TreatmentUpdateRequest;
-import kr.ac.skuniv.medicalhelper.domain.treatment.entity.DrugImage;
+import kr.ac.skuniv.medicalhelper.domain.drugImage.entity.DrugImage;
 import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
 import kr.ac.skuniv.medicalhelper.domain.treatment.exception.TreatmentNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.treatment.exception.TreatmentRequestInvalidException;
-import kr.ac.skuniv.medicalhelper.domain.treatment.repository.DrugImageRepository;
+import kr.ac.skuniv.medicalhelper.domain.drugImage.repository.DrugImageRepository;
 import kr.ac.skuniv.medicalhelper.domain.treatment.repository.TreatmentRepository;
 import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
@@ -29,34 +29,34 @@ public class TreatmentUpdateService {
         this.jwtService = jwtService;
     }
 
-    public void updateTreatment(MultipartFile imageFile, TreatmentUpdateRequest treatmentUpdateRequest, String token) throws IOException {
-        String userId = jwtService.findUserIdByJwt(token);
+    public void updateTreatment(TreatmentUpdateRequest treatmentUpdateRequest, MultipartFile imageFile, String token) throws IOException {
+        String email = jwtService.findEmailByJwt(token);
 
         Optional.ofNullable(treatmentUpdateRequest).orElseThrow(TreatmentRequestInvalidException::new);
 
-        if(!imageFile.isEmpty())
-            updateImage(imageFile, treatmentUpdateRequest.getTno());
+        if(imageFile != null)
+            updateImage(imageFile, treatmentUpdateRequest.getId());
 
-        Optional<Treatment> treatment = Optional.ofNullable(treatmentRepository.findById(treatmentUpdateRequest.getTno()).orElseThrow(TreatmentNotFoundException::new));
+        Treatment treatment = treatmentRepository.findById(treatmentUpdateRequest.getId()).orElseThrow(TreatmentNotFoundException::new);
 
-        checkValidMember(treatment.get(), userId);
+        checkValidMember(treatment, email);
 
-        treatment.get().updateTreatment(treatmentUpdateRequest);
+        treatment.updateTreatment(treatmentUpdateRequest);
 
-        treatmentRepository.save(treatment.get());
+        treatmentRepository.save(treatment);
     }
 
     private void checkValidMember(Treatment treatment, String updateTreatmentUser) {
-        if(treatment.getMember().getUserId().equals(updateTreatmentUser))
+        if(treatment.getMember().getEmail().equals(updateTreatmentUser))
             return;
         throw new UnauthorizedUserException();
     }
 
-    private void updateImage(MultipartFile imageFile, Long tno) throws IOException {
-        Optional<Treatment> treatment = Optional.ofNullable(treatmentRepository.findById(tno).orElseThrow(TreatmentNotFoundException::new));
+    private void updateImage(MultipartFile imageFile, Long id) throws IOException {
+        Treatment treatment = treatmentRepository.findById(id).orElseThrow(TreatmentNotFoundException::new);
 
-        DrugImage drugImage = drugImageRepository.findByTreatment(treatment.get());
-        DrugImage updateDrugImage = treatmentCreateService.saveImage(imageFile, treatment.get());
+        DrugImage drugImage = drugImageRepository.findByTreatment(treatment);
+        DrugImage updateDrugImage = treatmentCreateService.saveImage(imageFile, treatment);
 
         drugImage.updateDrugImage(updateDrugImage);
         drugImageRepository.save(drugImage);

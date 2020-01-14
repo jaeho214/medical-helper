@@ -34,10 +34,10 @@ public class TreatmentController {
         return treatmentGetService.getAllTreatments(token);
     }
 
-    @GetMapping(value = "/{tno}")
-    public TreatmentGetResponse getTreatment(@PathVariable Long tno,
+    @GetMapping(value = "/{id}")
+    public TreatmentGetResponse getTreatment(@PathVariable Long id,
                                              @RequestHeader("token") String token){
-        return treatmentGetService.getTreatment(tno, token);
+        return treatmentGetService.getTreatment(id, token);
     }
 
     //처방 기록 작성하기
@@ -55,20 +55,20 @@ public class TreatmentController {
                                         @RequestParam String json,
                                         @RequestHeader("token") String token) throws Exception {
         TreatmentUpdateRequest treatmentUpdateRequest = objectMapper.readValue(json, TreatmentUpdateRequest.class);
-        treatmentUpdateService.updateTreatment(imageFile, treatmentUpdateRequest, token);
+        treatmentUpdateService.updateTreatment(treatmentUpdateRequest, imageFile, token);
     }
 
     //처방 기록 삭제하기
-    @DeleteMapping(value = "/{tno}")
-    public void deleteTreatment(@PathVariable Long tno,
+    @DeleteMapping(value = "/{id}")
+    public void deleteTreatment(@PathVariable Long id,
                                 @RequestHeader("token") String token){
-        treatmentDeleteService.deleteTreatment(tno, token);
+        treatmentDeleteService.deleteTreatment(id, token);
     }
 
-    @GetMapping(value = "/image/{tno}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImage(@PathVariable Long tno){
+    @GetMapping(value = "/image/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id){
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG)
-                .body(treatmentGetService.getImageResource(tno));
+                .body(treatmentGetService.getImageResource(id));
     }
 
 }
