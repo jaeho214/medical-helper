@@ -13,6 +13,11 @@ public interface TreatmentRepository extends JpaRepository<Treatment, Long> {
     List<Treatment> findAllByMember(Member member);
     Optional<Treatment> findByDrug(Drug drug);
 
-    @Query("select t from Treatment t join fetch t.member where t.id=:id")
+    @Query("select t " +
+            "from Treatment t " +
+            "join fetch t.member " +
+            "join fetch t.drug " +
+            "join fetch t.reservation " +
+            "where t.id=:id")
     Optional<Treatment> findById(Long id);
 }

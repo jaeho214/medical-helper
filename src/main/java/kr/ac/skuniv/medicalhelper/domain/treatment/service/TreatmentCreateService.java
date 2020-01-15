@@ -1,8 +1,13 @@
 package kr.ac.skuniv.medicalhelper.domain.treatment.service;
 
+import kr.ac.skuniv.medicalhelper.domain.drug.entity.Drug;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.domain.member.exception.MemberNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
+import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
+import kr.ac.skuniv.medicalhelper.domain.reservation.entity.ReservationStatus;
+import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationNotFoundException;
+import kr.ac.skuniv.medicalhelper.domain.reservation.repository.ReservationRepository;
 import kr.ac.skuniv.medicalhelper.domain.treatment.dto.TreatmentCreateRequest;
 import kr.ac.skuniv.medicalhelper.domain.drugImage.entity.DrugImage;
 import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
@@ -29,13 +34,15 @@ public class TreatmentCreateService {
 
     private TreatmentRepository treatmentRepository;
     private DrugImageRepository drugImageRepository;
+    private ReservationRepository reservationRepository;
     private MemberRepository memberRepository;
     private JwtService jwtService;
     private Environment environment;
 
-    public TreatmentCreateService(TreatmentRepository treatmentRepository, DrugImageRepository drugImageRepository, MemberRepository memberRepository, JwtService jwtService, Environment environment) {
+    public TreatmentCreateService(TreatmentRepository treatmentRepository, DrugImageRepository drugImageRepository, ReservationRepository reservationRepository, MemberRepository memberRepository, JwtService jwtService, Environment environment) {
         this.treatmentRepository = treatmentRepository;
         this.drugImageRepository = drugImageRepository;
+        this.reservationRepository = reservationRepository;
         this.memberRepository = memberRepository;
         this.jwtService = jwtService;
         this.environment = environment;
@@ -46,14 +53,26 @@ public class TreatmentCreateService {
 
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
+        Reservation reservation = reservationRepository.findById(treatmentCreateRequest.getReservationId()).orElseThrow(ReservationNotFoundException::new);
+
+        reservation.updateStatus(ReservationStatus.valueOf("처방완료"));
+
         Optional.ofNullable(treatmentCreateRequest).orElseThrow(TreatmentRequestInvalidException::new);
+
+        Drug drug =
+                Drug.builder()
+                        .breakfast(treatmentCreateRequest.isBreakfast())
+                        .lunch(treatmentCreateRequest.isLunch())
+                        .dinner(treatmentCreateRequest.isDinner())
+                        .deadline(treatmentCreateRequest.getDeadline())
+                        .build();
 
         Treatment treatment = Treatment.builder()
                 .doctor(treatmentCreateRequest.getDoctorName())
-                .reservation(treatmentCreateRequest.getReservation())
+                .reservation(reservation)
                 .solution(treatmentCreateRequest.getSolution())
                 .title(treatmentCreateRequest.getTitle())
-                .drug(treatmentCreateRequest.getDrug())
+                .drug(drug)
                 .member(member)
                 .build();
 

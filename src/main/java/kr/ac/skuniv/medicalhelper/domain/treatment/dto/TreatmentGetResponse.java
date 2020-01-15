@@ -12,16 +12,14 @@ public class TreatmentGetResponse {
     private String title;
     private String solution;
     private String doctorName;
-    private Reservation reservation;
     private Drug drug;
 
     @Builder
-    public TreatmentGetResponse(Long id, String title, String solution, String doctorName, Reservation reservation, Drug drug) {
+    public TreatmentGetResponse(Long id, String title, String solution, String doctorName, Drug drug) {
         this.id = id;
         this.title = title;
         this.solution = solution;
         this.doctorName = doctorName;
-        this.reservation = reservation;
         this.drug = drug;
     }
 
@@ -31,7 +29,6 @@ public class TreatmentGetResponse {
                 .title(treatment.getTitle())
                 .solution(treatment.getSolution())
                 .doctorName(treatment.getDoctor())
-                .reservation(treatment.getReservation())
                 .drug(treatment.getDrug())
                 .build();
     }

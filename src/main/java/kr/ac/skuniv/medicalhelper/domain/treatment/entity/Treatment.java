@@ -46,7 +46,5 @@ public class Treatment extends JpaBasePersistable {
         this.title = treatmentUpdateRequest.getTitle();
         this.solution = treatmentUpdateRequest.getSolution();
         this.doctor = treatmentUpdateRequest.getDoctorName();
-        this.reservation = treatmentUpdateRequest.getReservation();
-        this.drug = treatmentUpdateRequest.getDrug();
     }
 }

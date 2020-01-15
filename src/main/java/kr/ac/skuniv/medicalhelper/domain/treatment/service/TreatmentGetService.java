@@ -49,7 +49,6 @@ public class TreatmentGetService {
         return treatments.stream()
                 .map(TreatmentGetResponse::entity2dto)
                 .collect(Collectors.toList());
-
     }
 
     public TreatmentGetResponse getTreatment(Long id, String token) {
