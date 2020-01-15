@@ -2,11 +2,13 @@ package kr.ac.skuniv.medicalhelper.domain.reservation.service;
 
 import kr.ac.skuniv.medicalhelper.domain.member.exception.UnauthorizedUserException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
+import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationCannotCancelException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.repository.ReservationRepository;
 import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -25,11 +27,13 @@ public class ReservationDeleteService {
 
         Reservation reservation = reservationRepository.findById(id).orElseThrow(ReservationNotFoundException::new);
 
+
         checkValidMember(reservation, email);
         //reservation.delete();
         reservationRepository.delete(reservation);
 
     }
+
 
     private void checkValidMember(Reservation reservation, String email) {
         if(reservation.getMember().getEmail().equals(email)){

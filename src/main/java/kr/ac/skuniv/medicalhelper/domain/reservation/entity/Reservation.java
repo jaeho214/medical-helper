@@ -3,6 +3,7 @@ package kr.ac.skuniv.medicalhelper.domain.reservation.entity;
 import kr.ac.skuniv.medicalhelper.domain.hospital.entity.Hospital;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.global.common.JpaBasePersistable;
+import kr.ac.skuniv.medicalhelper.global.config.BooleanToYNConverter;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,16 +29,26 @@ public class Reservation extends JpaBasePersistable {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus status;
+
     @Builder
-    public Reservation(Hospital hospital, LocalDateTime reserveDate, String symptom, Member member) {
-        this.hospital = hospital;
+    public Reservation(LocalDateTime reserveDate, String symptom, Hospital hospital, Member member, ReservationStatus status) {
         this.reserveDate = reserveDate;
         this.symptom = symptom;
+        this.hospital = hospital;
         this.member = member;
+        this.status = status;
     }
+
+
 
     public void updateSymptom(String symptom){
         this.symptom = symptom;
+    }
+
+    public void updateStatus(ReservationStatus status){
+        this.status = status;
     }
 
 }

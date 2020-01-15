@@ -11,9 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+
+    @Query("select r from Reservation r join fetch r.hospital where r.member = :member")
     List<Reservation> findAllByMember(Member member);
+
     Optional<Reservation> findByHospitalAndReserveDate(Hospital hospital, LocalDateTime reserveDate);
 
-    @Query("select r from Reservation r join fetch r.member where r.id=:id")
+    @Query("select r from Reservation r join fetch r.member join fetch r.hospital where r.id=:id")
     Optional<Reservation> findById(Long id);
 }

@@ -5,11 +5,13 @@ import kr.ac.skuniv.medicalhelper.domain.member.exception.MemberNotFoundExceptio
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
 import kr.ac.skuniv.medicalhelper.domain.reservation.dto.ReservationGetResponse;
 import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
+import kr.ac.skuniv.medicalhelper.domain.reservation.entity.ReservationStatus;
 import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.repository.ReservationRepository;
 import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +37,7 @@ public class ReservationGetService {
 
         List<Reservation> reservationList = reservationRepository.findAllByMember(member);
 
-        if (reservationList.isEmpty())
+        if (reservationList==null)
             throw new ReservationNotFoundException();
 
         return reservationList.stream()
@@ -57,6 +59,8 @@ public class ReservationGetService {
         throw new MemberNotFoundException();
 
     }
+
+
 
     private void checkMember(Reservation reservation, String requestUser) {
         if(reservation.getMember().getEmail().equals(requestUser))
