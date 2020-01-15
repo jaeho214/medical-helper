@@ -11,21 +11,29 @@ import java.util.List;
 import java.util.Optional;
 
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
-    List<Hospital> findByNameContaining(String name);
     Page<Hospital> findByCityCodeName(String cityCode, Pageable pageable);
     Page<Hospital> findByCityCodeNameAndNameContaining(String cityCode, String hospitalCode, Pageable pageable);
 
     @Query(nativeQuery = true, value = "select *, (6371*acos(cos(radians(:yPos))*cos(radians(h.y_pos))*cos(radians(h.x_pos)-radians(:xPos)) \n" +
-            "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from Hospital h having distance < 7 order by distance asc limit :pageNum, 10;")
+            "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from Hospital h " +
+            "where h.name like CONCAT('%', :name, '%') order by distance asc limit :pageNo, 10 ; ")
+    List<Hospital> findByNameContaining(@Param("xPos") String xPos,
+                                        @Param("yPos") String yPos,
+                                        @Param("name") String name,
+                                        @Param("pageNo") int pageNo);
+
+
+    @Query(nativeQuery = true, value = "select *, (6371*acos(cos(radians(:yPos))*cos(radians(h.y_pos))*cos(radians(h.x_pos)-radians(:xPos)) \n" +
+            "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from Hospital h having distance < 7 order by distance asc limit :pageNo, 10;")
     List<Hospital> findByXPosAndYPos(@Param("xPos") String xPos,
                                      @Param("yPos") String yPos,
-                                     @Param("pageNum") int pageNum);
+                                     @Param("pageNo") int pageNo);
 
     @Query(nativeQuery = true, value = "select *, (6371*acos(cos(radians(:yPos))*cos(radians(h.y_pos))*cos(radians(h.x_pos)-radians(:xPos)) \n" +
             "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from Hospital h " +
-            "where h.name like CONCAT('%', :hospitalCode, '%') having distance < 7  order by distance asc limit :pageNum, 10 ; ")
+            "where h.name like CONCAT('%', :hospitalCode, '%') having distance < 7  order by distance asc limit :pageNo, 10 ; ")
     List<Hospital> findByHospitalCode(@Param("xPos") String xPos,
                                       @Param("yPos") String yPos,
                                       @Param("hospitalCode")String hospitalCode,
-                                      @Param("pageNum") int pageNum);
+                                      @Param("pageNo") int pageNo);
 }

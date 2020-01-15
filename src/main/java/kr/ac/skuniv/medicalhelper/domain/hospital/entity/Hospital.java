@@ -1,6 +1,7 @@
 package kr.ac.skuniv.medicalhelper.domain.hospital.entity;
 
 import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.entity.HospitalComment;
+import kr.ac.skuniv.medicalhelper.global.common.JpaBasePersistable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,10 +14,9 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Hospital {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long hospitalNo;
+@Table(name = "hospital")
+@AttributeOverride(name = "id", column = @Column(name="hospital_id"))
+public class Hospital extends JpaBasePersistable {
 
     private String name;
     private String tel;

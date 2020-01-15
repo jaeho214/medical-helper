@@ -2,10 +2,7 @@ package kr.ac.skuniv.medicalhelper.domain.hospital.controller;
 
 import kr.ac.skuniv.medicalhelper.domain.hospital.dto.HospitalGetResponse;
 import kr.ac.skuniv.medicalhelper.domain.hospital.service.HospitalGetService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,43 +16,46 @@ public class HospitalController {
         this.hospitalGetService = hospitalGetService;
     }
 
-    @GetMapping("/{name}")
-    public List<HospitalGetResponse> getHospitalByName(@PathVariable String name){
-        return hospitalGetService.getHospitalByName(name);
+    @GetMapping("/gps/{xPos}/{yPos}/{name}")
+    public List<HospitalGetResponse> getHospitalByName(@PathVariable String xPos,
+                                                       @PathVariable String yPos,
+                                                       @PathVariable String name,
+                                                       @RequestParam("pageNo") int pageNo){
+        return hospitalGetService.getHospitalByName(xPos,yPos,name,pageNo);
     }
 
-    @GetMapping("myLocation/{pageNum}/{xPos}/{yPos}")
+    @GetMapping("/gps/{xPos}/{yPos}")
     public List<HospitalGetResponse> getHospitalByGps(@PathVariable String xPos,
                                                       @PathVariable String yPos,
-                                                      @PathVariable int pageNum){
-        return hospitalGetService.getHospitalByGps(xPos, yPos, pageNum);
+                                                      @RequestParam("pageNo") int pageNo){
+        return hospitalGetService.getHospitalAround(xPos, yPos, pageNo);
     }
 
-    @GetMapping("myLocation/{pageNum}/{xPos}/{yPos}/{hospitalCode}")
+    @GetMapping("/gps/{xPos}/{yPos}/{hospitalCode}")
     public List<HospitalGetResponse> getHospitalByHospitalCode(@PathVariable String xPos,
-                                                 @PathVariable String yPos,
-                                                 @PathVariable String hospitalCode,
-                                                 @PathVariable int pageNum){
-        return hospitalGetService.getHospitalByHospitalCode(xPos, yPos, hospitalCode, pageNum);
+                                                               @PathVariable String yPos,
+                                                               @PathVariable String hospitalCode,
+                                                               @RequestParam("pageNo") int pageNo){
+        return hospitalGetService.getHospitalByHospitalCode(xPos, yPos, hospitalCode, pageNo);
     }
 
-    @GetMapping("/{pageNum}/{cityCode}")
+    @GetMapping("/keyword/{cityCode}")
     public List<HospitalGetResponse> getHospitalByCityCode(@PathVariable String cityCode,
-                                                           @PathVariable int pageNum){
-        return hospitalGetService.getHospitalByCityCode(cityCode, pageNum);
+                                                           @RequestParam("pageNo") int pageNo){
+        return hospitalGetService.getHospitalByCityCode(cityCode, pageNo);
     }
 
-    @GetMapping("/{pageNum}/{cityCode}/{hospitalCode}")
+    @GetMapping("/keyword/{cityCode}/{hospitalCode}")
     public List<HospitalGetResponse> getHospitalByCityCodeAndHospitalCode(@PathVariable String cityCode,
                                                                           @PathVariable String hospitalCode,
-                                                                          @PathVariable int pageNum){
-        return hospitalGetService.getHospitalByCityCodeAndHospitalCode(cityCode, hospitalCode, pageNum);
+                                                                          @RequestParam("pageNo") int pageNo){
+        return hospitalGetService.getHospitalByCityCodeAndHospitalCode(cityCode, hospitalCode, pageNo);
     }
 
 
-    @GetMapping("/detail/{hospital_no}")
-    public HospitalGetResponse getHospitalDetail(@PathVariable Long hospital_no){
-        return hospitalGetService.getHospitalDetail(hospital_no);
+    @GetMapping("/detail/{id}")
+    public HospitalGetResponse getHospitalDetail(@PathVariable Long id){
+        return hospitalGetService.getHospitalDetail(id);
     }
 
 }

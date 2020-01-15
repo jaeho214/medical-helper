@@ -22,8 +22,8 @@ public class HospitalGetService {
     private final HospitalRepository hospitalRepository;
     private final int LIMIT = 10;
 
-    public List<HospitalGetResponse> getHospitalByName(String name) {
-        List<Hospital> hospitals = hospitalRepository.findByNameContaining(name);
+    public List<HospitalGetResponse> getHospitalByName(String xPos, String yPos, String name, int pageNo) {
+        List<Hospital> hospitals = hospitalRepository.findByNameContaining(xPos, yPos, name, --pageNo * LIMIT);
 
         if(hospitals == null)
             throw new HospitalNotFoundException();
@@ -33,14 +33,13 @@ public class HospitalGetService {
                 .collect(Collectors.toList());
     }
 
-    public HospitalGetResponse getHospitalDetail(Long hospital_no){
-        Optional<Hospital> hospital =  hospitalRepository.findById(hospital_no);
-        hospital.orElseThrow(() -> new HospitalNotFoundException());
-        return HospitalGetResponse.entity2dto(hospital.get());
+    public HospitalGetResponse getHospitalDetail(Long id){
+        Hospital hospital =  hospitalRepository.findById(id).orElseThrow(HospitalNotFoundException::new);
+        return HospitalGetResponse.entity2dto(hospital);
     }
 
-    public List<HospitalGetResponse> getHospitalByGps(String xPos, String yPos, int pageNum) {
-        List<Hospital> hospitals = hospitalRepository.findByXPosAndYPos(xPos,yPos, --pageNum * LIMIT);
+    public List<HospitalGetResponse> getHospitalAround(String xPos, String yPos, int pageNo) {
+        List<Hospital> hospitals = hospitalRepository.findByXPosAndYPos(xPos,yPos, --pageNo * LIMIT);
 
         if(hospitals.isEmpty())
             throw new HospitalNotFoundException();
@@ -50,8 +49,8 @@ public class HospitalGetService {
                 .collect(Collectors.toList());
     }
 
-    public List<HospitalGetResponse> getHospitalByHospitalCode(String xPos, String yPos, String hospitalCode, int pageNum) {
-        List<Hospital> hospitals = hospitalRepository.findByHospitalCode(xPos,yPos, hospitalCode, --pageNum * LIMIT);
+    public List<HospitalGetResponse> getHospitalByHospitalCode(String xPos, String yPos, String hospitalCode, int pageNo) {
+        List<Hospital> hospitals = hospitalRepository.findByHospitalCode(xPos,yPos, hospitalCode, --pageNo * LIMIT);
 
         if(hospitals.isEmpty())
             throw new HospitalNotFoundException();
@@ -61,8 +60,8 @@ public class HospitalGetService {
                 .collect(Collectors.toList());
     }
 
-    public List<HospitalGetResponse> getHospitalByCityCode(String cityCode, int pageNum) {
-        Pageable pageable = (Pageable) PageRequest.of(--pageNum * LIMIT, 10);
+    public List<HospitalGetResponse> getHospitalByCityCode(String cityCode, int pageNo) {
+        Pageable pageable = (Pageable) PageRequest.of(--pageNo * LIMIT, 10);
         Page<Hospital> hospitals = hospitalRepository.findByCityCodeName(cityCode, pageable);
 
         if(hospitals.isEmpty())
@@ -73,8 +72,8 @@ public class HospitalGetService {
                 .collect(Collectors.toList());
     }
 
-    public List<HospitalGetResponse> getHospitalByCityCodeAndHospitalCode(String cityCode, String hospitalCode, int pageNum) {
-        Pageable pageable = (Pageable) PageRequest.of(--pageNum * LIMIT, 10);
+    public List<HospitalGetResponse> getHospitalByCityCodeAndHospitalCode(String cityCode, String hospitalCode, int pageNo) {
+        Pageable pageable = (Pageable) PageRequest.of(--pageNo * LIMIT, 10);
         Page<Hospital> hospitals = hospitalRepository.findByCityCodeNameAndNameContaining(cityCode, hospitalCode, pageable);
 
         return hospitals.stream()
@@ -82,15 +81,5 @@ public class HospitalGetService {
                 .collect(Collectors.toList());
     }
 
-
-//    //Entity 인스턴스를 Dto 로 바꿔서 response해주기 위해 변환하는 메소드
-//    private List<HospitalGetResponse> entity2dto(List<Hospital> hospitals){
-//        List<HospitalGetResponse> hospitalGetResponses = new ArrayList<>();
-//        hospitals.forEach(hospital -> hospitalGetResponses.add(
-//                HospitalGetResponse.of(hospital)
-//        ));
-//
-//        return hospitalGetResponses;
-//    }
 
 }

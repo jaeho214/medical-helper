@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HospitalGetResponse {
 
-    private Long hospitalNo;
+    private Long id;
     private String name;
     private String location;
     private String tel;
@@ -29,11 +29,13 @@ public class HospitalGetResponse {
     private int residentCount;
     private int specialDoctorCount;
     private String cityCodeName;
+    private String xPos;
+    private String yPos;
     private List<HospitalComment> comments;
 
     public static HospitalGetResponse entity2dto(Hospital hospital){
         return HospitalGetResponse.builder()
-                .hospitalNo(hospital.getHospitalNo())
+                .id(hospital.getId())
                 .address(hospital.getAddress())
                 .cityCodeName(hospital.getCityCodeName())
                 .doctorCount(hospital.getDoctorCount())
@@ -47,6 +49,8 @@ public class HospitalGetResponse {
                 .residentCount(hospital.getResidentCount())
                 .specialDoctorCount(hospital.getSpecialDoctorCount())
                 .tel(hospital.getTel())
+                .xPos(hospital.getXPos())
+                .yPos(hospital.getYPos())
                 .comments(hospital.getHospitalComment())
                 .build();
     }
