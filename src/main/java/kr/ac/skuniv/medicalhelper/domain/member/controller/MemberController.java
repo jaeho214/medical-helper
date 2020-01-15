@@ -46,9 +46,10 @@ public class MemberController {
     }
 
     @GetMapping("/checkId")
-    public boolean checkDuplicatedId(@RequestParam("userId") String userId){
-        return checkDuplicatedIdService.checkId(userId);
+    public boolean checkDuplicatedId(@RequestParam("email") String email){
+        return checkDuplicatedIdService.checkId(email);
     }
+
 
 
 }
