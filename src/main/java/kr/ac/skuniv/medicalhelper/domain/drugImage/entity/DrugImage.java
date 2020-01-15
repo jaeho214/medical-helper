@@ -1,5 +1,6 @@
-package kr.ac.skuniv.medicalhelper.domain.treatment.entity;
+package kr.ac.skuniv.medicalhelper.domain.drugImage.entity;
 
+import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
 import lombok.*;
 
 import javax.persistence.*;
