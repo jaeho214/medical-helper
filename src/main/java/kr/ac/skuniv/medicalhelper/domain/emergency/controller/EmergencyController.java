@@ -3,6 +3,7 @@ package kr.ac.skuniv.medicalhelper.domain.emergency.controller;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import kr.ac.skuniv.medicalhelper.domain.emergency.dto.realTime.EmergencyRealTimeDto;
 import kr.ac.skuniv.medicalhelper.domain.emergency.service.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,14 +37,16 @@ public class EmergencyController {
         this.emergencyMessageService = emergencyMessageService;
     }
 
-    @GetMapping("/realtime/{stage1}/{stage2}")
-    @ApiOperation("/응급실 실시간 가용 병상 정보 조회")
+    @GetMapping("/realtime/{stage1}/{stage2}/{pageNo}")
+    @ApiOperation("응급실 실시간 가용 병상 정보 조회")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "stage1", value = "시/도", required = true, dataType = "String"),
             @ApiImplicitParam(name = "stage2", value = "시/군/구", required = true, dataType = "String")
     })
-    public Map<String, Object> selectRealTime(@PathVariable String stage1, @PathVariable String stage2) {
-        return emergencyRealTimeService.selectRealTime(stage1, stage2);
+    public EmergencyRealTimeDto selectRealTime(@PathVariable String stage1,
+                                               @PathVariable String stage2,
+                                               @PathVariable int pageNo) {
+        return emergencyRealTimeService.selectRealTime(stage1, stage2, pageNo);
     }
 
     @GetMapping("/seriousIllness/{stage1}/{stage2}")
@@ -56,7 +59,7 @@ public class EmergencyController {
         return emergencySeriousIllnessService.selectSeriousIllness(stage1, stage2);
     }
 
-    @GetMapping("/emergencyList/{q0}/{q1}/{qt}/{qd}")
+    @GetMapping("/emergencyList/{q0}/{q1}")
     @ApiOperation("응급 의료기관 목록 정보 조회(장소, 진료 요일, 진료 과목 기반)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "q0", value = "시/도", required = true, dataType = "String"),
