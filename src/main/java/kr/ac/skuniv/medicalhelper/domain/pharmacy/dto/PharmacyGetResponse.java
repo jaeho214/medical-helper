@@ -19,6 +19,8 @@ public class PharmacyGetResponse {
     private String openDate;
     private String postNo;
     private String localName;
+    private String xPos;
+    private String yPos;
     private List<PharmacyComment> pharmacyComment = new ArrayList<>();
 
     public static PharmacyGetResponse entity2dto(Pharmacy pharmacy){
@@ -29,6 +31,8 @@ public class PharmacyGetResponse {
                 .address(pharmacy.getAddress())
                 .postNo(pharmacy.getPostNo())
                 .tel(pharmacy.getTel())
+                .xPos(pharmacy.getXPos())
+                .yPos(pharmacy.getYPos())
                 .pharmacyComment(pharmacy.getPharmacyComment())
                 .build();
     }
