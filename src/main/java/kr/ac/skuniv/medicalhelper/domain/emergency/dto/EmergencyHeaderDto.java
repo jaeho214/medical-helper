@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @ToString
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @XmlRootElement(name = "header")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EmergencyHeaderDto {

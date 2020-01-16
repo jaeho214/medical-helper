@@ -46,7 +46,7 @@ public class EmergencyController {
     public EmergencyRealTimeDto selectRealTime(@PathVariable String stage1,
                                                @PathVariable String stage2,
                                                @PathVariable int pageNo) {
-        return emergencyRealTimeService.selectRealTime(stage1, stage2, pageNo);
+        return emergencyRealTimeService.getRealTime(stage1, stage2, pageNo);
     }
 
     @GetMapping("/seriousIllness/{stage1}/{stage2}")

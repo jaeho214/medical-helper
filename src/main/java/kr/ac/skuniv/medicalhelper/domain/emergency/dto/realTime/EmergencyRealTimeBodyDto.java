@@ -1,20 +1,17 @@
 package kr.ac.skuniv.medicalhelper.domain.emergency.dto.realTime;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.xml.bind.annotation.*;
 import java.util.List;
 
+@ToString
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @XmlRootElement(name = "body")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EmergencyRealTimeBodyDto {
-    @XmlElementWrapper(name = "items")
-    @XmlElement(name = "item")
+
     private List<EmergencyRealTimeItemDto> item;
 
     @XmlElement(name = "numOfRows")
@@ -25,4 +22,10 @@ public class EmergencyRealTimeBodyDto {
 
     @XmlElement(name = "totalCount")
     private int totalCount;
+
+    @XmlElementWrapper(name = "items")
+    @XmlElement(name = "item")
+    public List<EmergencyRealTimeItemDto> getItem() {
+        return item;
+    }
 }
