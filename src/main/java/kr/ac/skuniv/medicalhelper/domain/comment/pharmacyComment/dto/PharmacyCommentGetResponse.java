@@ -1,7 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.comment.pharmacyComment.dto;
 
 import kr.ac.skuniv.medicalhelper.domain.comment.pharmacyComment.entity.PharmacyComment;
-import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import lombok.*;
 
 @ToString
@@ -11,14 +10,14 @@ public class PharmacyCommentGetResponse {
     private Long id;
     private int score; // 5점 만점
     private String comment;
-    private Member member;
+    private String writerName;
 
     @Builder
-    public PharmacyCommentGetResponse(Long id, int score, String comment, Member member) {
+    public PharmacyCommentGetResponse(Long id, int score, String comment, String writerName) {
         this.id = id;
         this.score = score;
         this.comment = comment;
-        this.member = member;
+        this.writerName = writerName;
     }
 
     public static PharmacyCommentGetResponse entity2dto(PharmacyComment pharmacyComment){
@@ -26,7 +25,7 @@ public class PharmacyCommentGetResponse {
                 .id(pharmacyComment.getId())
                 .score(pharmacyComment.getScore())
                 .comment(pharmacyComment.getComment())
-                .member(pharmacyComment.getMember())
+                .writerName(pharmacyComment.getMember().getName())
                 .build();
     }
 }

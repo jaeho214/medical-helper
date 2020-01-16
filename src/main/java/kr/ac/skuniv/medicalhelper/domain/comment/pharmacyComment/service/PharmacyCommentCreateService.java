@@ -31,7 +31,7 @@ public class PharmacyCommentCreateService {
         this.jwtService = jwtService;
     }
 
-    public ResponseEntity createPharmacyComment(PharmacyCommentCreateRequest pharmacyCommentCreateRequest, String token) {
+    public PharmacyComment createPharmacyComment(PharmacyCommentCreateRequest pharmacyCommentCreateRequest, String token) {
         Optional.ofNullable(pharmacyCommentCreateRequest).orElseThrow(PharmacyCommentRequestInvalidException::new);
 
         String email = jwtService.findEmailByJwt(token);
@@ -51,7 +51,7 @@ public class PharmacyCommentCreateService {
 
         pharmacyCommentRepository.save(pharmacyComment);
 
-        return ResponseEntity.ok(pharmacyComment);
+        return pharmacyComment;
 
     }
 }

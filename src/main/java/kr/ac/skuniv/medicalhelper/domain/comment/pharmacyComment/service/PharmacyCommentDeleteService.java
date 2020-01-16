@@ -19,7 +19,7 @@ public class PharmacyCommentDeleteService {
         this.jwtService = jwtService;
     }
 
-    public ResponseEntity deletePharmacyComment(Long id, String token) {
+    public PharmacyComment deletePharmacyComment(Long id, String token) {
 
         String email = jwtService.findEmailByJwt(token);
 
@@ -27,10 +27,10 @@ public class PharmacyCommentDeleteService {
 
         checkValidMember(pharmacyComment, email);
 
-        pharmacyComment.delete();
+        //pharmacyComment.delete();
         pharmacyCommentRepository.delete(pharmacyComment);
 
-        return ResponseEntity.ok(pharmacyComment);
+        return pharmacyComment;
     }
 
     private void checkValidMember(PharmacyComment pharmacyComment, String email) {
