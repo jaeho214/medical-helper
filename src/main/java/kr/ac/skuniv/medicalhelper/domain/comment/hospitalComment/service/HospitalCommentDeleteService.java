@@ -4,6 +4,7 @@ import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.entity.Hospital
 import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.exception.HospitalCommentNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.repository.HospitalCommentRepository;
 import kr.ac.skuniv.medicalhelper.domain.member.exception.UnauthorizedUserException;
+import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,23 +13,28 @@ import java.util.Optional;
 public class HospitalCommentDeleteService {
 
     private HospitalCommentRepository hospitalCommentRepository;
+    private JwtService jwtService;
 
-    public HospitalCommentDeleteService(HospitalCommentRepository hospitalCommentRepository) {
+    public HospitalCommentDeleteService(HospitalCommentRepository hospitalCommentRepository, JwtService jwtService) {
         this.hospitalCommentRepository = hospitalCommentRepository;
+        this.jwtService = jwtService;
     }
 
-    public HospitalComment deleteHospitalComment(Long hcNo, String userId) {
-        Optional<HospitalComment> comment = Optional.ofNullable(hospitalCommentRepository.findById(hcNo).orElseThrow(HospitalCommentNotFoundException::new));
+    public HospitalComment deleteHospitalComment(Long id, String token) {
+        String email = jwtService.findEmailByJwt(token);
 
-        checkValidMemeber(comment.get(), userId);
+        HospitalComment comment = hospitalCommentRepository.findById(id).orElseThrow(HospitalCommentNotFoundException::new);
 
-        hospitalCommentRepository.delete(comment.get());
+        checkValidMember(comment, email);
 
-        return comment.get();
+        //comment.delete();
+        hospitalCommentRepository.delete(comment);
+
+        return comment;
     }
 
-    private void checkValidMemeber(HospitalComment hospitalComment, String userId) {
-        if(hospitalComment.getMember().getUserId().equals(userId))
+    private void checkValidMember(HospitalComment hospitalComment, String email) {
+        if(hospitalComment.getMember().getEmail().equals(email))
             return;
         throw new UnauthorizedUserException();
     }

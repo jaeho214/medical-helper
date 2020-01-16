@@ -6,14 +6,14 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HospitalCommentCreateRequest {
-    private Float score;
+    private int score;
     private String comment;
-    private Long hospitalNo;
+    private Long hospitalId;
 
     @Builder
-    public HospitalCommentCreateRequest(Float score, String comment, Long hospitalNo) {
+    public HospitalCommentCreateRequest(int score, String comment, Long hospitalId) {
         this.score = score;
         this.comment = comment;
-        this.hospitalNo = hospitalNo;
+        this.hospitalId = hospitalId;
     }
 }

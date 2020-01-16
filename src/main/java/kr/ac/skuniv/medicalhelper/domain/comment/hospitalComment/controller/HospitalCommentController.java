@@ -2,6 +2,7 @@ package kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.controller;
 
 import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.dto.HospitalCommentCreateRequest;
 import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.dto.HospitalCommentGetResponse;
+import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.entity.HospitalComment;
 import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.service.HospitalCommentCreateService;
 import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.service.HospitalCommentDeleteService;
 import kr.ac.skuniv.medicalhelper.domain.comment.hospitalComment.service.HospitalCommentGetService;
@@ -26,18 +27,20 @@ public class HospitalCommentController {
         this.hospitalCommentDeleteService = hospitalCommentDeleteService;
     }
 
-    @GetMapping(value = "/{hospitalNo}")
-    public List<HospitalCommentGetResponse> getHospitalComments(@PathVariable Long hospitalNo){
-        return hospitalCommentGetService.getHospitalComments(hospitalNo);
+    @GetMapping(value = "/{hospitalId}")
+    public List<HospitalCommentGetResponse> getHospitalComments(@PathVariable Long hospitalId){
+        return hospitalCommentGetService.getHospitalComments(hospitalId);
     }
 
     @PostMapping
-    public ResponseEntity createHospitalComment(HospitalCommentCreateRequest hospitalCommentCreateRequest, String userId){
-        return ResponseEntity.ok(hospitalCommentCreateService.createHospitalComment(hospitalCommentCreateRequest,userId));
+    public HospitalComment createHospitalComment(HospitalCommentCreateRequest hospitalCommentCreateRequest,
+                                                 @RequestHeader("token") String token){
+        return hospitalCommentCreateService.createHospitalComment(hospitalCommentCreateRequest,token);
     }
 
-    @DeleteMapping(value = "/{hcNo}")
-    public ResponseEntity deleteHospitalComment(@PathVariable Long hcNo, String userId){
-        return ResponseEntity.ok(hospitalCommentDeleteService.deleteHospitalComment(hcNo, userId));
+    @DeleteMapping(value = "/{id}")
+    public HospitalComment deleteHospitalComment(@PathVariable Long id,
+                                                @RequestHeader("token") String token){
+        return hospitalCommentDeleteService.deleteHospitalComment(id, token);
     }
 }

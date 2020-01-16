@@ -10,25 +10,25 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HospitalCommentGetResponse {
-    private Long hcNo;
-    private Float score; // 5점 만점
+    private Long id;
+    private int score; // 5점 만점
     private String comment;
-    private Member member;
+    private String writerName;
 
     @Builder
-    public HospitalCommentGetResponse(Long hcNo, Float score, String comment, Member member) {
-        this.hcNo = hcNo;
+    public HospitalCommentGetResponse(Long id, int score, String comment, String writerName) {
+        this.id = id;
         this.score = score;
         this.comment = comment;
-        this.member = member;
+        this.writerName = writerName;
     }
 
     public static HospitalCommentGetResponse entity2dto(HospitalComment hospitalComment){
         return HospitalCommentGetResponse.builder()
-                .hcNo(hospitalComment.getHcNo())
+                .id(hospitalComment.getId())
                 .comment(hospitalComment.getComment())
                 .score(hospitalComment.getScore())
-                .member(hospitalComment.getMember())
+                .writerName(hospitalComment.getMember().getName())
                 .build();
     }
 }

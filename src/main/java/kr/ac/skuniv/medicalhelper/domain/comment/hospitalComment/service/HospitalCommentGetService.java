@@ -23,11 +23,10 @@ public class HospitalCommentGetService {
         this.hospitalCommentRepository = hospitalCommentRepository;
     }
 
-    public List<HospitalCommentGetResponse> getHospitalComments(Long hospitalNo) {
-        Optional<Hospital> hospital = hospitalRepository.findById(hospitalNo);
-        hospital.orElseThrow(HospitalNotFoundException::new);
+    public List<HospitalCommentGetResponse> getHospitalComments(Long hospitalId) {
+        Hospital hospital = hospitalRepository.findById(hospitalId).orElseThrow(HospitalNotFoundException::new);
 
-        List<HospitalComment> comments = hospitalCommentRepository.findByHospital(hospital.get());
+        List<HospitalComment> comments = hospitalCommentRepository.findByHospital(hospital);
 
         if(comments.isEmpty())
             throw new HospitalCommentNotFoundException();
@@ -35,5 +34,6 @@ public class HospitalCommentGetService {
         return comments.stream()
                 .map(HospitalCommentGetResponse::entity2dto)
                 .collect(Collectors.toList());
+
     }
 }
