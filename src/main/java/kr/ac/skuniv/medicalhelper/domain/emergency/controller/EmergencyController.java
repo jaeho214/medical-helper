@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import kr.ac.skuniv.medicalhelper.domain.emergency.dto.realTime.EmergencyRealTimeDto;
+import kr.ac.skuniv.medicalhelper.domain.emergency.dto.seriousDisease.EmergencySeriousDiseaseDto;
 import kr.ac.skuniv.medicalhelper.domain.emergency.service.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,20 +18,20 @@ import java.util.Map;
 public class EmergencyController {
 
     private final EmergencyRealTimeService emergencyRealTimeService;
-    private final EmergencySeriousIllnessService emergencySeriousIllnessService;
+    private final EmergencySeriousDiseaseService emergencySeriousDiseaseService;
     private final EmergencyGetListService emergencyGetListService;
     private final EmergencyGetLocationService emergencyGetLocationService;
     private final EmergencyInformationService emergencyInformationService;
     private final EmergencyMessageService emergencyMessageService;
 
     public EmergencyController(EmergencyRealTimeService emergencyRealTimeService,
-                               EmergencySeriousIllnessService emergencySeriousIllnessService,
+                               EmergencySeriousDiseaseService emergencySeriousDiseaseService,
                                EmergencyGetListService emergencyGetListService,
                                EmergencyGetLocationService emergencyGetLocationService,
                                EmergencyInformationService emergencyInformationService,
                                EmergencyMessageService emergencyMessageService) {
         this.emergencyRealTimeService = emergencyRealTimeService;
-        this.emergencySeriousIllnessService = emergencySeriousIllnessService;
+        this.emergencySeriousDiseaseService = emergencySeriousDiseaseService;
         this.emergencyGetListService = emergencyGetListService;
         this.emergencyGetLocationService = emergencyGetLocationService;
         this.emergencyInformationService = emergencyInformationService;
@@ -49,14 +50,16 @@ public class EmergencyController {
         return emergencyRealTimeService.getRealTime(stage1, stage2, pageNo);
     }
 
-    @GetMapping("/seriousIllness/{stage1}/{stage2}")
+    @GetMapping("/seriousIllness/{stage1}/{stage2}/{pageNo}")
     @ApiOperation("중증 질환자 수용 가능 정보 조회")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "stage1", value = "시/도", required = true, dataType = "String"),
             @ApiImplicitParam(name = "stage2", value = "시/군/구", required = true, dataType = "String")
     })
-    public Map<String, Object> selectSeriousIllness(@PathVariable String stage1, @PathVariable String stage2){
-        return emergencySeriousIllnessService.selectSeriousIllness(stage1, stage2);
+    public EmergencySeriousDiseaseDto selectSeriousDisease(@PathVariable String stage1,
+                                                           @PathVariable String stage2,
+                                                           @PathVariable int pageNo){
+        return emergencySeriousDiseaseService.selectSeriousDisease(stage1, stage2, pageNo);
     }
 
     @GetMapping("/emergencyList/{q0}/{q1}")

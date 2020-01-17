@@ -1,6 +1,9 @@
-package kr.ac.skuniv.medicalhelper.domain.emergency.dto.realTime;
+package kr.ac.skuniv.medicalhelper.domain.emergency.dto.seriousDisease;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.xml.bind.annotation.*;
 import java.util.List;
@@ -10,11 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 @XmlRootElement(name = "body")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EmergencyRealTimeBodyDto {
+public class EmergencySeriousDiseaseBodyDto {
 
-    @XmlElementWrapper(name = "items")
-    @XmlElement(name = "item")
-    private List<EmergencyRealTimeItemDto> item;
+    @XmlElement(name = "items")
+    private List<EmergencySeriousDiseaseItemDto> items;
 
     @XmlElement(name = "numOfRows")
     private int numOfRows;
