@@ -12,9 +12,8 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EmergencyRealTimeBodyDto {
 
-    @XmlElementWrapper(name = "items")
-    @XmlElement(name = "item")
-    private List<EmergencyRealTimeItemDto> item;
+    @XmlElement(name = "items")
+    private List<EmergencyRealTimeItemDto> items;
 
     @XmlElement(name = "numOfRows")
     private int numOfRows;

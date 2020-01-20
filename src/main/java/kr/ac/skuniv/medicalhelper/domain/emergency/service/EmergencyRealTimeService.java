@@ -18,9 +18,7 @@ import java.net.URLEncoder;
 public class EmergencyRealTimeService {
     @Value("${serviceKey}")
     private String serviceKey;
-    private String uri;
-    //private final ApiConnection apiConnection;
-    //private final XmlParser xmlParser;
+
     private RestTemplate restTemplate;
 
     public EmergencyRealTimeService(RestTemplate restTemplate) {
@@ -29,7 +27,7 @@ public class EmergencyRealTimeService {
 
     public EmergencyRealTimeDto getRealTime(String stage1, String stage2, int pageNo)  {
         StringBuilder sb = new StringBuilder();
-        uri = EmergencyApiRequest.REALTIME.getUri();
+        String uri = EmergencyApiRequest.REALTIME.getUri();
         try{
             sb.append(uri);
             sb.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + serviceKey);
@@ -45,11 +43,6 @@ public class EmergencyRealTimeService {
         } catch (UnsupportedEncodingException | URISyntaxException e) {
             e.printStackTrace();
         }
-
-
-//        StringBuilder result = apiConnection.connectToApi(url);
-//        usefulRealTime = xmlParser.xmlToJson(result.toString());
-
 
         return null;
     }
