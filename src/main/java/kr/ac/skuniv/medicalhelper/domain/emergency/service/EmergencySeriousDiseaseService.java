@@ -1,5 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.emergency.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.ac.skuniv.medicalhelper.domain.emergency.dto.seriousDisease.EmergencySeriousDiseaseDto;
 import kr.ac.skuniv.medicalhelper.global.api.EmergencyApiRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +21,11 @@ public class EmergencySeriousDiseaseService {
     private String uri;
 
     private RestTemplate restTemplate;
+    private ObjectMapper objectMapper;
 
-    public EmergencySeriousDiseaseService(RestTemplate restTemplate) {
+    public EmergencySeriousDiseaseService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     public EmergencySeriousDiseaseDto selectSeriousDisease(String stage1, String stage2, int pageNo) {
@@ -37,6 +40,7 @@ public class EmergencySeriousDiseaseService {
 
             URI restURI = new URI(sb.toString());
             log.info(restURI.toString());
+
             EmergencySeriousDiseaseDto seriousDiseaseDto = restTemplate.getForObject(restURI, EmergencySeriousDiseaseDto.class);
 
 
