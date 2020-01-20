@@ -21,6 +21,14 @@ spring:
         max-request-size: 1MB
 
 
+
+
 resources:
-  image-locations: C:\artSharing\
+  image-locations: C:\medicalHelper\
   image-url: 127.0.0.1:8080
+
+
+serviceKey: Bl%2FTxlM0GcHiLxmHAKwmr%2FBdTudvvnR0kS3jG93iHkEZ%2BxmsQ%2BKMtiTZbPyPMumWgm82KcoLuLlyRWrcUXQxzA%3D%3D
+
+
+

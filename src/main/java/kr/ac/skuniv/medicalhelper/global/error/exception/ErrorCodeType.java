@@ -22,12 +22,12 @@ public enum ErrorCodeType {
     HOSPITAL_COMMENT_NOT_FOUND(400, "HC001", "병원에 대한 평가를 찾을 수 없습니다."),
     HOSPITAL_COMMENT_REQUEST_INVALID(400, "HC002", "병원에 대한 평가 입력 데이터가 올바르지 않습니다."),
 
-    //drugstore
-    DRUGSTORE_NOT_FOUND(400,"D001", "해당 약국을 찾을 수 없습니다."),
+    //pharmacy
+    PHARMACY_NOT_FOUND(400,"P001", "해당 약국을 찾을 수 없습니다."),
 
-    //drugstoreComment
-    DRUGSTORE_COMMENT_NOT_FOUND(400, "DC001", "약국에 대한 평가를 찾을 수 없습니다."),
-    DRUGSTORE_COMMENT_REQUEST_INVALID(400, "DC002", "약국에 평가 입력 데이터가 올바르지 않습니다."),
+    //pharmacyComment
+    PHARMACY_COMMENT_NOT_FOUND(400, "PC001", "약국에 대한 평가를 찾을 수 없습니다."),
+    PHARMACY_COMMENT_REQUEST_INVALID(400, "PC002", "약국에 대한 평가 입력 데이터가 올바르지 않습니다."),
 
     //treatment
     TREATMENT_NOT_FOUND(400, "T001", "처방 기록이 없습니다."),
@@ -36,10 +36,18 @@ public enum ErrorCodeType {
     //reservation
     RESERVATION_NOT_FOUND(400,"R001", "예약 기록을 찾을 수 없습니다."),
     RESERVATION_CANNOT(400, "R002", "이 시간/날짜에 예약을 할 수 없습니다."),
-    RESERVATION_REQUEST_INVALID(400,"R004", "예약 입력 데이터가 올바르지 않습니다"),
+    RESERVATION_REQUEST_INVALID(400,"R001", "예약 입력 데이터가 올바르지 않습니다"),
+    RESERVATION_CANNOT_CANCEL(400, "R004", "예약을 취소할 수 없습니다."),
+
+    //drug
+    DRUG_REQUEST_INVALID(400, "D001", "약에 대한 입력 데이터가 올바르지 않습니다."),
+    DRUG_NOT_FOUND(400, "D002", "약 정보를 찾을 수 없습니다."),
 
     //jwt
-    SECRET_KEY_CONVERT_FAIL(400, "JWT001", "Secret Key 변환 실패");
+    SECRET_KEY_CONVERT_FAIL(400, "JWT001", "Secret Key 변환 실패"),
+
+    //fcm
+    FIREBASE_INITIALIZED_FAIL(400, "FCM001", "Firebase initialized fail");
 
     private int status;
     private String code;

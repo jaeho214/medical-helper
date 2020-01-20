@@ -20,8 +20,9 @@ class HospitalGetServiceTest {
 
     @Test
     void getHospitalByName() {
-        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalByName("신천연합");
-        assertThat(hospitalList).isNotNull();
+        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalByName("126.811484", "37.368523","신천연합",1);
+        System.out.println(hospitalList.get(0).getName());
+        System.out.println(hospitalList.get(0).getAddress());
     }
 
     @Test
@@ -33,11 +34,13 @@ class HospitalGetServiceTest {
 
     @Test
     void getHospitalByGps() {
-        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalByGps("126.811484", "37.368523", 1);
+        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalAround("126.811484", "37.368523", 1);
 
         assertThat(hospitalList.size()).isEqualTo(10);
         assertThat(hospitalList).isNotNull();
         System.out.println(hospitalList.get(0).getName());
+        System.out.println(hospitalList.get(0).getAddress());
+
     }
 
     @Test

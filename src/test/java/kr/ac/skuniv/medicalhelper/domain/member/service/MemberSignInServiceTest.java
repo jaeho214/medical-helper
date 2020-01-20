@@ -4,23 +4,13 @@ import kr.ac.skuniv.medicalhelper.domain.member.dto.MemberSignInRequest;
 import kr.ac.skuniv.medicalhelper.domain.member.dto.MemberSignInResponse;
 import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
-import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,19 +39,15 @@ class TreatmentCreateServiceTest {
 
     @Before
     TreatmentCreateRequest init(){
-        Optional<Reservation> reservation = reservationRepository.findById(1L);
-        Drug drug =
-                Drug.builder()
-                        .breakfast(true)
-                        .lunch(true)
-                        .dinner(true)
-                        .day(3)
-                        .build();
+
         return TreatmentCreateRequest.builder()
                 .doctorName("이국종")
                 .solution("알약 두 봉지")
-                .reservation(reservation.get())
-                .drug(drug)
+                .reservationId(1L)
+                .breakfast(true)
+                .lunch(true)
+                .dinner(true)
+                .deadline(LocalDateTime.now())
                 .title("감기")
                 .build();
     }

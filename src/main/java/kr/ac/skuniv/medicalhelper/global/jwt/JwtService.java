@@ -14,9 +14,9 @@ public class JwtService {
     private final String SECRET_KEY = "MEDICALHELPER";
     private final long EXPIRE_TIME = 100000 * 60 * 60;
 
-    public String createJwt(String userId){
+    public String createJwt(String email){
         Map<String, Object> claimMap = new HashMap<>();
-        claimMap.put("ID", userId);
+        claimMap.put("EMAIL", email);
 
         Date expireTime = new Date();
         expireTime.setTime(expireTime.getTime() + EXPIRE_TIME);
@@ -50,12 +50,12 @@ public class JwtService {
         }
     }
 
-    public String findUserIdByJwt(String token){
+    public String findEmailByJwt(String token){
         Claims claims = Jwts.parser()
                 .setSigningKey(generateKey())
                 .parseClaimsJws(token)
                 .getBody();
 
-        return (String) claims.get("ID");
+        return (String) claims.get("EMAIL");
     }
 }

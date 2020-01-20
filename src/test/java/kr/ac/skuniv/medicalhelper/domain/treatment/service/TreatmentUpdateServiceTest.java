@@ -44,9 +44,8 @@ class TreatmentUpdateServiceTest {
                 TreatmentUpdateRequest.builder()
                 .doctorName("허준")
                 .solution("항암치료")
-                .reservation(reservation.get())
                 .title("간암")
-                .drug(drug.get())
+                //.drug(drug.get())
                 .id(4L)
                 .build();
 

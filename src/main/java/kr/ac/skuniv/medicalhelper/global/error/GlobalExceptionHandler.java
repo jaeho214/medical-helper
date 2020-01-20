@@ -16,13 +16,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity handleBusinessLogicException(BusinessLogicException e){
         ErrorCodeType errorCodeType = e.getErrorCodeType();
         ErrorResponse errorResponse = ErrorResponse.of(errorCodeType);
+        log.error(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(errorCodeType.getStatus()));
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity handleException(Exception e){
-        ErrorCodeType errorCodeType = ErrorCodeType.UNKNOWN;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCodeType);
-        return new ResponseEntity(errorResponse, HttpStatus.valueOf(errorCodeType.getStatus()));
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity handleException(Exception e){
+//        ErrorCodeType errorCodeType = ErrorCodeType.UNKNOWN;
+//        ErrorResponse errorResponse = ErrorResponse.of(errorCodeType);
+//        log.error(e.getMessage());
+//        return new ResponseEntity(errorResponse, HttpStatus.valueOf(errorCodeType.getStatus()));
+//    }
 }
