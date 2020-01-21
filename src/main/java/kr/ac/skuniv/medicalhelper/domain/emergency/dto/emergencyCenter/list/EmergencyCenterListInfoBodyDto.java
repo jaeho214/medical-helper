@@ -1,6 +1,5 @@
-package kr.ac.skuniv.medicalhelper.domain.emergency.dto.listInfo;
+package kr.ac.skuniv.medicalhelper.domain.emergency.dto.emergencyCenter.list;
 
-import kr.ac.skuniv.medicalhelper.domain.emergency.dto.realTime.EmergencyRealTimeItemDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,10 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 @XmlRootElement(name = "body")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EmergencyListInfoBodyDto {
+public class EmergencyCenterListInfoBodyDto {
 
     @XmlElement(name = "items")
-    private List<EmergencyListInfoItemDto> items;
+    private List<EmergencyCenterListInfoItemDto> items;
 
     @XmlElement(name = "numOfRows")
     private int numOfRows;

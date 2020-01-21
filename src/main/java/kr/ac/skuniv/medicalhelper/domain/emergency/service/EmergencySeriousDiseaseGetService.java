@@ -1,7 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.emergency.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import kr.ac.skuniv.medicalhelper.domain.emergency.dto.seriousDisease.EmergencySeriousDiseaseDto;
+import kr.ac.skuniv.medicalhelper.domain.emergency.dto.seriousDisease.possible.EmergencySeriousDiseaseDto;
 import kr.ac.skuniv.medicalhelper.global.api.EmergencyApiRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,20 +14,18 @@ import java.net.URLEncoder;
 
 @Slf4j
 @Service
-public class EmergencySeriousDiseaseService {
+public class EmergencySeriousDiseaseGetService {
     @Value("${serviceKey}")
     private String serviceKey;
     private String uri;
 
     private RestTemplate restTemplate;
-    private ObjectMapper objectMapper;
 
-    public EmergencySeriousDiseaseService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public EmergencySeriousDiseaseGetService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.objectMapper = objectMapper;
     }
 
-    public EmergencySeriousDiseaseDto selectSeriousDisease(String stage1, String stage2, int pageNo) {
+    public EmergencySeriousDiseaseDto getSeriousDisease(String stage1, String stage2, int pageNo) {
         StringBuilder sb = new StringBuilder();
         uri = EmergencyApiRequest.SERIOUS_DISEASE.getUri();
         try{
@@ -38,17 +35,23 @@ public class EmergencySeriousDiseaseService {
             sb.append("&" + URLEncoder.encode("STAGE2", "UTF-8") + "=" + URLEncoder.encode(stage2, "UTF-8"));
             sb.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + pageNo);
 
-            URI restURI = new URI(sb.toString());
-            log.info(restURI.toString());
-
-            EmergencySeriousDiseaseDto seriousDiseaseDto = restTemplate.getForObject(restURI, EmergencySeriousDiseaseDto.class);
-
-
-            return seriousDiseaseDto;
-        } catch (UnsupportedEncodingException | URISyntaxException e) {
+            return connectToApi(sb.toString());
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    private EmergencySeriousDiseaseDto connectToApi(String apiUri){
+
+        try {
+            URI restURI = new URI(apiUri);
+            log.info(restURI.toString());
+            return restTemplate.getForObject(restURI, EmergencySeriousDiseaseDto.class);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

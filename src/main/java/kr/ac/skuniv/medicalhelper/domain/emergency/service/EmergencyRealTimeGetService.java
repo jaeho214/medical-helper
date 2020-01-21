@@ -15,13 +15,13 @@ import java.net.URLEncoder;
 
 @Slf4j
 @Service
-public class EmergencyRealTimeService {
+public class EmergencyRealTimeGetService {
     @Value("${serviceKey}")
     private String serviceKey;
 
     private RestTemplate restTemplate;
 
-    public EmergencyRealTimeService(RestTemplate restTemplate) {
+    public EmergencyRealTimeGetService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

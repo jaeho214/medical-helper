@@ -1,22 +1,25 @@
-package kr.ac.skuniv.medicalhelper.domain.emergency.dto.seriousDisease;
+package kr.ac.skuniv.medicalhelper.domain.emergency.dto.traumaCenter.location;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @ToString
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @XmlRootElement(name = "body")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EmergencySeriousDiseaseBodyDto {
-
+public class EmergencyTraumaCenterLocationBodyDto {
     @XmlElement(name = "items")
-    private List<EmergencySeriousDiseaseItemDto> items;
+    private List<EmergencyTraumaCenterLocationItemDto> items;
 
     @XmlElement(name = "numOfRows")
     private int numOfRows;

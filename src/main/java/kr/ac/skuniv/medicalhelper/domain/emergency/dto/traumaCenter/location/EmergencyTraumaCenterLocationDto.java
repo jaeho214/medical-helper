@@ -1,4 +1,4 @@
-package kr.ac.skuniv.medicalhelper.domain.emergency.dto.listInfo;
+package kr.ac.skuniv.medicalhelper.domain.emergency.dto.traumaCenter.location;
 
 import kr.ac.skuniv.medicalhelper.domain.emergency.dto.EmergencyHeaderDto;
 import lombok.Getter;
@@ -12,11 +12,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Getter
 @Setter
 @XmlRootElement(name = "response")
-public class EmergencyListInfoDto {
-
+public class EmergencyTraumaCenterLocationDto {
     @XmlElement(name = "header")
     private EmergencyHeaderDto header;
 
     @XmlElement(name = "body")
-    private EmergencyListInfoBodyDto body;
+    private EmergencyTraumaCenterLocationBodyDto body;
 }

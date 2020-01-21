@@ -1,4 +1,4 @@
-package kr.ac.skuniv.medicalhelper.domain.emergency.dto.seriousDisease;
+package kr.ac.skuniv.medicalhelper.domain.emergency.dto.seriousDisease.possible;
 
 
 import com.fasterxml.jackson.annotation.JsonSetter;
