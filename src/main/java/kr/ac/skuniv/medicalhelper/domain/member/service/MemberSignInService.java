@@ -28,7 +28,7 @@ public class MemberSignInService {
 
         Member member = memberRepository.findByEmail(memberSignInRequest.getEmail()).orElseThrow(MemberNotFoundException::new);
 
-        isEqualPw(member.getPassword(), memberSignInRequest.getPassword());
+        isEqualPw(memberSignInRequest.getPassword(), member.getPassword());
 
         String token = jwtService.createJwt(member.getEmail());
 
