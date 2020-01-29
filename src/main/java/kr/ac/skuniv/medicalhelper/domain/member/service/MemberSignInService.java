@@ -7,21 +7,16 @@ import kr.ac.skuniv.medicalhelper.domain.member.exception.InvalidPasswordExcepti
 import kr.ac.skuniv.medicalhelper.domain.member.exception.MemberNotFoundException;
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
 import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class MemberSignInService {
     private MemberRepository memberRepository;
     private JwtService jwtService;
-    private PasswordEncoder passwordEncoder;
 
-    public MemberSignInService(MemberRepository memberRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
+    public MemberSignInService(MemberRepository memberRepository, JwtService jwtService) {
         this.memberRepository = memberRepository;
         this.jwtService = jwtService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public MemberSignInResponse signInMember(MemberSignInRequest memberSignInRequest) {
@@ -40,7 +35,7 @@ public class MemberSignInService {
     }
 
     private void isEqualPw(String pw, String signInPw){
-        if(passwordEncoder.matches(pw, signInPw))
+        if(pw.equals(signInPw))
             return;
         throw new InvalidPasswordException();
     }
