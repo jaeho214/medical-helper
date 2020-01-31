@@ -20,11 +20,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(errorCodeType.getStatus()));
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity handleException(Exception e){
-//        ErrorCodeType errorCodeType = ErrorCodeType.UNKNOWN;
-//        ErrorResponse errorResponse = ErrorResponse.of(errorCodeType);
-//        log.error(e.getMessage());
-//        return new ResponseEntity(errorResponse, HttpStatus.valueOf(errorCodeType.getStatus()));
-//    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity handleException(Exception e){
+        ErrorCodeType errorCodeType = ErrorCodeType.UNKNOWN;
+        ErrorResponse errorResponse = ErrorResponse.of(errorCodeType);
+        log.error(e.getMessage());
+        return new ResponseEntity(errorResponse, HttpStatus.valueOf(errorCodeType.getStatus()));
+    }
 }
