@@ -8,15 +8,13 @@ import kr.ac.skuniv.medicalhelper.domain.member.exception.MemberNotFoundExceptio
 import kr.ac.skuniv.medicalhelper.domain.member.repository.MemberRepository;
 import kr.ac.skuniv.medicalhelper.domain.reservation.dto.ReservationCreateRequest;
 import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
-import kr.ac.skuniv.medicalhelper.domain.reservation.entity.ReservationStatus;
-import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationCannotCancelException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationCannotException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.exception.ReservationRequestInvalidException;
 import kr.ac.skuniv.medicalhelper.domain.reservation.repository.ReservationRepository;
 import kr.ac.skuniv.medicalhelper.global.jwt.JwtService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -45,23 +43,15 @@ public class ReservationCreateService {
 
         Optional.ofNullable(reservationCreateRequest).orElseThrow(ReservationRequestInvalidException::new);
 
-        checkDuplicatedReservation(hospital, reservationCreateRequest.getReserveDate());
+        checkDuplicatedReservation(hospital, reservationCreateRequest.getReserveDate(), reservationCreateRequest.getReserveTime());
 
-        Reservation reservation =
-                Reservation.builder()
-                        .reserveDate(reservationCreateRequest.getReserveDate())
-                        .symptom(reservationCreateRequest.getSymptom())
-                        .hospital(hospital)
-                        .member(member)
-                        .status(ReservationStatus.valueOf("예약완료"))
-                        .build();
+        Reservation reservation = reservationCreateRequest.toEntity(hospital, member);
 
         reservationRepository.save(reservation);
-
     }
 
-    private void checkDuplicatedReservation(Hospital hospital, LocalDateTime reserveDate) {
-        if(reservationRepository.findByHospitalAndReserveDate(hospital, reserveDate).isPresent())
+    private void checkDuplicatedReservation(Hospital hospital, LocalDate reserveDate, String reserveTime) {
+        if(reservationRepository.findByHospitalAndReserveDateAndReserveTime(hospital, reserveDate, reserveTime).isPresent())
             throw new ReservationCannotException();
 
         return;
