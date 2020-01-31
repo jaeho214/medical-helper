@@ -39,12 +39,7 @@ public class HospitalCommentCreateService {
 
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
-        HospitalComment hospitalComment = HospitalComment.builder()
-                .score(hospitalCommentCreateRequest.getScore())
-                .comment(hospitalCommentCreateRequest.getComment())
-                .hospital(hospital)
-                .member(member)
-                .build();
+        HospitalComment hospitalComment = hospitalCommentCreateRequest.toEntity(hospital, member);
 
         hospitalCommentRepository.save(hospitalComment);
 

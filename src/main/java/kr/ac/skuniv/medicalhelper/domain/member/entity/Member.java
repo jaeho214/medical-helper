@@ -48,19 +48,6 @@ public class Member extends JpaBasePersistable {
         this.fcmToken = fcmToken;
     }
 
-    public static Member of(MemberCreateRequest memberCreateRequest){
-        return Member.builder()
-                .email(memberCreateRequest.getEmail())
-                .password(memberCreateRequest.getPassword())
-                .name(memberCreateRequest.getName())
-                .phone(memberCreateRequest.getPhone())
-                .birth(memberCreateRequest.getBirth())
-                .sex(memberCreateRequest.getSex())
-                .address(memberCreateRequest.getAddress())
-                .fcmToken(memberCreateRequest.getFcmToken())
-                .build();
-    }
-
     //아이디, 생일은 변경 불가
     public void updateMember(MemberUpdateRequest memberUpdateRequest) {
         this.password = memberUpdateRequest.getPassword();

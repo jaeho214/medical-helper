@@ -55,7 +55,7 @@ public class TreatmentCreateService {
 
         Reservation reservation = reservationRepository.findById(treatmentCreateRequest.getReservationId()).orElseThrow(ReservationNotFoundException::new);
 
-        reservation.updateStatus(ReservationStatus.valueOf("처방완료"));
+        reservation.updateStatus(ReservationStatus.처방완료);
 
         Optional.ofNullable(treatmentCreateRequest).orElseThrow(TreatmentRequestInvalidException::new);
 
@@ -67,14 +67,7 @@ public class TreatmentCreateService {
                         .deadline(treatmentCreateRequest.getDeadline())
                         .build();
 
-        Treatment treatment = Treatment.builder()
-                .doctor(treatmentCreateRequest.getDoctorName())
-                .reservation(reservation)
-                .solution(treatmentCreateRequest.getSolution())
-                .title(treatmentCreateRequest.getTitle())
-                .drug(drug)
-                .member(member)
-                .build();
+        Treatment treatment = treatmentCreateRequest.toEntity(drug, member, reservation);
 
         treatmentRepository.save(treatment);
 

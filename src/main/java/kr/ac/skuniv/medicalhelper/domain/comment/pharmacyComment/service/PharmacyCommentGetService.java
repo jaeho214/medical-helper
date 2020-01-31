@@ -34,4 +34,5 @@ public class PharmacyCommentGetService {
                 .map(PharmacyCommentGetResponse::entity2dto)
                 .collect(Collectors.toList());
     }
+
 }

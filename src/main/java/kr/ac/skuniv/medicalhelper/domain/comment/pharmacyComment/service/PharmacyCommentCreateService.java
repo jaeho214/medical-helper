@@ -40,14 +40,7 @@ public class PharmacyCommentCreateService {
 
         Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
-        //입력한 약국에 대한 별점을 entity로 바꿔서
-        PharmacyComment pharmacyComment =
-                PharmacyComment.builder()
-                        .comment(pharmacyCommentCreateRequest.getComment())
-                        .score(pharmacyCommentCreateRequest.getScore())
-                        .pharmacy(pharmacy)
-                        .member(member)
-                        .build();
+        PharmacyComment pharmacyComment = pharmacyCommentCreateRequest.toEntity(pharmacy, member);
 
         pharmacyCommentRepository.save(pharmacyComment);
 

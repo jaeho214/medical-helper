@@ -28,7 +28,6 @@ public class TreatmentController {
     private ObjectMapper objectMapper;
 
     //내 처방 기록 보기
-    //TODO : Security 처리 필요
     @GetMapping
     public List<TreatmentGetResponse> getAllTreatments(@RequestHeader("token") String token){
         return treatmentGetService.getAllTreatments(token);

@@ -17,9 +17,9 @@ public class MemberCreateService {
 
     public Member createMember(MemberCreateRequest memberCreateRequest){
         if(!memberRepository.existsByEmail(memberCreateRequest.getEmail())){
-            Member member = Member.of(memberCreateRequest);
+            Member member = memberCreateRequest.toEntity();
             memberRepository.save(member);
-            return Member.of(memberCreateRequest);
+            return member;
         }
         throw new UserDuplicationException();
     }

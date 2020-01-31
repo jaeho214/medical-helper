@@ -1,5 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.member.dto;
 
+import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import lombok.*;
 
 import javax.validation.constraints.Email;
@@ -29,5 +30,18 @@ public class MemberCreateRequest {
         this.sex = sex;
         this.address = address;
         this.fcmToken = fcmToken;
+    }
+
+    public Member toEntity(){
+        return Member.builder()
+                .email(email)
+                .password(password)
+                .name(name)
+                .phone(phone)
+                .birth(birth)
+                .sex(sex)
+                .address(address)
+                .fcmToken(fcmToken)
+                .build();
     }
 }
