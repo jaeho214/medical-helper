@@ -19,13 +19,13 @@ class MemberGetServiceTest {
     @Autowired
     MemberGetService memberGetService;
 
-    @Test
-    void selectMember() {
-        MemberGetResponse memberGetResponse = memberGetService.getMember("");
-
-        assertThat(memberGetResponse.getName()).isEqualTo("현재호");
-        assertThat(memberGetResponse.getPhone()).isEqualTo("010-1111-2222");
-        assertThat(memberGetResponse.getSex()).isEqualTo("male");
-
-    }
+//    @Test
+//    void selectMember() {
+//        MemberGetResponse memberGetResponse = memberGetService.getMember("");
+//
+//        assertThat(memberGetResponse.getName()).isEqualTo("현재호");
+//        assertThat(memberGetResponse.getPhone()).isEqualTo("010-1111-2222");
+//        assertThat(memberGetResponse.getSex()).isEqualTo("male");
+//
+//    }
 }

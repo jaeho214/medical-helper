@@ -34,11 +34,11 @@ class MemberDeleteServiceTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    void deleteMember() {
-
-        Member member = memberDeleteService.deleteMember("");
-
-        assertThat(member.getName()).isEqualTo("김수현");
-    }
+//    @Test
+//    void deleteMember() {
+//
+//        Member member = memberDeleteService.deleteMember("");
+//
+//        assertThat(member.getName()).isEqualTo("김수현");
+//    }
 }

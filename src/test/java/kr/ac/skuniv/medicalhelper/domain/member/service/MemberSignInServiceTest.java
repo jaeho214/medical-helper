@@ -38,19 +38,19 @@ class MemberSignInServiceTest {
             .password("1")
             .build();
 
-    @Test
-    public void sigIn(){
-        //given
-        String email = "jaeho214@naver.com";
-        //given(memberRepository.findByEmail(email)).willReturn(Optional.of(member));
-
-        //when
-        MemberSignInResponse member = memberSignInService.signInMember(memberSignInRequest);
-
-        //then
-        assertThat(member.getToken()).isNotNull();
-        assertThat(member.getName()).isEqualTo(member.getName());
-        System.out.println(member.getToken());
-    }
+//    @Test
+//    public void sigIn(){
+//        //given
+//        String email = "jaeho214@naver.com";
+//        //given(memberRepository.findByEmail(email)).willReturn(Optional.of(member));
+//
+//        //when
+//        MemberSignInResponse member = memberSignInService.signInMember(memberSignInRequest);
+//
+//        //then
+//        assertThat(member.getToken()).isNotNull();
+//        assertThat(member.getName()).isEqualTo(member.getName());
+//        System.out.println(member.getToken());
+//    }
 
 }

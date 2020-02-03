@@ -52,28 +52,28 @@ class TreatmentCreateServiceTest {
                 .build();
     }
 
-    @Test
-    void createTreatment() throws IOException {
-        //given
-        TreatmentCreateRequest treatmentCreateRequest = init();
-
-        treatmentCreateService.createTreatment(treatmentCreateRequest, null, token);
-    }
-
-    @Test
-    void createTreatment_MemberException(){
-        //given
-        TreatmentCreateRequest treatmentCreateRequest = init();
-        String userId = "aaa";
-
-        //treatmentCreateService.createTreatment(treatmentCreateRequest, userId);
-    }
-
-    @Test
-    void creteTreatment_TreatmentException(){
-        TreatmentCreateRequest treatmentCreateRequest = null;
-        String userId = "jaeho214";
-
-        //treatmentCreateService.createTreatment(treatmentCreateRequest, userId);
-    }
+//    @Test
+//    void createTreatment() throws IOException {
+//        //given
+//        TreatmentCreateRequest treatmentCreateRequest = init();
+//
+//        treatmentCreateService.createTreatment(treatmentCreateRequest, null, token);
+//    }
+//
+//    @Test
+//    void createTreatment_MemberException(){
+//        //given
+//        TreatmentCreateRequest treatmentCreateRequest = init();
+//        String userId = "aaa";
+//
+//        //treatmentCreateService.createTreatment(treatmentCreateRequest, userId);
+//    }
+//
+//    @Test
+//    void creteTreatment_TreatmentException(){
+//        TreatmentCreateRequest treatmentCreateRequest = null;
+//        String userId = "jaeho214";
+//
+//        //treatmentCreateService.createTreatment(treatmentCreateRequest, userId);
+//    }
 }

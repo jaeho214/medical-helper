@@ -35,22 +35,22 @@ class TreatmentUpdateServiceTest {
     private String token = "eyJ0eXAiOiJKV1QiLCJpc3N1ZURhdGUiOjE1NzkwMjAwNTYzMjQsImFsZyI6IkhTMjU2In0.eyJFTUFJTCI6ImphZWhvMjE0QG5hdmVyLmNvbSIsImV4cCI6MTU3OTM4MDA1Nn0.M2VzUoO_jrKhBGQPIpwHRiyEmVGjeIsRrAVxu7ECTHU";
 
 
-    @Test
-    void updateTreatment() throws IOException {
-        //given
-        Optional<Reservation> reservation = reservationRepository.findById(1L);
-        Optional<Drug> drug = drugRepository.findById(1L);
-        TreatmentUpdateRequest treatmentUpdateRequest =
-                TreatmentUpdateRequest.builder()
-                .doctorName("허준")
-                .solution("항암치료")
-                .title("간암")
-                //.drug(drug.get())
-                .id(4L)
-                .build();
-
-        treatmentUpdateService.updateTreatment(treatmentUpdateRequest,null, token);
-    }
+//    @Test
+//    void updateTreatment() throws IOException {
+//        //given
+//        Optional<Reservation> reservation = reservationRepository.findById(1L);
+//        Optional<Drug> drug = drugRepository.findById(1L);
+//        TreatmentUpdateRequest treatmentUpdateRequest =
+//                TreatmentUpdateRequest.builder()
+//                .doctorName("허준")
+//                .solution("항암치료")
+//                .title("간암")
+//                //.drug(drug.get())
+//                .id(4L)
+//                .build();
+//
+//        treatmentUpdateService.updateTreatment(treatmentUpdateRequest,null, token);
+//    }
 
 //    @Test
 //    void updateTreatment_treatmentException(){

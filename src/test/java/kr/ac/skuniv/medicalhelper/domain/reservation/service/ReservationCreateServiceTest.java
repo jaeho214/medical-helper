@@ -46,11 +46,11 @@ class ReservationCreateServiceTest {
                                     .build();
     }
 
-    @Test
-    void createReservation() {
-        reservationCreateService.createReservation(reservationCreateRequest, token);
-
-    }
+//    @Test
+//    void createReservation() {
+//        reservationCreateService.createReservation(reservationCreateRequest, token);
+//
+//    }
 //    @Test
 //    void createReservation_duplicateException(){
 //        reservationCreateRequest.setSymptom("치통");

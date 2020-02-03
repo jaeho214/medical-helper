@@ -17,11 +17,11 @@ class ReservationDeleteServiceTest {
 
     private String token = "eyJ0eXAiOiJKV1QiLCJpc3N1ZURhdGUiOjE1NzkwMjAwNTYzMjQsImFsZyI6IkhTMjU2In0.eyJFTUFJTCI6ImphZWhvMjE0QG5hdmVyLmNvbSIsImV4cCI6MTU3OTM4MDA1Nn0.M2VzUoO_jrKhBGQPIpwHRiyEmVGjeIsRrAVxu7ECTHU";
 
-    @Test
-    void deleteReservation() {
-        Long id = 2L;
-        reservationDeleteService.deleteReservation(id, token);
-    }
+//    @Test
+//    void deleteReservation() {
+//        Long id = 2L;
+//        reservationDeleteService.deleteReservation(id, token);
+//    }
 
 //    @Test
 //    void deleteReservation_NotFoundException() {

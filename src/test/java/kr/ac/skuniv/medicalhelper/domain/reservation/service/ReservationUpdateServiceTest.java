@@ -30,9 +30,9 @@ class ReservationUpdateServiceTest {
                         .build();
     }
 
-    @Test
-    void updateReservation() {
-        reservationUpdateService.updateReservation(reservationUpdateRequest, token);
-
-    }
+//    @Test
+//    void updateReservation() {
+//        reservationUpdateService.updateReservation(reservationUpdateRequest, token);
+//
+//    }
 }

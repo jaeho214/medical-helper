@@ -31,15 +31,15 @@ class EmergencyRealTimeGetServiceTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    public void select() throws URISyntaxException {
-        String stage1 = "경기도";
-        String stage2 = "시흥시";
-        int pageNo = 1;
-
-        EmergencyRealTimeDto realTimeDto = emergencyRealTimeGetService.getRealTime(stage1, stage2, pageNo);
-
-        assertThat(realTimeDto.getBody()).isNotNull();
-    }
+//    @Test
+//    public void select() throws URISyntaxException {
+//        String stage1 = "경기도";
+//        String stage2 = "시흥시";
+//        int pageNo = 1;
+//
+//        EmergencyRealTimeDto realTimeDto = emergencyRealTimeGetService.getRealTime(stage1, stage2, pageNo);
+//
+//        assertThat(realTimeDto.getBody()).isNotNull();
+//    }
 
 }

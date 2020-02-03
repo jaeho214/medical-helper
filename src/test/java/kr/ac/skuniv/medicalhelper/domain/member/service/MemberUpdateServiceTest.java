@@ -16,18 +16,18 @@ class MemberUpdateServiceTest {
     @Autowired
     MemberUpdateService memberUpdateService;
 
-    @Test
-    void updateMember() {
-        MemberUpdateRequest memberUpdateRequest
-                = MemberUpdateRequest.builder()
-                .address("서울시 성북구")
-                .name("김수현")
-                .password("1")
-                .phone("010-3333-4444")
-                .sex("male")
-                .build();
-
-        String token = "";
-        memberUpdateService.updateMember(memberUpdateRequest, token);
-    }
+//    @Test
+//    void updateMember() {
+//        MemberUpdateRequest memberUpdateRequest
+//                = MemberUpdateRequest.builder()
+//                .address("서울시 성북구")
+//                .name("김수현")
+//                .password("1")
+//                .phone("010-3333-4444")
+//                .sex("male")
+//                .build();
+//
+//        String token = "";
+//        memberUpdateService.updateMember(memberUpdateRequest, token);
+//    }
 }
