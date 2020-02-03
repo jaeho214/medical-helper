@@ -41,7 +41,7 @@ class ReservationCreateServiceTest {
 
         reservationCreateRequest = ReservationCreateRequest.builder()
                                     .symptom("생리통")
-                                    .reserveDate(LocalDateTime.of(2020,1,14,13,00))
+                                    .reserveDate(LocalDate.of(2020,1,14))
                                     .hospitalId(11L)
                                     .build();
     }

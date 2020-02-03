@@ -1,7 +1,6 @@
 package kr.ac.skuniv.medicalhelper.domain.emergency.service;
 
 import kr.ac.skuniv.medicalhelper.domain.emergency.dto.realTime.EmergencyRealTimeDto;
-import kr.ac.skuniv.medicalhelper.global.api.EmergencyApiRequest;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,13 +11,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(MockitoExtension.class)
-class EmergencyRealTimeServiceTest {
+class EmergencyRealTimeGetServiceTest {
     @Value("${serviceKey}")
     private String serviceKey;
     private String uri;
@@ -27,7 +24,7 @@ class EmergencyRealTimeServiceTest {
     private RestTemplate restTemplate;
 
     @InjectMocks
-    private EmergencyRealTimeService emergencyRealTimeService;
+    private EmergencyRealTimeGetService emergencyRealTimeGetService;
 
     @Before
     public void init(){
@@ -40,7 +37,7 @@ class EmergencyRealTimeServiceTest {
         String stage2 = "시흥시";
         int pageNo = 1;
 
-        EmergencyRealTimeDto realTimeDto = emergencyRealTimeService.getRealTime(stage1, stage2, pageNo);
+        EmergencyRealTimeDto realTimeDto = emergencyRealTimeGetService.getRealTime(stage1, stage2, pageNo);
 
         assertThat(realTimeDto.getBody()).isNotNull();
     }
