@@ -37,20 +37,20 @@ class TreatmentCreateServiceTest {
 
     private String token = "eyJ0eXAiOiJKV1QiLCJpc3N1ZURhdGUiOjE1NzkwMjAwNTYzMjQsImFsZyI6IkhTMjU2In0.eyJFTUFJTCI6ImphZWhvMjE0QG5hdmVyLmNvbSIsImV4cCI6MTU3OTM4MDA1Nn0.M2VzUoO_jrKhBGQPIpwHRiyEmVGjeIsRrAVxu7ECTHU";
 
-    @Before
-    TreatmentCreateRequest init(){
-
-        return TreatmentCreateRequest.builder()
-                .doctorName("이국종")
-                .solution("알약 두 봉지")
-                .reservationId(1L)
-                .breakfast(true)
-                .lunch(true)
-                .dinner(true)
-                .deadline(LocalDateTime.now())
-                .title("감기")
-                .build();
-    }
+//    @Before
+////    TreatmentCreateRequest init(){
+////
+//////        return TreatmentCreateRequest.builder()
+//////                .doctorName("이국종")
+//////                .solution("알약 두 봉지")
+//////                .reservationId(1L)
+//////                .breakfast(true)
+//////                .lunch(true)
+//////                .dinner(true)
+//////                .deadline(LocalDateTime.now())
+//////                .title("감기")
+//////                .build();
+//////    }
 
 //    @Test
 //    void createTreatment() throws IOException {
