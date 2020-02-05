@@ -15,7 +15,7 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     Page<Hospital> findByCityCodeNameAndNameContaining(String cityCode, String hospitalCode, Pageable pageable);
 
     @Query(nativeQuery = true, value = "select *, (6371*acos(cos(radians(:yPos))*cos(radians(h.y_pos))*cos(radians(h.x_pos)-radians(:xPos)) \n" +
-            "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from Hospital h " +
+            "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from hospital h " +
             "where h.name like CONCAT('%', :name, '%') order by distance asc limit :pageNo, 10 ; ")
     List<Hospital> findByNameContaining(@Param("xPos") String xPos,
                                         @Param("yPos") String yPos,
@@ -24,13 +24,13 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
 
 
     @Query(nativeQuery = true, value = "select *, (6371*acos(cos(radians(:yPos))*cos(radians(h.y_pos))*cos(radians(h.x_pos)-radians(:xPos)) \n" +
-            "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from Hospital h having distance < 7 order by distance asc limit :pageNo, 10;")
+            "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from hospital h having distance < 7 order by distance asc limit :pageNo, 10;")
     List<Hospital> findByXPosAndYPos(@Param("xPos") String xPos,
                                      @Param("yPos") String yPos,
                                      @Param("pageNo") int pageNo);
 
     @Query(nativeQuery = true, value = "select *, (6371*acos(cos(radians(:yPos))*cos(radians(h.y_pos))*cos(radians(h.x_pos)-radians(:xPos)) \n" +
-            "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from Hospital h " +
+            "+sin(radians(:yPos))*sin(radians(h.y_pos)))) AS distance from hospital h " +
             "where h.name like CONCAT('%', :hospitalCode, '%') having distance < 7  order by distance asc limit :pageNo, 10 ; ")
     List<Hospital> findByHospitalCode(@Param("xPos") String xPos,
                                       @Param("yPos") String yPos,
