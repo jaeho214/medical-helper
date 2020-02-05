@@ -7,7 +7,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter @Setter
@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @AttributeOverride(name = "id", column = @Column(name="drug_id"))
 public class Drug extends JpaBasePersistable {
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime deadline;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate deadline;
 
     @Convert(converter = BooleanToYNConverter.class)
     private boolean breakfast = false;
@@ -29,7 +29,7 @@ public class Drug extends JpaBasePersistable {
     private boolean dinner = false;
 
     @Builder
-    public Drug(LocalDateTime deadline, boolean breakfast, boolean lunch, boolean dinner) {
+    public Drug(LocalDate deadline, boolean breakfast, boolean lunch, boolean dinner) {
         this.deadline = deadline;
         this.breakfast = breakfast;
         this.lunch = lunch;

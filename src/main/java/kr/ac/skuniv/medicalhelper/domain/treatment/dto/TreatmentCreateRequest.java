@@ -5,9 +5,6 @@ import kr.ac.skuniv.medicalhelper.domain.member.entity.Member;
 import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
 import kr.ac.skuniv.medicalhelper.domain.treatment.entity.Treatment;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDateTime;
 
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,11 +17,11 @@ public class TreatmentCreateRequest {
     private boolean lunch;
     private boolean dinner;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime deadline;
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private String deadline;
 
     @Builder
-    public TreatmentCreateRequest(String title, String solution, String doctorName, Long reservationId, boolean breakfast, boolean lunch, boolean dinner, LocalDateTime deadline) {
+    public TreatmentCreateRequest(String title, String solution, String doctorName, Long reservationId, boolean breakfast, boolean lunch, boolean dinner, String deadline) {
         this.title = title;
         this.solution = solution;
         this.doctorName = doctorName;

@@ -5,18 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DrugUpdateRequest {
     private Long id;
-    private LocalDateTime deadline;
+    private LocalDate deadline;
     private boolean breakfast;
     private boolean lunch;
     private boolean dinner;
 
-    public DrugUpdateRequest(Long id, LocalDateTime deadline, boolean breakfast, boolean lunch, boolean dinner) {
+    public DrugUpdateRequest(Long id, LocalDate deadline, boolean breakfast, boolean lunch, boolean dinner) {
         this.id = id;
         this.deadline = deadline;
         this.breakfast = breakfast;

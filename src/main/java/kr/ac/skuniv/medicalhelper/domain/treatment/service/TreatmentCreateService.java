@@ -23,6 +23,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.UUID;
@@ -59,12 +61,14 @@ public class TreatmentCreateService {
 
         Optional.ofNullable(treatmentCreateRequest).orElseThrow(TreatmentRequestInvalidException::new);
 
+
+
         Drug drug =
                 Drug.builder()
                         .breakfast(treatmentCreateRequest.isBreakfast())
                         .lunch(treatmentCreateRequest.isLunch())
                         .dinner(treatmentCreateRequest.isDinner())
-                        .deadline(treatmentCreateRequest.getDeadline())
+                        .deadline(LocalDate.parse(treatmentCreateRequest.getDeadline(), DateTimeFormatter.ISO_DATE))
                         .build();
 
         Treatment treatment = treatmentCreateRequest.toEntity(drug, member, reservation);
