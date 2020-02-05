@@ -16,7 +16,7 @@ public class HospitalController {
         this.hospitalGetService = hospitalGetService;
     }
 
-    @GetMapping("/gps/{xPos}/{yPos}/{name}")
+    @GetMapping("/gps/name/{xPos}/{yPos}/{name}")
     public List<HospitalGetResponse> getHospitalByName(@PathVariable String xPos,
                                                        @PathVariable String yPos,
                                                        @PathVariable String name,
@@ -24,14 +24,14 @@ public class HospitalController {
         return hospitalGetService.getHospitalByName(xPos,yPos,name,pageNo);
     }
 
-    @GetMapping("/gps/{xPos}/{yPos}")
+    @GetMapping("/gps/around/{xPos}/{yPos}")
     public List<HospitalGetResponse> getHospitalByGps(@PathVariable String xPos,
                                                       @PathVariable String yPos,
                                                       @RequestParam("pageNo") int pageNo){
         return hospitalGetService.getHospitalAround(xPos, yPos, pageNo);
     }
 
-    @GetMapping("/gps/{xPos}/{yPos}/{hospitalCode}")
+    @GetMapping("/gps/code/{xPos}/{yPos}/{hospitalCode}")
     public List<HospitalGetResponse> getHospitalByHospitalCode(@PathVariable String xPos,
                                                                @PathVariable String yPos,
                                                                @PathVariable String hospitalCode,
@@ -39,13 +39,13 @@ public class HospitalController {
         return hospitalGetService.getHospitalByHospitalCode(xPos, yPos, hospitalCode, pageNo);
     }
 
-    @GetMapping("/keyword/{cityCode}")
+    @GetMapping("/keyword/cityCode/{cityCode}")
     public List<HospitalGetResponse> getHospitalByCityCode(@PathVariable String cityCode,
                                                            @RequestParam("pageNo") int pageNo){
         return hospitalGetService.getHospitalByCityCode(cityCode, pageNo);
     }
 
-    @GetMapping("/keyword/{cityCode}/{hospitalCode}")
+    @GetMapping("/keyword//hospitalCode/{cityCode}/{hospitalCode}")
     public List<HospitalGetResponse> getHospitalByCityCodeAndHospitalCode(@PathVariable String cityCode,
                                                                           @PathVariable String hospitalCode,
                                                                           @RequestParam("pageNo") int pageNo){
