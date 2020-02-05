@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class ReservationGetResponse {
     private Long id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING, timezone="asia/Seoul")
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING, timezone="asia/Seoul")
     private LocalDate reserveDate;
 
     private String reserveTime;
