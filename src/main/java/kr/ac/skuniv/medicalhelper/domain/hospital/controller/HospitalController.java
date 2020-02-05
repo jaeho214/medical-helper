@@ -24,7 +24,7 @@ public class HospitalController {
         return hospitalGetService.getHospitalByName(xPos,yPos,name,pageNo);
     }
 
-    @GetMapping("/gps/around/{xPos}/{yPos}")
+    @GetMapping("/gps/around/{xPos}/{yPos:.+}")
     public List<HospitalGetResponse> getHospitalByGps(@PathVariable String xPos,
                                                       @PathVariable String yPos,
                                                       @RequestParam("pageNo") int pageNo){

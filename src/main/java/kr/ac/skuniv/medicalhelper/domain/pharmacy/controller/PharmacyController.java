@@ -14,7 +14,7 @@ public class PharmacyController {
 
     private PharmacyGetService pharmacyGetService;
 
-    @GetMapping(value = "/gps/{name}/{xPos}/{yPos}")
+    @GetMapping(value = "/gps/{name}/{xPos}/{yPos:.+}")
     public List<PharmacyGetResponse> getPharmacyByName(@PathVariable String name,
                                                         @PathVariable String xPos,
                                                         @PathVariable String yPos,
@@ -22,7 +22,7 @@ public class PharmacyController {
         return pharmacyGetService.getPharmacyByName(name, xPos, yPos, pageNo);
     }
 
-    @GetMapping(value = "/gps/{xPos}/{yPos}")
+    @GetMapping(value = "/gps/{xPos}/{yPos:.+}")
     public List<PharmacyGetResponse> getPharmacyByDistance(@PathVariable String xPos,
                                                             @PathVariable String yPos,
                                                            @RequestParam("pageNo") int pageNo){

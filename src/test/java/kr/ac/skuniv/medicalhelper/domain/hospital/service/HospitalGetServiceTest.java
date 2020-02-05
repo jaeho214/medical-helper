@@ -32,16 +32,16 @@ class HospitalGetServiceTest {
 //        assertThat(hospitalDetail.getName().contains("대림")).isTrue();
 //    }
 //
-    @Test
-    void getHospitalByGps() {
-        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalAround("127.0078127", "37.5001823", 1);
-
-        assertThat(hospitalList.size()).isEqualTo(10);
-        assertThat(hospitalList).isNotNull();
-        System.out.println(hospitalList.get(0).getName());
-        System.out.println(hospitalList.get(0).getAddress());
-
-    }
+//    @Test
+//    void getHospitalByGps() {
+//        List<HospitalGetResponse> hospitalList = hospitalGetService.getHospitalAround("37.5001823", "127.0078127", 1);
+//
+//        assertThat(hospitalList.size()).isEqualTo(10);
+//        assertThat(hospitalList).isNotNull();
+//        System.out.println(hospitalList.get(0).getName());
+//        System.out.println(hospitalList.get(0).getAddress());
+//
+//    }
 //
 //    @Test
 //    void getHospitalByHospitalCode() {
