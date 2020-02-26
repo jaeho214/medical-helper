@@ -24,11 +24,10 @@ spring:
 
 
 resources:
-  image-locations: C:\medicalHelper\
-  image-url: 127.0.0.1:8080
+  image-locations: /home/ubuntu/ec2-user/img/
+  image-url: 54.180.90.201:8080/
 
 
 serviceKey: Bl%2FTxlM0GcHiLxmHAKwmr%2FBdTudvvnR0kS3jG93iHkEZ%2BxmsQ%2BKMtiTZbPyPMumWgm82KcoLuLlyRWrcUXQxzA%3D%3D
-
 
 
