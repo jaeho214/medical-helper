@@ -15,5 +15,3 @@ medical-helper 의료 관련 애플리케이션 API 서버
 - AOP
 - AWS EC2, RDS
 
-#Front-end
-https://github.com/shin-ga-eun/medical-helper
