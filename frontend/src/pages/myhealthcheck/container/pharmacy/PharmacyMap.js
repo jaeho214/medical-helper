@@ -68,6 +68,6 @@ const PharmacyMap = () => {
     </>
   );
 };
-
+};
 
 export default PharmacyMap;
