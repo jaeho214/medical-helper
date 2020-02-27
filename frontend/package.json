@@ -1,6 +1,5 @@
 {
   "name": "medical-helper-v2",
-  "proxy": "http://54.180.90.201:8080",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
