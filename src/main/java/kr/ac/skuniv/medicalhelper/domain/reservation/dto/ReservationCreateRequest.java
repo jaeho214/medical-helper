@@ -7,10 +7,8 @@ import kr.ac.skuniv.medicalhelper.domain.reservation.entity.Reservation;
 import kr.ac.skuniv.medicalhelper.domain.reservation.entity.ReservationStatus;
 import kr.ac.skuniv.medicalhelper.global.config.LocalDateConfig;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @ToString
 @Getter @Setter
